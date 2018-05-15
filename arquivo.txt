@@ -1,5 +1,10 @@
-ola
-2 linha
-esse eh a 3
+se
+entao
+senao
 
-era uma linha em branco na anterior
+<S> ::= a<A> | e<A> | i<A> | o<A> | u<A>
+<A> ::= a<A> | e<A> | i<A> | o<A> | u<A> | ε
+
+<S> ::= a<A> | e<A> | i<B> | o<A> | u<B>
+<B> ::= a<A> | e<S> | i<A> | o<A> | u<A> | ε
+<A> ::= a<A> | e<B> | i<A> | o<A> | u<S> | ε

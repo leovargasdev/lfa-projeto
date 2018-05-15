@@ -1,16 +1,24 @@
 var ler = require('fs');
-
-ler.readFile('arquivo.txt', 'utf8' ,function(erro, linhas){
+var trataString = require("replaceall"); // pacote: npm install replaceall
+ler.readFile('arquivo.txt', 'utf8' ,function(erro, arquivo){
     if(erro) {
         console.error("Could not open file: %s", erro);
         process.exit(1);
     }
-    var linha = linhas.split('\n');
-    for (var k = 0; k < linha.length; k++){
-        if(linha[k])
-            console.log("linha nº " + k + ": " + linha[k]);
-        else
-            console.log("linha nº " + k + ": NULL");
-    }
-	console.log("\n\n *** Todas Linhas ***\n\n" + linhas);
+    var linhas = arquivo.split('\n');
+    var entrada = [], estados = [];
+    var controle = 0;
+    linhas.forEach(function(linha) {
+        if(!linha){
+            controle++;
+        } else if(controle){ // Se o controle estiver com zero, ainda é a entrada
+            var l = trataString(" ", "", linha).split(':');
+            var estado = (l[0].replace(/[<>]/g, '')).concat("n"+controle);
+            estados.push(estado);
+        } else {
+            entrada.push(linha);
+        }
+    });
+	console.log(" *** entrada ***\n" + entrada);
+	console.log("\n *** estados ***\n" + estados);
 });
