@@ -1,21 +1,26 @@
 const FileSystem = require('fs');
 
 const CaminhoArquivo = 'arquivo.txt';
+class InterpretaArquivoArgumentsError extends Error {};
 
-const interpretaArquivo = (erro, arquivo) => {
-    if (erro) {
-        console.error("Could not open file: %s", erro);
-        process.exit(1);
+const interpretaArquivo = (arquivo, objetoRetorno) => {
+    const automatoFinitoNaoDeterministico = objetoRetorno['automato'];
+    const estadosFinais = objetoRetorno['estadosFinais'];
+
+    if (!automatoFinitoNaoDeterministico || !estadosFinais) {
+        return InterpretaArquivoArgumentsError.new();
     }
 
-    var linhas = arquivo.split('\n');
-    var entrada = [], estados = [];
-    var controle = 0;
+    const linhas = arquivo.split('\n');
+    let entrada = [];
+    let estados = [];
+    let tabelaTransicao = {};
+    let controle = 0;
     linhas.forEach(function(linha) {
         if(!linha){
             controle++;
         } else if(controle){ // Se o controle estiver com zero, ainda é a entrada
-            var l = linha.replace(' ', '').split(':');
+            var l = linha.replace(' ', '').split('::=');
             var estado = (l[0].replace(/[<>]/g, '')).concat("n"+controle);
             estados.push(estado);
         } else {
@@ -26,4 +31,26 @@ const interpretaArquivo = (erro, arquivo) => {
     console.log("\n *** estados ***\n" + estados);
 };
 
-FileSystem.readFile(CaminhoArquivo, 'utf8' ,interpretaArquivo);
+
+// "Main" parte =======================================================
+let arquivo;
+let error;
+const automatoFinitoNaoDeterministico = {};
+const estadosFinais = [];
+
+try {
+    arquivo = FileSystem.readFileSync(CaminhoArquivo, 'utf8');
+} catch (erro) {
+        console.error("Could not open file: %s", erro);
+        process.exitCode = 1;
+}
+
+error = interpretaArquivo(arquivo, {
+    automato: automatoFinitoNaoDeterministico,
+    estadosFinais: estadosFinais
+});
+
+if (error instanceof InterpretaArquivoArgumentsError) {
+    console.log('Erro nos argumentos do interpretaArquivos');
+    process.exitCode = 1;
+}
