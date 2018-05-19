@@ -1,5 +1,5 @@
 var ler = require('fs');
-var trataString = require("replaceall"); // pacote: npm install replaceall
+// var trataString = require("replaceall"); // pacote: npm install replaceall
 ler.readFile('arquivo.txt', 'utf8' ,function(erro, arquivo){
     if(erro) {
         console.error("Could not open file: %s", erro);
@@ -12,7 +12,7 @@ ler.readFile('arquivo.txt', 'utf8' ,function(erro, arquivo){
         if(!linha){
             controle++;
         } else if(controle){ // Se o controle estiver com zero, ainda é a entrada
-            var l = trataString(" ", "", linha).split(':');
+            var l = linha.replace(' ', '').split(':');
             var estado = (l[0].replace(/[<>]/g, '')).concat("n"+controle);
             estados.push(estado);
         } else {
