@@ -1,10 +1,13 @@
-var ler = require('fs');
-// var trataString = require("replaceall"); // pacote: npm install replaceall
-ler.readFile('arquivo.txt', 'utf8' ,function(erro, arquivo){
-    if(erro) {
+const FileSystem = require('fs');
+
+const CaminhoArquivo = 'arquivo.txt';
+
+const interpretaArquivo = (erro, arquivo) => {
+    if (erro) {
         console.error("Could not open file: %s", erro);
         process.exit(1);
     }
+
     var linhas = arquivo.split('\n');
     var entrada = [], estados = [];
     var controle = 0;
@@ -19,6 +22,8 @@ ler.readFile('arquivo.txt', 'utf8' ,function(erro, arquivo){
             entrada.push(linha);
         }
     });
-	console.log(" *** entrada ***\n" + entrada);
-	console.log("\n *** estados ***\n" + estados);
-});
+    console.log(" *** entrada ***\n" + entrada);
+    console.log("\n *** estados ***\n" + estados);
+};
+
+FileSystem.readFile(CaminhoArquivo, 'utf8' ,interpretaArquivo);
