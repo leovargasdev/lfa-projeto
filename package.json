@@ -1,0 +1,23 @@
+{
+  "name": "lfa-projeto",
+  "version": "1.0.0",
+  "description": "Construção de aplicação para geração, eliminação de épsilon transições, determinização e minimização de autômatos finitos.",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeeonardoVargas/lfa-projeto.git"
+  },
+  "author": "Douglas, Igor, Leonardo, Mateus",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LeeonardoVargas/lfa-projeto/issues"
+  },
+  "homepage": "https://github.com/LeeonardoVargas/lfa-projeto#readme"
+}
