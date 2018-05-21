@@ -4,4 +4,5 @@ Construção de aplicação para geração, eliminação de épsilon transiçõe
 
 Checklist
 ===
-[] Leitura do arquivo
+- [ ] Leitura do arquivo
+- [ ] ...
