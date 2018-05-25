@@ -22,11 +22,7 @@ const interpretaArquivo = (arquivo, objetoRetorno) => {
         let linhaAlterada = linhaArquivo.replace(' ', '');
         if (!linhaAlterada) { return; }
         if (linhaAlterada.match(/<.>::=/)) {
-            interpretaRegra(linhaAlterada, {
-                automato,
-                estadosFinais,
-                numeroControle: controle
-            });
+            interpretaRegra(linhaAlterada, automato, estadosFinais, controle);
         } else {
             // interpretaToken(linhaAlterada);
         }
@@ -51,35 +47,48 @@ const interpretaArquivo = (arquivo, objetoRetorno) => {
 *    estadosFinais: Array que contém os estados finais do autômato presente em +autômato+
 * }
 * numeroControle: Um inteiro que servirá de sufixo para os estados presentes na +regraCompleta+
+*
+* A função não retorna nada.
 */
-const interpretaRegra = (regraCompleta, objetoRetorno, numeroControle)  => {
+const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)  => {
     const [estado, regra] = regraCompleta.split('::=');
-    const estadoRegra = `${estado.match(/<(.)>/)[1]}${numeroControle}`;
-    objetoRetorno.automato[estadoRegra] = {};
+    let estadoRegra = estado.match(/<(.)>/)[1];
+
+    // Se o símbolo que dá nome à regra não for S, um número é adicionado no sufixo do estado
+    if (estadoRegra != 'S') {
+        estadoRegra = `${estadoRegra}${numeroControle}`;
+    }
+
+    automato[estadoRegra] = automato[estadoRegra] || {};
 
     regra.split('|').forEach((transicao) => {
         const [_, simboloTransicao, estadoTransicao] = transicao.match(/(.)<?(.)?>?/);
-        estadoTransicaoControle = `${estadoTransicao}${numeroControle}`;
+        let estadoTransicaoControle = estadoTransicao;
 
         // Se é epsilon transição, marca como estado final
         if (simboloTransicao === SIMBOLO_EPSILON) {
-            objetoRetorno.estadosFinais.push(estadoRegra);
+            estadosFinais.push(estadoRegra);
             return;
         }
 
-        objetoRetorno.automato[estadoRegra][simboloTransicao] = objetoRetorno.automato[estadoRegra][simboloTransicao] || [];
+        automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || [];
 
         // Se é só símbolo terminal, cria estado final
-        if (!estadoTransicao) {
+        if (!estadoTransicaoControle) {
             const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
-            objetoRetorno.estadosFinais.push(novoEstadoFinal);
-            objetoRetorno.automato[estadoRegra][simboloTransicao].push(novoEstadoFinal);
-            objetoRetorno.automato[novoEstadoFinal] = {};
+            estadosFinais.push(novoEstadoFinal);
+            automato[estadoRegra][simboloTransicao].push(novoEstadoFinal);
+            automato[novoEstadoFinal] = {};
             return;
         };
 
+        // Adiciona número no nome de estado se não for o inicial
+        if (estadoTransicaoControle != 'S') {
+            estadoTransicaoControle = `${estadoTransicaoControle}${numeroControle}`;
+        }
+
         // Adiciona transição normal
-        objetoRetorno.automato[estadoRegra][simboloTransicao].push(estadoTransicaoControle);
+        automato[estadoRegra][simboloTransicao].push(estadoTransicaoControle);
     });
 };
 
