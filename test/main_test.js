@@ -88,6 +88,10 @@ describe('Main', function () {
     });
 
     // describe('#interpretaToken', function () {
-    //     it('cria sequência de estados para transições
+    //     it('cria estados normais e finais', function (done) {
+    //         const automatoEsperado = {
+    //             Token-p0: { p: ['Token
+    //         };
+    //     });
     // });
 });
