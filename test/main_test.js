@@ -12,7 +12,7 @@ describe('Main', function () {
         });
 
         it('adiciona transição normal ao objeto de retorno', function (done) {
-            const regra = '<A>::=aA';
+            const regra = '<A>::=a<A>';
             const automatoEsperado = { A0: { a: ['A0'] } };
             MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
 
