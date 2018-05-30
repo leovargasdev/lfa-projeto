@@ -5,45 +5,37 @@ const SIMBOLO_EPSILON = 'ε';
 const CaminhoArquivo = 'arquivo.txt';
 class InterpretaArquivoArgumentsError extends Error {};
 
-const interpretaArquivo = (arquivo, objetoRetorno) => {
-    const automato = objetoRetorno['automato'];
-    const estadosFinais = objetoRetorno['estadosFinais'];
-
-    if (!automatoFinitoNaoDeterministico || !estadosFinais) {
-        return InterpretaArquivoArgumentsError.new();
-    }
-
+const interpretaArquivo = (arquivo, automato, estadosFinais) => {
     const linhasArquivo = arquivo.split('\n');
     let entrada = [];
     let estados = [];
     let tabelaTransicao = {};
     let controle = 0;
+    let ultimoControle = -1;
     linhasArquivo.forEach((linhaArquivo) => {
-        let linhaAlterada = linhaArquivo.replace(' ', '');
-        if (!linhaAlterada) { return; }
-        if (linhaAlterada.match(/<.>::=/)) {
-            interpretaRegra(linhaAlterada, automato, estadosFinais, controle);
-        } else {
-            // interpretaToken(linhaAlterada);
+        const linhaAlterada = linhaArquivo.replace(/ /g, '');
+
+        // Se for linha vazio, aumenta o número do controle e continua
+        if (!linhaAlterada) {
+            if (ultimoControle == controle) { controle++; }
+            return;
         }
-        // if (!linha){
-        //     controle++;
-        // } else if (controle) { // Se o controle estiver com zero, ainda é a entrada
-        //     var l = linha.replace(' ', '').split('::=');
-        //     var estado = (l[0].replace(/[<>]/g, '')).concat("n"+controle);
-        //     estados.push(estado);
-        // } else {
-        //     entrada.push(linha);
-        // }
+
+        if (linhaAlterada.match(/<.>::=/)) { // Se for linha com regra
+            interpretaRegra(linhaAlterada, automato, estadosFinais, controle);
+            ultimoControle = controle;
+        } else { // Se for linha com token
+            interpretaToken(linhaAlterada, automato, estadosFinais, controle);
+            ultimoControle = controle;
+            controle++;
+        }
     });
-    // console.log(" *** entrada ***\n" + entrada);
-    // console.log("\n *** estados ***\n" + estados);
 };
 
 /**
 * regraCompleta: Uma string no formato padrão de regras, sem espaço. Exemplo: <A>::=a<A>|b<B>|ε
-*    automato: Objeto que guarda o autômato onde as transições da regra serão salvas
-*    estadosFinais: Array que contém os estados finais do autômato presente em +autômato+
+* automato: Objeto que guarda o autômato onde as transições da regra serão salvas
+* estadosFinais: Array que contém os estados finais do autômato presente em +autômato+
 * numeroControle: Um inteiro que servirá de sufixo para os estados presentes na +regraCompleta+
 *
 * A função não retorna nada.
@@ -140,18 +132,17 @@ try {
         process.exitCode = 1;
 }
 
-error = interpretaArquivo(arquivo, {
-    estadosFinais,
-    automato: automatoFinitoNaoDeterministico
-});
+interpretaArquivo(arquivo, automatoFinitoNaoDeterministico, estadosFinais);
 
-if (error instanceof InterpretaArquivoArgumentsError) {
-    console.log('Erro nos argumentos do interpretaArquivos');
-    process.exitCode = 1;
-}
+console.log('=============================================');
+console.log('Autômato Finito Não-Determinístico: ', automatoFinitoNaoDeterministico);
+console.log('=============================================');
+console.log('Estados Finais: ', estadosFinais);
+console.log('=============================================');
 
 module.exports = {
     interpretaRegra,
     SIMBOLO_EPSILON,
-    interpretaToken
+    interpretaToken,
+    interpretaArquivo
 };

@@ -1,0 +1,13 @@
+se
+
+<S> ::= a<A> | e<A> | i<A> | o<A> | u<A>
+<A> ::= a<A> | e<A> | i<A> | o<A> | u<A> | ε
+
+senao
+
+<S> ::= a<A> | e<A> | i<B> | o<A> | u<B> | ε
+<B> ::= a<A> | e<S> | i<A> | o<A> | u<A> | ε
+<A> ::= a<A> | e<B> | i<A> | o<A> | u<S> | ε
+
+entao
+pe
