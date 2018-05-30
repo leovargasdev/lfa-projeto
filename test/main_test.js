@@ -98,13 +98,13 @@ describe('Main', function () {
 
         it('cria estados normais e finais', function (done) {
             const automatoEsperado = {
-                S: { l: ['Palavra0_Estado0'] },
-                Palavra0_Estado0: { o: ['Palavra0_Estado1'] },
-                Palavra0_Estado1: { b: ['Palavra0_Estado2'] },
-                Palavra0_Estado2: { o: ['Palavra0_EstadoFinal'] },
-                Palavra0_EstadoFinal: {}
+                S: { l: ['Palavra0_Estado1'] },
+                Palavra0_Estado1: { o: ['Palavra0_Estado2'] },
+                Palavra0_Estado2: { b: ['Palavra0_Estado3'] },
+                Palavra0_Estado3: { o: ['Palavra0_Estado4'] },
+                Palavra0_Estado4: {}
             };
-            const estadosFinaisEsperado = ['Palavra0_EstadoFinal'];
+            const estadosFinaisEsperado = ['Palavra0_Estado4'];
 
             MainFile.interpretaToken('lobo', automato, estadosFinais, 0);
             assert.deepEqual(automato, automatoEsperado);
@@ -114,13 +114,13 @@ describe('Main', function () {
 
         it('cria indeterminização para tokens com a mesma letra inicial', function (done) {
             const automatoEsperado = {
-                S: { l: ['Palavra0_Estado0', 'Palavra1_Estado0'] },
-                Palavra0_Estado0: { o: ['Palavra0_EstadoFinal'] },
-                Palavra0_EstadoFinal: {},
-                Palavra1_Estado0: { a: ['Palavra1_EstadoFinal'] },
-                Palavra1_EstadoFinal: {}
+                S: { l: ['Palavra0_Estado1', 'Palavra1_Estado1'] },
+                Palavra0_Estado1: { o: ['Palavra0_Estado2'] },
+                Palavra0_Estado2: {},
+                Palavra1_Estado1: { a: ['Palavra1_Estado2'] },
+                Palavra1_Estado2: {}
             };
-            const estadosFinaisEsperado = ['Palavra0_EstadoFinal'];
+            const estadosFinaisEsperado = ['Palavra0_Estado2', 'Palavra1_Estado2'];
 
             MainFile.interpretaToken('lo', automato, estadosFinais, 0);
             MainFile.interpretaToken('la', automato, estadosFinais, 1);

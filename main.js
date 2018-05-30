@@ -42,10 +42,8 @@ const interpretaArquivo = (arquivo, objetoRetorno) => {
 
 /**
 * regraCompleta: Uma string no formato padrão de regras, sem espaço. Exemplo: <A>::=a<A>|b<B>|ε
-* objetoRetorno: {
 *    automato: Objeto que guarda o autômato onde as transições da regra serão salvas
 *    estadosFinais: Array que contém os estados finais do autômato presente em +autômato+
-* }
 * numeroControle: Um inteiro que servirá de sufixo para os estados presentes na +regraCompleta+
 *
 * A função não retorna nada.
@@ -96,6 +94,38 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
     });
 };
 
+/**
+* token: Uma string de uma palavra
+* automato: Objeto que guarda o autômato onde as transições da regra serão salvas
+* estadosFinais: Array que contém os estados finais do autômato presente em +autômato+
+* numeroControle: Um inteiro que servirá de sufixo para os estados presentes na +regraCompleta+
+*
+* A função não retorna nada.
+*/
+const interpretaToken = (token, automato, estadosFinais, numeroControle) => {
+    const caracteres = token.split('');
+
+    // Inicializa estado S caso este não tenha sido inicializado
+    automato['S'] = automato['S'] || {};
+
+    caracteres.forEach((letra, indice) => {
+        const estadoAtual = `Palavra${numeroControle}_Estado${indice}`;
+        const estadoSeguinte = `Palavra${numeroControle}_Estado${indice + 1}`;
+
+        if (indice === 0) {
+            automato['S'][letra] = automato['S'][letra] || [];
+            automato['S'][letra].push(estadoSeguinte);
+            automato[estadoSeguinte] = {};
+            return;
+        }
+
+        automato[estadoAtual][letra] = [estadoSeguinte]
+        automato[estadoSeguinte] = {};
+    });
+
+    estadosFinais.push(`Palavra${numeroControle}_Estado${caracteres.length}`)
+};
+
 
 // "Main" parte =======================================================
 let arquivo;
@@ -122,5 +152,6 @@ if (error instanceof InterpretaArquivoArgumentsError) {
 
 module.exports = {
     interpretaRegra,
-    SIMBOLO_EPSILON
+    SIMBOLO_EPSILON,
+    interpretaToken
 };
