@@ -49,21 +49,25 @@ const interpretaArquivo = (arquivo, objetoRetorno) => {
 * numeroControle: Um inteiro que servirá de sufixo para os estados presentes na +regraCompleta+
 *
 * A função não retorna nada.
+* Os exemplos nas instruções vão levar em conta esses parâmetros:
+* "<S>::=a<A>|b<B>|c", {}, [], 1
 */
 const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)  => {
-    const [estado, regra] = regraCompleta.split('::=');
-    let estadoRegra = estado.match(/<(.)>/)[1];
+    const [estado, regra] = regraCompleta.split('::='); // ['<S>', 'a<A>|b<B>|c']
+    let estadoRegra = estado.match(/<(.)>/)[1]; // S
+    const transicoes = regra.split('|'); // ['a<A>', 'b<B>', 'c']
 
     // Se o símbolo que dá nome à regra não for S, um número é adicionado no sufixo do estado
     if (estadoRegra != 'S') {
         estadoRegra = `${estadoRegra}${numeroControle}`;
     }
 
-    automato[estadoRegra] = automato[estadoRegra] || {};
+    automato[estadoRegra] = automato[estadoRegra] || {}; // { S: {} }
 
-    regra.split('|').forEach((transicao) => {
+    transicoes.forEach((transicao) => {
+        // ['a<A>', 'a', 'A']
         const [_, simboloTransicao, estadoTransicao] = transicao.match(/(.)<?(.)?>?/);
-        let estadoTransicaoControle = estadoTransicao;
+        let estadoTransicaoControle = estadoTransicao; // A
 
         // Se é epsilon transição, marca como estado final
         if (simboloTransicao === SIMBOLO_EPSILON) {
@@ -71,7 +75,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
             return;
         }
 
-        automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || [];
+        automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || []; // { S: { a: [] } }
 
         // Se é só símbolo terminal, cria estado final
         if (!estadoTransicaoControle) {
@@ -88,7 +92,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
         }
 
         // Adiciona transição normal
-        automato[estadoRegra][simboloTransicao].push(estadoTransicaoControle);
+        automato[estadoRegra][simboloTransicao].push(estadoTransicaoControle);  // { S: { a: ['A'] } }
     });
 };
 
