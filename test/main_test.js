@@ -87,11 +87,46 @@ describe('Main', function () {
         });
     });
 
-    // describe('#interpretaToken', function () {
-    //     it('cria estados normais e finais', function (done) {
-    //         const automatoEsperado = {
-    //             Token-p0: { p: ['Token
-    //         };
-    //     });
-    // });
+    describe('#interpretaToken', function () {
+        let automato;
+        let estadosFinais;
+
+        beforeEach('Cria variáveis', function () {
+            automato = {};
+            estadosFinais = [];
+        });
+
+        it('cria estados normais e finais', function (done) {
+            const automatoEsperado = {
+                S: { l: ['Palavra0_Estado0'] },
+                Palavra0_Estado0: { o: ['Palavra0_Estado1'] },
+                Palavra0_Estado1: { b: ['Palavra0_Estado2'] },
+                Palavra0_Estado2: { o: ['Palavra0_EstadoFinal'] },
+                Palavra0_EstadoFinal: {}
+            };
+            const estadosFinaisEsperado = ['Palavra0_EstadoFinal'];
+
+            MainFile.interpretaToken('lobo', automato, estadosFinais, 0);
+            assert.deepEqual(automato, automatoEsperado);
+            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            done();
+        });
+
+        it('cria indeterminização para tokens com a mesma letra inicial', function (done) {
+            const automatoEsperado = {
+                S: { l: ['Palavra0_Estado0', 'Palavra1_Estado0'] },
+                Palavra0_Estado0: { o: ['Palavra0_EstadoFinal'] },
+                Palavra0_EstadoFinal: {},
+                Palavra1_Estado0: { a: ['Palavra1_EstadoFinal'] },
+                Palavra1_EstadoFinal: {}
+            };
+            const estadosFinaisEsperado = ['Palavra0_EstadoFinal'];
+
+            MainFile.interpretaToken('lo', automato, estadosFinais, 0);
+            MainFile.interpretaToken('la', automato, estadosFinais, 1);
+            assert.deepEqual(automato, automatoEsperado);
+            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            done();
+        });
+    });
 });
