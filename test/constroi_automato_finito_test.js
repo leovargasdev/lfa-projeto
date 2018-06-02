@@ -1,8 +1,9 @@
 const assert = require('assert');
-const MainFile = require('../main');
+const ConstroiAutomatoFinito = require('../constroi_automato_finito');
 const FileSystem = require('fs');
+const Constantes = require ('../constantes');
 
-describe('Main', function () {
+describe('ConstroiAutomatoFinito', function () {
     describe('#interpretaRegra', function () {
         let automato;
         let estadosFinais;
@@ -15,7 +16,7 @@ describe('Main', function () {
         it('adiciona transição normal ao objeto de retorno', function (done) {
             const regra = '<A>::=a<A>';
             const automatoEsperado = { A0: { a: ['A0'] } };
-            MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual([], estadosFinais);
@@ -23,8 +24,8 @@ describe('Main', function () {
         });
 
         it('marca como estado final quando há epsilon transição', function (done) {
-            const regra = `<A>::=${MainFile.SIMBOLO_EPSILON}`;
-            MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
+            const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
+            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual({ A0: {} }, automato);
             assert.deepEqual(['A0'], estadosFinais);
@@ -39,7 +40,7 @@ describe('Main', function () {
                 },
                 TaA0: {}
             };
-            MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(['TaA0'], estadosFinais);
@@ -47,7 +48,7 @@ describe('Main', function () {
         });
 
         it('trata transição normal, com epsilon e com símbolo terminal', function(done) {
-            const regra = `<A>::=a<A>|b|${MainFile.SIMBOLO_EPSILON}`;
+            const regra = `<A>::=a<A>|b|${Constantes.SIMBOLO_EPSILON}`;
             const automatoEsperado = {
                 A0: {
                     a: ['A0'],
@@ -56,7 +57,7 @@ describe('Main', function () {
                 TbA0: {}
             };
             const estadosFinaisEsperado = ['TbA0', 'A0'];
-            MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
@@ -77,10 +78,10 @@ describe('Main', function () {
             const regras1 = ['<S>::=a<A>|c<A>', '<A>::=a<S>'];
 
             regras0.forEach((regra) => {
-                MainFile.interpretaRegra(regra, automato, estadosFinais, 0);
+                ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
             });
             regras1.forEach((regra) => {
-                MainFile.interpretaRegra(regra, automato, estadosFinais, 1);
+                ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 1);
             });
 
             assert.deepEqual(automato, automatoEsperado);
@@ -107,7 +108,7 @@ describe('Main', function () {
             };
             const estadosFinaisEsperado = ['Palavra0_Estado4'];
 
-            MainFile.interpretaToken('lobo', automato, estadosFinais, 0);
+            ConstroiAutomatoFinito.interpretaToken('lobo', automato, estadosFinais, 0);
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -123,8 +124,8 @@ describe('Main', function () {
             };
             const estadosFinaisEsperado = ['Palavra0_Estado2', 'Palavra1_Estado2'];
 
-            MainFile.interpretaToken('lo', automato, estadosFinais, 0);
-            MainFile.interpretaToken('la', automato, estadosFinais, 1);
+            ConstroiAutomatoFinito.interpretaToken('lo', automato, estadosFinais, 0);
+            ConstroiAutomatoFinito.interpretaToken('la', automato, estadosFinais, 1);
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -138,7 +139,7 @@ describe('Main', function () {
 
         beforeEach('Carrega arquivo', function() {
             try {
-                arquivo = FileSystem.readFileSync("./test/main_test_arquivo_exemplo.in", 'utf8');
+                arquivo = FileSystem.readFileSync("./test/test_arquivo_exemplo.in", 'utf8');
             } catch (erro) {
                 console.error("Could not open file: %s", erro);
                 process.exitCode = 1;
@@ -198,7 +199,7 @@ describe('Main', function () {
               Palavra5_Estado2: {}
             };
 
-            MainFile.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomatoFinito.interpretaArquivo(arquivo, automato, estadosFinais);
             assert.deepEqual(automato, automatoEsperado);
             done();
         });
@@ -214,7 +215,7 @@ describe('Main', function () {
                 'Palavra5_Estado2'
             ];
 
-            MainFile.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomatoFinito.interpretaArquivo(arquivo, automato, estadosFinais);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
