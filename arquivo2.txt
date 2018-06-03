@@ -1,0 +1,7 @@
+se
+entao
+senao
+
+<S> ::= a<A> | b<B> | c<S> | d<B>
+<A> ::= a<B> | d | ε
+<B> ::= a<S> | <B>
