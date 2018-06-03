@@ -1,8 +1,9 @@
 let DEBUG_MODE = false;
 DEBUG_MODE = true;
 const ConstroiAutomato = require('./constroi_automato');
+const RemoveEpsilonProducoes = require('./remove_epsilon_producoes');
 
-const CaminhoArquivo = 'arquivo.txt';
+const CaminhoArquivo = 'arquivo.in';
 const automato = {};
 const estadosFinais = new Set;
 
@@ -12,10 +13,10 @@ ConstroiAutomato.execute(
     CaminhoArquivo
 );
 
-// RemoveEpsilonProducoes.execute(
-//     automato,
-//     estadosFinais
-// );
+RemoveEpsilonProducoes.execute(
+    automato,
+    estadosFinais
+);
 
 // DeterminizaAutomato.execute(
 //     automato,

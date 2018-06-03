@@ -6,5 +6,5 @@ senao
 <A> ::= a<A> | e<A> | i<A> | o<A> | u<A> | ε
 
 <S> ::= a<A> | e<A> | i<B> | o<A> | u<B>
-<B> ::= a<A> | e<S> | i<A> | o<A> | u<A> | ε
+<B> ::= a<A> | e<S> | i<A> | o<A> | u<A> | ε | ε<A>
 <A> ::= a<A> | e<B> | i<A> | o<A> | u<S> | ε
