@@ -4,6 +4,94 @@ const FileSystem = require('fs');
 const Constantes = require ('../constantes');
 
 describe('ConstroiAutomato', function () {
+    describe('#execute', function() {
+        let arquivo;
+        let automato;
+        let estadosFinais;
+
+        beforeEach('Cria variáveis', function () {
+            automato = {};
+            estadosFinais = [];
+        });
+
+        it('cria autômato finito não-determinístico corretamente e estados finais', function (done) {
+            const automatoEsperado = {
+              S: {
+                s: ['Palavra0_Estado1', 'Palavra2_Estado1'],
+                a: ['A1', 'A3'],
+                e: ['A1', 'A3', 'Palavra4_Estado1'],
+                i: ['A1', 'B3'],
+                o: ['A1', 'A3'],
+                u: ['A1', 'B3'],
+                p: ['Palavra5_Estado1']
+              },
+              Palavra0_Estado1: { e: ['Palavra0_Estado2'] },
+              Palavra0_Estado2: {},
+              A1: {
+                a: ['A1'],
+                e: ['A1'],
+                i: ['A1'],
+                o: ['A1'],
+                u: ['A1']
+              },
+              Palavra2_Estado1: { e: ['Palavra2_Estado2'] },
+              Palavra2_Estado2: { n: ['Palavra2_Estado3'] },
+              Palavra2_Estado3: { a: ['Palavra2_Estado4'] },
+              Palavra2_Estado4: { o: ['Palavra2_Estado5'] },
+              Palavra2_Estado5: {},
+              A3: {
+                a: ['A3'],
+                e: ['B3'],
+                i: ['A3'],
+                o: ['A3'],
+                u: ['S']
+              },
+              B3: {
+                a: ['A3'],
+                e: ['S'],
+                i: ['A3'],
+                o: ['A3'],
+                u: ['A3']
+              },
+              Palavra4_Estado1: { n: ['Palavra4_Estado2'] },
+              Palavra4_Estado2: { t: ['Palavra4_Estado3'] },
+              Palavra4_Estado3: { a: ['Palavra4_Estado4'] },
+              Palavra4_Estado4: { o: ['Palavra4_Estado5'] },
+              Palavra4_Estado5: {},
+              Palavra5_Estado1: { e: ['Palavra5_Estado2'] },
+              Palavra5_Estado2: {}
+            };
+
+            ConstroiAutomato.execute(
+                automato,
+                estadosFinais,
+                "./test/test_arquivo_exemplo.in"
+            );
+            assert.deepEqual(automato, automatoEsperado);
+            done();
+        });
+
+        it('cria estados finais de autômato finito não determinístico', function (done) {
+            const estadosFinaisEsperado = [
+                'Palavra0_Estado2',
+                'A1',
+                'Palavra2_Estado5',
+                'S',
+                'B3', 'A3',
+                'Palavra4_Estado5',
+                'Palavra5_Estado2'
+            ];
+
+            ConstroiAutomato.execute(
+                automato,
+                estadosFinais,
+                "./test/test_arquivo_exemplo.in"
+            );
+            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            done();
+        });
+    });
+
     describe('#interpretaRegra', function () {
         let automato;
         let estadosFinais;
