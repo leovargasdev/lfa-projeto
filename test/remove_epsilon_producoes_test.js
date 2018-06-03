@@ -43,15 +43,159 @@ describe('RemoveEpsilonProducoes', function () {
             });
 
             it('resolve transições para o próprio estado', function(done) {
-                done('pending');
+                const entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: ['S'],
+                        a: ['D']
+                      },
+                    D: {}
+                };
+
+                const automatoEsperado = {
+                    S: { a: ['D'] },
+                    D: {}
+                };
+
+                RemoveEpsilonProducoes.execute(
+                    automato,
+                    estadosFinais
+                );
+                assert.deepEqual(automato, automatoEsperado);
+                done();
             });
 
             it('resolve transições duplas', function(done) {
-                done('pending');
+                const entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: ['A'],
+                        e: ['E'],
+                      },
+                    A: {
+                        [Constantes.SIMBOLO_EPSILON]: ['B'],
+                        f: ['F'],
+                    },
+                    B: {
+                        c: ['C'],
+                        d: ['D'],
+                    },
+                    C: {},
+                    D: {},
+                    E: {},
+                    F: {}
+                };
+
+                const automatoEsperado = {
+                    S: {
+                        c: ['C'],
+                        d: ['D'],
+                        e: ['E'],
+                      },
+                    A: {
+                        c: ['C'],
+                        d: ['D'],
+                        f: ['F'],
+                    },
+                    B: {
+                        c: ['C'],
+                        d: ['D'],
+                    },
+                    C: {},
+                    D: {},
+                    E: {},
+                    F: {}
+                };
+
+                RemoveEpsilonProducoes.execute(
+                    automato,
+                    estadosFinais
+                );
+                assert.deepEqual(automato, automatoEsperado);
+                done();
             });
 
-            it ('resolve transições triplas', function(done) {
-                done('pending');
+            it('resolve transições triplas', function(done) {
+                const entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: ['A'],
+                        e: ['E'],
+                      },
+                    A: {
+                        [Constantes.SIMBOLO_EPSILON]: ['B'],
+                        f: ['F'],
+                    },
+                    B: {
+                        c: ['C'],
+                        d: ['D'],
+                        [Constantes.SIMBOLO_EPSILON]: ['G']
+                    },
+                    C: {},
+                    D: {},
+                    E: {},
+                    F: {},
+                    G: { h: ['H'], }
+                };
+
+                const automatoEsperado = {
+                    S: {
+                        c: ['C'],
+                        d: ['D'],
+                        e: ['E'],
+                        h: ['H'],
+                      },
+                    A: {
+                        c: ['C'],
+                        d: ['D'],
+                        f: ['F'],
+                        h: ['H'],
+                    },
+                    B: {
+                        c: ['C'],
+                        d: ['D'],
+                        h: ['H'],
+                    },
+                    C: {},
+                    D: {},
+                    E: {},
+                    F: {},
+                    G: {}
+                };
+
+                RemoveEpsilonProducoes.execute(
+                    automato,
+                    estadosFinais
+                );
+                assert.deepEqual(automato, automatoEsperado);
+                done();
+            });
+
+            it('resolve quando há indeterminismo na epsilon produção', function(done) {
+                const entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: ['A', 'C'],
+                    },
+                    A: { b: ['B'], },
+                    B: {},
+                    C: { d: ['D'], },
+                    D: {},
+                };
+
+                const automatoEsperado = {
+                    S: {
+                        b: ['B'],
+                        d: ['D'],
+                      },
+                    A: { b: ['B'], },
+                    B: {},
+                    C: { d: ['D'], },
+                    D: {},
+                };
+
+                RemoveEpsilonProducoes.execute(
+                    automato,
+                    estadosFinais
+                );
+                assert.deepEqual(automato, automatoEsperado);
+                done();
             });
         });
     });
