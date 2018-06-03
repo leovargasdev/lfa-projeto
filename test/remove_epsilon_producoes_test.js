@@ -17,18 +17,18 @@ describe('RemoveEpsilonProducoes', function () {
             it ('resolve transições simples', function(done) {
                 const entrada = {
                     S: {
-                        [Constantes.SIMBOLO_EPSILON]: ['A'],
-                        a: ['D']
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                        a: new Set(['D'])
                       },
-                    A: { a: ['B', 'C'] },
+                    A: { a: new Set(['B', 'C']) },
                     B: {},
                     C: {},
                     D: {}
                 };
 
                 const automatoEsperado = {
-                    S: { a: ['D', 'B', 'C'] },
-                    A: { a: ['B', 'C'] },
+                    S: { a: new Set(['D', 'B', 'C']) },
+                    A: { a: new Set(['B', 'C']) },
                     B: {},
                     C: {},
                     D: {}
@@ -38,21 +38,21 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(automato, automatoEsperado);
                 done();
             });
 
             it('resolve transições para o próprio estado', function(done) {
                 const entrada = {
                     S: {
-                        [Constantes.SIMBOLO_EPSILON]: ['S'],
-                        a: ['D']
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['S']),
+                        a: new Set(['D'])
                       },
                     D: {}
                 };
 
                 const automatoEsperado = {
-                    S: { a: ['D'] },
+                    S: { a: new Set(['D']) },
                     D: {}
                 };
 
@@ -60,23 +60,23 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(automato, automatoEsperado);
                 done();
             });
 
             it('resolve transições duplas', function(done) {
                 const entrada = {
                     S: {
-                        [Constantes.SIMBOLO_EPSILON]: ['A'],
-                        e: ['E'],
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                        e: new Set(['E']),
                       },
                     A: {
-                        [Constantes.SIMBOLO_EPSILON]: ['B'],
-                        f: ['F'],
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['B']),
+                        f: new Set(['F']),
                     },
                     B: {
-                        c: ['C'],
-                        d: ['D'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
                     },
                     C: {},
                     D: {},
@@ -86,18 +86,18 @@ describe('RemoveEpsilonProducoes', function () {
 
                 const automatoEsperado = {
                     S: {
-                        c: ['C'],
-                        d: ['D'],
-                        e: ['E'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        e: new Set(['E']),
                       },
                     A: {
-                        c: ['C'],
-                        d: ['D'],
-                        f: ['F'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        f: new Set(['F']),
                     },
                     B: {
-                        c: ['C'],
-                        d: ['D'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
                     },
                     C: {},
                     D: {},
@@ -109,49 +109,49 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(automato, automatoEsperado);
                 done();
             });
 
             it('resolve transições triplas', function(done) {
                 const entrada = {
                     S: {
-                        [Constantes.SIMBOLO_EPSILON]: ['A'],
-                        e: ['E'],
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                        e: new Set(['E']),
                       },
                     A: {
-                        [Constantes.SIMBOLO_EPSILON]: ['B'],
-                        f: ['F'],
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['B']),
+                        f: new Set(['F']),
                     },
                     B: {
-                        c: ['C'],
-                        d: ['D'],
-                        [Constantes.SIMBOLO_EPSILON]: ['G']
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['G'])
                     },
                     C: {},
                     D: {},
                     E: {},
                     F: {},
-                    G: { h: ['H'], }
+                    G: { h: new Set(['H']), }
                 };
 
                 const automatoEsperado = {
                     S: {
-                        c: ['C'],
-                        d: ['D'],
-                        e: ['E'],
-                        h: ['H'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        e: new Set(['E']),
+                        h: new Set(['H']),
                       },
                     A: {
-                        c: ['C'],
-                        d: ['D'],
-                        f: ['F'],
-                        h: ['H'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        f: new Set(['F']),
+                        h: new Set(['H']),
                     },
                     B: {
-                        c: ['C'],
-                        d: ['D'],
-                        h: ['H'],
+                        c: new Set(['C']),
+                        d: new Set(['D']),
+                        h: new Set(['H']),
                     },
                     C: {},
                     D: {},
@@ -164,29 +164,29 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(automato, automatoEsperado);
                 done();
             });
 
             it('resolve quando há indeterminismo na epsilon produção', function(done) {
                 const entrada = {
                     S: {
-                        [Constantes.SIMBOLO_EPSILON]: ['A', 'C'],
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A', 'C']),
                     },
-                    A: { b: ['B'], },
+                    A: { b: new Set(['B']), },
                     B: {},
-                    C: { d: ['D'], },
+                    C: { d: new Set(['D']), },
                     D: {},
                 };
 
                 const automatoEsperado = {
                     S: {
-                        b: ['B'],
-                        d: ['D'],
+                        b: new Set(['B']),
+                        d: new Set(['D']),
                       },
-                    A: { b: ['B'], },
+                    A: { b: new Set(['B']), },
                     B: {},
-                    C: { d: ['D'], },
+                    C: { d: new Set(['D']), },
                     D: {},
                 };
 
@@ -194,7 +194,7 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(automato, automatoEsperado);
                 done();
             });
         });

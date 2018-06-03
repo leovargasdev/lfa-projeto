@@ -76,13 +76,13 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
             return;
         }
 
-        automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || []; // { S: { a: [] } }
+        automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || new Set; // { S: { a: [] } }
 
         // Se é só símbolo terminal, cria estado final
         if (!estadoTransicaoControle) {
             const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
             estadosFinais.push(novoEstadoFinal);
-            automato[estadoRegra][simboloTransicao].push(novoEstadoFinal);
+            automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
             automato[novoEstadoFinal] = {};
             return;
         };
@@ -93,7 +93,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
         }
 
         // Adiciona transição normal
-        automato[estadoRegra][simboloTransicao].push(estadoTransicaoControle);  // { S: { a: ['A'] } }
+        automato[estadoRegra][simboloTransicao].add(estadoTransicaoControle);  // { S: { a: ['A'] } }
     });
 };
 
@@ -116,13 +116,13 @@ const interpretaToken = (token, automato, estadosFinais, numeroControle) => {
         const estadoSeguinte = `Palavra${numeroControle}_Estado${indice + 1}`;
 
         if (indice === 0) {
-            automato['S'][letra] = automato['S'][letra] || [];
-            automato['S'][letra].push(estadoSeguinte);
+            automato['S'][letra] = automato['S'][letra] || new Set;
+            automato['S'][letra].add(estadoSeguinte);
             automato[estadoSeguinte] = {};
             return;
         }
 
-        automato[estadoAtual][letra] = [estadoSeguinte]
+        automato[estadoAtual][letra] = new Set([estadoSeguinte]);
         automato[estadoSeguinte] = {};
     });
 

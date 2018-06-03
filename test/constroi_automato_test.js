@@ -17,48 +17,48 @@ describe('ConstroiAutomato', function () {
         it('cria autômato finito não-determinístico corretamente e estados finais', function (done) {
             const automatoEsperado = {
               S: {
-                s: ['Palavra0_Estado1', 'Palavra2_Estado1'],
-                a: ['A1', 'A3'],
-                e: ['A1', 'A3', 'Palavra4_Estado1'],
-                i: ['A1', 'B3'],
-                o: ['A1', 'A3'],
-                u: ['A1', 'B3'],
-                p: ['Palavra5_Estado1']
+                s: new Set(['Palavra0_Estado1', 'Palavra2_Estado1']),
+                a: new Set(['A1', 'A3']),
+                e: new Set(['A1', 'A3', 'Palavra4_Estado1']),
+                i: new Set(['A1', 'B3']),
+                o: new Set(['A1', 'A3']),
+                u: new Set(['A1', 'B3']),
+                p: new Set(['Palavra5_Estado1'])
               },
-              Palavra0_Estado1: { e: ['Palavra0_Estado2'] },
+              Palavra0_Estado1: { e: new Set(['Palavra0_Estado2']) },
               Palavra0_Estado2: {},
               A1: {
-                a: ['A1'],
-                e: ['A1'],
-                i: ['A1'],
-                o: ['A1'],
-                u: ['A1']
+                a: new Set(['A1']),
+                e: new Set(['A1']),
+                i: new Set(['A1']),
+                o: new Set(['A1']),
+                u: new Set(['A1'])
               },
-              Palavra2_Estado1: { e: ['Palavra2_Estado2'] },
-              Palavra2_Estado2: { n: ['Palavra2_Estado3'] },
-              Palavra2_Estado3: { a: ['Palavra2_Estado4'] },
-              Palavra2_Estado4: { o: ['Palavra2_Estado5'] },
+              Palavra2_Estado1: { e: new Set(['Palavra2_Estado2']) },
+              Palavra2_Estado2: { n: new Set(['Palavra2_Estado3']) },
+              Palavra2_Estado3: { a: new Set(['Palavra2_Estado4']) },
+              Palavra2_Estado4: { o: new Set(['Palavra2_Estado5']) },
               Palavra2_Estado5: {},
               A3: {
-                a: ['A3'],
-                e: ['B3'],
-                i: ['A3'],
-                o: ['A3'],
-                u: ['S']
+                a: new Set(['A3']),
+                e: new Set(['B3']),
+                i: new Set(['A3']),
+                o: new Set(['A3']),
+                u: new Set(['S'])
               },
               B3: {
-                a: ['A3'],
-                e: ['S'],
-                i: ['A3'],
-                o: ['A3'],
-                u: ['A3']
+                a: new Set(['A3']),
+                e: new Set(['S']),
+                i: new Set(['A3']),
+                o: new Set(['A3']),
+                u: new Set(['A3'])
               },
-              Palavra4_Estado1: { n: ['Palavra4_Estado2'] },
-              Palavra4_Estado2: { t: ['Palavra4_Estado3'] },
-              Palavra4_Estado3: { a: ['Palavra4_Estado4'] },
-              Palavra4_Estado4: { o: ['Palavra4_Estado5'] },
+              Palavra4_Estado1: { n: new Set(['Palavra4_Estado2']) },
+              Palavra4_Estado2: { t: new Set(['Palavra4_Estado3']) },
+              Palavra4_Estado3: { a: new Set(['Palavra4_Estado4']) },
+              Palavra4_Estado4: { o: new Set(['Palavra4_Estado5']) },
               Palavra4_Estado5: {},
-              Palavra5_Estado1: { e: ['Palavra5_Estado2'] },
+              Palavra5_Estado1: { e: new Set(['Palavra5_Estado2']) },
               Palavra5_Estado2: {}
             };
 
@@ -67,7 +67,7 @@ describe('ConstroiAutomato', function () {
                 estadosFinais,
                 "./test/test_arquivo_exemplo.in"
             );
-            assert.deepEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
 
@@ -87,7 +87,7 @@ describe('ConstroiAutomato', function () {
                 estadosFinais,
                 "./test/test_arquivo_exemplo.in"
             );
-            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
     });
@@ -103,11 +103,11 @@ describe('ConstroiAutomato', function () {
 
         it('adiciona transição normal ao objeto de retorno', function (done) {
             const regra = '<A>::=a<A>';
-            const automatoEsperado = { A0: { a: ['A0'] } };
+            const automatoEsperado = { A0: { a: new Set(['A0']) } };
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepEqual(automato, automatoEsperado);
-            assert.deepEqual([], estadosFinais);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            assert.deepStrictEqual([], estadosFinais);
             done();
         });
 
@@ -115,8 +115,8 @@ describe('ConstroiAutomato', function () {
             const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepEqual({ A0: {} }, automato);
-            assert.deepEqual(['A0'], estadosFinais);
+            assert.deepStrictEqual({ A0: {} }, automato);
+            assert.deepStrictEqual(['A0'], estadosFinais);
             done();
         });
 
@@ -124,14 +124,14 @@ describe('ConstroiAutomato', function () {
             const regra = `<A>::=a`;
             const automatoEsperado = {
                 A0: {
-                    a: ['TaA0']
+                    a: new Set(['TaA0'])
                 },
                 TaA0: {}
             };
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepEqual(automato, automatoEsperado);
-            assert.deepEqual(['TaA0'], estadosFinais);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(['TaA0'], estadosFinais);
             done();
         });
 
@@ -139,28 +139,28 @@ describe('ConstroiAutomato', function () {
             const regra = `<A>::=a<A>|b|${Constantes.SIMBOLO_EPSILON}`;
             const automatoEsperado = {
                 A0: {
-                    a: ['A0'],
-                    b: ['TbA0']
+                    a: new Set(['A0']),
+                    b: new Set(['TbA0'])
                 },
                 TbA0: {}
             };
             const estadosFinaisEsperado = ['TbA0', 'A0'];
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepEqual(automato, automatoEsperado);
-            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
 
         it('usa o mesmo estado inicial para diferentes gramáticas', function (done) {
             const automatoEsperado = {
                 S: {
-                    a: ['A0', 'A1'],
-                    b: ['A0'],
-                    c: ['A1']
+                    a: new Set(['A0', 'A1']),
+                    b: new Set(['A0']),
+                    c: new Set(['A1'])
                 },
-                A0: { a: ['S'] },
-                A1: { a: ['S'] }
+                A0: { a: new Set(['S']) },
+                A1: { a: new Set(['S']) }
             };
             const regras0 = ['<S>::=a<A>|b<A>', '<A>::=a<S>'];
             const regras1 = ['<S>::=a<A>|c<A>', '<A>::=a<S>'];
@@ -172,7 +172,7 @@ describe('ConstroiAutomato', function () {
                 ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 1);
             });
 
-            assert.deepEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
     });
@@ -188,34 +188,34 @@ describe('ConstroiAutomato', function () {
 
         it('cria estados normais e finais', function (done) {
             const automatoEsperado = {
-                S: { l: ['Palavra0_Estado1'] },
-                Palavra0_Estado1: { o: ['Palavra0_Estado2'] },
-                Palavra0_Estado2: { b: ['Palavra0_Estado3'] },
-                Palavra0_Estado3: { o: ['Palavra0_Estado4'] },
+                S: { l: new Set(['Palavra0_Estado1']) },
+                Palavra0_Estado1: { o: new Set(['Palavra0_Estado2']) },
+                Palavra0_Estado2: { b: new Set(['Palavra0_Estado3']) },
+                Palavra0_Estado3: { o: new Set(['Palavra0_Estado4']) },
                 Palavra0_Estado4: {}
             };
             const estadosFinaisEsperado = ['Palavra0_Estado4'];
 
             ConstroiAutomato.interpretaToken('lobo', automato, estadosFinais, 0);
-            assert.deepEqual(automato, automatoEsperado);
-            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
 
         it('cria indeterminização para tokens com a mesma letra inicial', function (done) {
             const automatoEsperado = {
-                S: { l: ['Palavra0_Estado1', 'Palavra1_Estado1'] },
-                Palavra0_Estado1: { o: ['Palavra0_Estado2'] },
+                S: { l: new Set(['Palavra0_Estado1', 'Palavra1_Estado1']) },
+                Palavra0_Estado1: { o: new Set(['Palavra0_Estado2']) },
                 Palavra0_Estado2: {},
-                Palavra1_Estado1: { a: ['Palavra1_Estado2'] },
+                Palavra1_Estado1: { a: new Set(['Palavra1_Estado2']) },
                 Palavra1_Estado2: {}
             };
             const estadosFinaisEsperado = ['Palavra0_Estado2', 'Palavra1_Estado2'];
 
             ConstroiAutomato.interpretaToken('lo', automato, estadosFinais, 0);
             ConstroiAutomato.interpretaToken('la', automato, estadosFinais, 1);
-            assert.deepEqual(automato, automatoEsperado);
-            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
     });
@@ -242,53 +242,53 @@ describe('ConstroiAutomato', function () {
         it('cria autômato finito não-determinístico corretamente', function (done) {
             const automatoEsperado = {
               S: {
-                s: ['Palavra0_Estado1', 'Palavra2_Estado1'],
-                a: ['A1', 'A3'],
-                e: ['A1', 'A3', 'Palavra4_Estado1'],
-                i: ['A1', 'B3'],
-                o: ['A1', 'A3'],
-                u: ['A1', 'B3'],
-                p: ['Palavra5_Estado1']
+                s: new Set(['Palavra0_Estado1', 'Palavra2_Estado1']),
+                a: new Set(['A1', 'A3']),
+                e: new Set(['A1', 'A3', 'Palavra4_Estado1']),
+                i: new Set(['A1', 'B3']),
+                o: new Set(['A1', 'A3']),
+                u: new Set(['A1', 'B3']),
+                p: new Set(['Palavra5_Estado1'])
               },
-              Palavra0_Estado1: { e: ['Palavra0_Estado2'] },
+              Palavra0_Estado1: { e: new Set(['Palavra0_Estado2']) },
               Palavra0_Estado2: {},
               A1: {
-                a: ['A1'],
-                e: ['A1'],
-                i: ['A1'],
-                o: ['A1'],
-                u: ['A1']
+                a: new Set(['A1']),
+                e: new Set(['A1']),
+                i: new Set(['A1']),
+                o: new Set(['A1']),
+                u: new Set(['A1'])
               },
-              Palavra2_Estado1: { e: ['Palavra2_Estado2'] },
-              Palavra2_Estado2: { n: ['Palavra2_Estado3'] },
-              Palavra2_Estado3: { a: ['Palavra2_Estado4'] },
-              Palavra2_Estado4: { o: ['Palavra2_Estado5'] },
+              Palavra2_Estado1: { e: new Set(['Palavra2_Estado2']) },
+              Palavra2_Estado2: { n: new Set(['Palavra2_Estado3']) },
+              Palavra2_Estado3: { a: new Set(['Palavra2_Estado4']) },
+              Palavra2_Estado4: { o: new Set(['Palavra2_Estado5']) },
               Palavra2_Estado5: {},
               A3: {
-                a: ['A3'],
-                e: ['B3'],
-                i: ['A3'],
-                o: ['A3'],
-                u: ['S']
+                a: new Set(['A3']),
+                e: new Set(['B3']),
+                i: new Set(['A3']),
+                o: new Set(['A3']),
+                u: new Set(['S'])
               },
               B3: {
-                a: ['A3'],
-                e: ['S'],
-                i: ['A3'],
-                o: ['A3'],
-                u: ['A3']
+                a: new Set(['A3']),
+                e: new Set(['S']),
+                i: new Set(['A3']),
+                o: new Set(['A3']),
+                u: new Set(['A3'])
               },
-              Palavra4_Estado1: { n: ['Palavra4_Estado2'] },
-              Palavra4_Estado2: { t: ['Palavra4_Estado3'] },
-              Palavra4_Estado3: { a: ['Palavra4_Estado4'] },
-              Palavra4_Estado4: { o: ['Palavra4_Estado5'] },
+              Palavra4_Estado1: { n: new Set(['Palavra4_Estado2']) },
+              Palavra4_Estado2: { t: new Set(['Palavra4_Estado3']) },
+              Palavra4_Estado3: { a: new Set(['Palavra4_Estado4']) },
+              Palavra4_Estado4: { o: new Set(['Palavra4_Estado5']) },
               Palavra4_Estado5: {},
-              Palavra5_Estado1: { e: ['Palavra5_Estado2'] },
+              Palavra5_Estado1: { e: new Set(['Palavra5_Estado2']) },
               Palavra5_Estado2: {}
             };
 
             ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
-            assert.deepEqual(automato, automatoEsperado);
+            assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
 
@@ -304,7 +304,7 @@ describe('ConstroiAutomato', function () {
             ];
 
             ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
-            assert.deepEqual(estadosFinais, estadosFinaisEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
     });
