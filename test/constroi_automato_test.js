@@ -11,7 +11,7 @@ describe('ConstroiAutomato', function () {
 
         beforeEach('Cria variáveis', function () {
             automato = {};
-            estadosFinais = [];
+            estadosFinais = new Set;
         });
 
         it('cria autômato finito não-determinístico corretamente e estados finais', function (done) {
@@ -72,7 +72,7 @@ describe('ConstroiAutomato', function () {
         });
 
         it('cria estados finais de autômato finito não determinístico', function (done) {
-            const estadosFinaisEsperado = [
+            const estadosFinaisEsperado = new Set([
                 'Palavra0_Estado2',
                 'A1',
                 'Palavra2_Estado5',
@@ -80,7 +80,7 @@ describe('ConstroiAutomato', function () {
                 'B3', 'A3',
                 'Palavra4_Estado5',
                 'Palavra5_Estado2'
-            ];
+            ]);
 
             ConstroiAutomato.execute(
                 automato,
@@ -98,7 +98,7 @@ describe('ConstroiAutomato', function () {
 
         beforeEach('Cria variáveis', function () {
             automato = {};
-            estadosFinais = [];
+            estadosFinais = new Set;
         });
 
         it('adiciona transição normal ao objeto de retorno', function (done) {
@@ -107,7 +107,7 @@ describe('ConstroiAutomato', function () {
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual([], estadosFinais);
+            assert.deepStrictEqual(new Set, estadosFinais);
             done();
         });
 
@@ -116,7 +116,7 @@ describe('ConstroiAutomato', function () {
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepStrictEqual({ A0: {} }, automato);
-            assert.deepStrictEqual(['A0'], estadosFinais);
+            assert.deepStrictEqual(new Set(['A0']), estadosFinais);
             done();
         });
 
@@ -131,7 +131,7 @@ describe('ConstroiAutomato', function () {
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(['TaA0'], estadosFinais);
+            assert.deepStrictEqual(new Set(['TaA0']), estadosFinais);
             done();
         });
 
@@ -144,7 +144,7 @@ describe('ConstroiAutomato', function () {
                 },
                 TbA0: {}
             };
-            const estadosFinaisEsperado = ['TbA0', 'A0'];
+            const estadosFinaisEsperado = new Set(['TbA0', 'A0']);
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
@@ -183,7 +183,7 @@ describe('ConstroiAutomato', function () {
 
         beforeEach('Cria variáveis', function () {
             automato = {};
-            estadosFinais = [];
+            estadosFinais = new Set;
         });
 
         it('cria estados normais e finais', function (done) {
@@ -194,7 +194,7 @@ describe('ConstroiAutomato', function () {
                 Palavra0_Estado3: { o: new Set(['Palavra0_Estado4']) },
                 Palavra0_Estado4: {}
             };
-            const estadosFinaisEsperado = ['Palavra0_Estado4'];
+            const estadosFinaisEsperado = new Set(['Palavra0_Estado4']);
 
             ConstroiAutomato.interpretaToken('lobo', automato, estadosFinais, 0);
             assert.deepStrictEqual(automato, automatoEsperado);
@@ -210,7 +210,7 @@ describe('ConstroiAutomato', function () {
                 Palavra1_Estado1: { a: new Set(['Palavra1_Estado2']) },
                 Palavra1_Estado2: {}
             };
-            const estadosFinaisEsperado = ['Palavra0_Estado2', 'Palavra1_Estado2'];
+            const estadosFinaisEsperado = new Set(['Palavra0_Estado2', 'Palavra1_Estado2']);
 
             ConstroiAutomato.interpretaToken('lo', automato, estadosFinais, 0);
             ConstroiAutomato.interpretaToken('la', automato, estadosFinais, 1);
@@ -236,7 +236,7 @@ describe('ConstroiAutomato', function () {
 
         beforeEach('Cria variáveis', function () {
             automato = {};
-            estadosFinais = [];
+            estadosFinais = new Set;
         });
 
         it('cria autômato finito não-determinístico corretamente', function (done) {
@@ -293,7 +293,7 @@ describe('ConstroiAutomato', function () {
         });
 
         it('cria estados finais de autômato finito não determinístico', function (done) {
-            const estadosFinaisEsperado = [
+            const estadosFinaisEsperado = new Set([
                 'Palavra0_Estado2',
                 'A1',
                 'Palavra2_Estado5',
@@ -301,7 +301,7 @@ describe('ConstroiAutomato', function () {
                 'B3', 'A3',
                 'Palavra4_Estado5',
                 'Palavra5_Estado2'
-            ];
+            ]);
 
             ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);

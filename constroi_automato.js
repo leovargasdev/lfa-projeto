@@ -72,7 +72,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
 
         // Se é epsilon transição, marca como estado final
         if (simboloTransicao === SIMBOLO_EPSILON) {
-            estadosFinais.push(estadoRegra);
+            estadosFinais.add(estadoRegra);
             return;
         }
 
@@ -81,7 +81,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
         // Se é só símbolo terminal, cria estado final
         if (!estadoTransicaoControle) {
             const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
-            estadosFinais.push(novoEstadoFinal);
+            estadosFinais.add(novoEstadoFinal);
             automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
             automato[novoEstadoFinal] = {};
             return;
@@ -126,7 +126,7 @@ const interpretaToken = (token, automato, estadosFinais, numeroControle) => {
         automato[estadoSeguinte] = {};
     });
 
-    estadosFinais.push(`Palavra${numeroControle}_Estado${caracteres.length}`)
+    estadosFinais.add(`Palavra${numeroControle}_Estado${caracteres.length}`)
 };
 
 module.exports = {

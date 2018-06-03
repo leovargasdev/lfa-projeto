@@ -6,7 +6,7 @@ const ConstroiAutomato = require('./constroi_automato');
 
 const CaminhoArquivo = 'arquivo.txt';
 const automato = {};
-const estadosFinais = [];
+const estadosFinais = new Set;
 
 ConstroiAutomato.execute(
     automato,
