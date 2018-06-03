@@ -70,8 +70,8 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
         const [_, simboloTransicao, estadoTransicao] = transicao.match(/(.)<?(.)?>?/);
         let estadoTransicaoControle = estadoTransicao; // A
 
-        // Se é epsilon transição, marca como estado final
-        if (simboloTransicao === SIMBOLO_EPSILON) {
+        // Se é epsilon transição e não tem símbolo não-terminal, marca como estado final
+        if (simboloTransicao === SIMBOLO_EPSILON && !estadoTransicaoControle) {
             estadosFinais.add(estadoRegra);
             return;
         }

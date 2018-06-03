@@ -1,7 +1,5 @@
-// const FileSystem = require('fs');
 let DEBUG_MODE = false;
 DEBUG_MODE = true;
-// const SIMBOLO_EPSILON = 'ε';
 const ConstroiAutomato = require('./constroi_automato');
 
 const CaminhoArquivo = 'arquivo.txt';

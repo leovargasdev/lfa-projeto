@@ -111,6 +111,21 @@ describe('ConstroiAutomato', function () {
             done();
         });
 
+        it('lida corretamente com epsilon produção', function (done) {
+            const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}<S>|${Constantes.SIMBOLO_EPSILON}<A>`;
+            const automatoEsperado = {
+                A0: {
+                    [Constantes.SIMBOLO_EPSILON]: new Set(['S', 'A0'])
+                }
+            };
+            console.log(regra);
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+
+            assert.deepStrictEqual(automatoEsperado, automato);
+            assert.deepStrictEqual(new Set(), estadosFinais);
+            done();
+        });
+
         it('marca como estado final quando há epsilon transição', function (done) {
             const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
