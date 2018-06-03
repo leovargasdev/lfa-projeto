@@ -2,7 +2,7 @@
 let DEBUG_MODE = false;
 DEBUG_MODE = true;
 // const SIMBOLO_EPSILON = 'ε';
-const ConstroiAutomatoFinito = require('./constroi_automato_finito');
+const ConstroiAutomato = require('./constroi_automato');
 
 const CaminhoArquivo = 'arquivo.txt';
 // class InterpretaArquivoArgumentsError extends Error {};
@@ -124,13 +124,29 @@ const CaminhoArquivo = 'arquivo.txt';
 // "Main" parte =======================================================
 // let arquivo;
 // let error;
-let automatoFinitoNaoDeterministico = {};
-let estadosFinais = [];
+const automato = {};
+const estadosFinais = [];
 
-[
-    automatoFinitoNaoDeterministico,
-    estadosFinais
-] = ConstroiAutomatoFinito.execute(CaminhoArquivo);
+ConstroiAutomato.execute(
+    automato,
+    estadosFinais,
+    CaminhoArquivo
+);
+
+// RemoveEpsilonProducoes.execute(
+//     automato,
+//     estadosFinais
+// );
+
+// DeterminizaAutomato.execute(
+//     automato,
+//     estadosFinais
+// );
+
+// MinimizaAutomato.execute(
+//     automato,
+//     estadosFinais
+// );
 
 // try {
 //     arquivo = FileSystem.readFileSync(CaminhoArquivo, 'utf8');
@@ -143,7 +159,7 @@ let estadosFinais = [];
 
 if (DEBUG_MODE) {
     console.log('=============================================');
-    console.log('Autômato Finito Não-Determinístico: ', automatoFinitoNaoDeterministico);
+    console.log('Autômato Finito Não-Determinístico: ', automato);
     console.log('=============================================');
     console.log('Estados Finais: ', estadosFinais);
     console.log('=============================================');

@@ -1,9 +1,9 @@
 const assert = require('assert');
-const ConstroiAutomatoFinito = require('../constroi_automato_finito');
+const ConstroiAutomato = require('../constroi_automato');
 const FileSystem = require('fs');
 const Constantes = require ('../constantes');
 
-describe('ConstroiAutomatoFinito', function () {
+describe('ConstroiAutomato', function () {
     describe('#interpretaRegra', function () {
         let automato;
         let estadosFinais;
@@ -16,7 +16,7 @@ describe('ConstroiAutomatoFinito', function () {
         it('adiciona transição normal ao objeto de retorno', function (done) {
             const regra = '<A>::=a<A>';
             const automatoEsperado = { A0: { a: ['A0'] } };
-            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual([], estadosFinais);
@@ -25,7 +25,7 @@ describe('ConstroiAutomatoFinito', function () {
 
         it('marca como estado final quando há epsilon transição', function (done) {
             const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
-            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual({ A0: {} }, automato);
             assert.deepEqual(['A0'], estadosFinais);
@@ -40,7 +40,7 @@ describe('ConstroiAutomatoFinito', function () {
                 },
                 TaA0: {}
             };
-            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(['TaA0'], estadosFinais);
@@ -57,7 +57,7 @@ describe('ConstroiAutomatoFinito', function () {
                 TbA0: {}
             };
             const estadosFinaisEsperado = ['TbA0', 'A0'];
-            ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
@@ -78,10 +78,10 @@ describe('ConstroiAutomatoFinito', function () {
             const regras1 = ['<S>::=a<A>|c<A>', '<A>::=a<S>'];
 
             regras0.forEach((regra) => {
-                ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 0);
+                ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
             });
             regras1.forEach((regra) => {
-                ConstroiAutomatoFinito.interpretaRegra(regra, automato, estadosFinais, 1);
+                ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 1);
             });
 
             assert.deepEqual(automato, automatoEsperado);
@@ -108,7 +108,7 @@ describe('ConstroiAutomatoFinito', function () {
             };
             const estadosFinaisEsperado = ['Palavra0_Estado4'];
 
-            ConstroiAutomatoFinito.interpretaToken('lobo', automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaToken('lobo', automato, estadosFinais, 0);
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -124,8 +124,8 @@ describe('ConstroiAutomatoFinito', function () {
             };
             const estadosFinaisEsperado = ['Palavra0_Estado2', 'Palavra1_Estado2'];
 
-            ConstroiAutomatoFinito.interpretaToken('lo', automato, estadosFinais, 0);
-            ConstroiAutomatoFinito.interpretaToken('la', automato, estadosFinais, 1);
+            ConstroiAutomato.interpretaToken('lo', automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaToken('la', automato, estadosFinais, 1);
             assert.deepEqual(automato, automatoEsperado);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -199,7 +199,7 @@ describe('ConstroiAutomatoFinito', function () {
               Palavra5_Estado2: {}
             };
 
-            ConstroiAutomatoFinito.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
             assert.deepEqual(automato, automatoEsperado);
             done();
         });
@@ -215,7 +215,7 @@ describe('ConstroiAutomatoFinito', function () {
                 'Palavra5_Estado2'
             ];
 
-            ConstroiAutomatoFinito.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
             assert.deepEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });

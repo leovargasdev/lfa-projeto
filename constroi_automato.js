@@ -2,11 +2,9 @@ const FileSystem = require('fs');
 // const DEBUG_MODE = false;
 const SIMBOLO_EPSILON = 'ε';
 
-const execute = (caminhoArquivo) => {
+const execute = (automato, estadosFinais, caminhoArquivo) => {
     let arquivo;
     let error;
-    const automatoFinitoNaoDeterministico = {};
-    const estadosFinais = [];
 
     try {
         arquivo = FileSystem.readFileSync(caminhoArquivo, 'utf8');
@@ -15,13 +13,8 @@ const execute = (caminhoArquivo) => {
             process.exitCode = 1;
     }
 
-    interpretaArquivo(arquivo, automatoFinitoNaoDeterministico, estadosFinais);
-
-    return [automatoFinitoNaoDeterministico, estadosFinais];
+    interpretaArquivo(arquivo, automato, estadosFinais);
 };
-
-const CaminhoArquivo = 'arquivo.txt';
-class InterpretaArquivoArgumentsError extends Error {};
 
 const interpretaArquivo = (arquivo, automato, estadosFinais) => {
     const linhasArquivo = arquivo.split('\n');
