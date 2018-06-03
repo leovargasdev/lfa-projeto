@@ -9,13 +9,8 @@ describe('RemoveEpsilonProducoes', function () {
             let automato;
             let estadosFinais;
 
-            beforeEach('reseta variáveis', function() {
-                automato = {};
-                estadosFinais = {};
-            });
-
             it ('resolve transições simples', function(done) {
-                const entrada = {
+                let entrada = {
                     S: {
                         [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
                         a: new Set(['D'])
@@ -38,12 +33,12 @@ describe('RemoveEpsilonProducoes', function () {
                     automato,
                     estadosFinais
                 );
-                assert.deepStrictEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
             it('resolve transições para o próprio estado', function(done) {
-                const entrada = {
+                let entrada = {
                     S: {
                         [Constantes.SIMBOLO_EPSILON]: new Set(['S']),
                         a: new Set(['D'])
@@ -57,15 +52,15 @@ describe('RemoveEpsilonProducoes', function () {
                 };
 
                 RemoveEpsilonProducoes.execute(
-                    automato,
+                    entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
             it('resolve transições duplas', function(done) {
-                const entrada = {
+                let entrada = {
                     S: {
                         [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
                         e: new Set(['E']),
@@ -89,6 +84,7 @@ describe('RemoveEpsilonProducoes', function () {
                         c: new Set(['C']),
                         d: new Set(['D']),
                         e: new Set(['E']),
+                        f: new Set(['F']),
                       },
                     A: {
                         c: new Set(['C']),
@@ -106,15 +102,15 @@ describe('RemoveEpsilonProducoes', function () {
                 };
 
                 RemoveEpsilonProducoes.execute(
-                    automato,
+                    entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
             it('resolve transições triplas', function(done) {
-                const entrada = {
+                let entrada = {
                     S: {
                         [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
                         e: new Set(['E']),
@@ -137,16 +133,17 @@ describe('RemoveEpsilonProducoes', function () {
 
                 const automatoEsperado = {
                     S: {
+                        e: new Set(['E']),
                         c: new Set(['C']),
                         d: new Set(['D']),
-                        e: new Set(['E']),
                         h: new Set(['H']),
+                        f: new Set(['F']),
                       },
                     A: {
                         c: new Set(['C']),
                         d: new Set(['D']),
-                        f: new Set(['F']),
                         h: new Set(['H']),
+                        f: new Set(['F']),
                     },
                     B: {
                         c: new Set(['C']),
@@ -157,19 +154,19 @@ describe('RemoveEpsilonProducoes', function () {
                     D: {},
                     E: {},
                     F: {},
-                    G: {}
+                    G: { h: new Set(['H']) }
                 };
 
                 RemoveEpsilonProducoes.execute(
-                    automato,
+                    entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
             it('resolve quando há indeterminismo na epsilon produção', function(done) {
-                const entrada = {
+                let entrada = {
                     S: {
                         [Constantes.SIMBOLO_EPSILON]: new Set(['A', 'C']),
                     },
@@ -191,10 +188,10 @@ describe('RemoveEpsilonProducoes', function () {
                 };
 
                 RemoveEpsilonProducoes.execute(
-                    automato,
+                    entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(automato, automatoEsperado);
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
         });
