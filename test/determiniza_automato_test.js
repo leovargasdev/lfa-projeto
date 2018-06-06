@@ -7,15 +7,15 @@ describe('DeterminizaAutomato', function() {
         it('cria estado a partir de indeterminização', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
                 B: {},
                 BB: {},
             };
-            const estadosFinais = [];
+            const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: ['BBB']
+                    b: new Set(['BBB']),
                 },
                 B: {},
                 BB: {},
@@ -34,15 +34,15 @@ describe('DeterminizaAutomato', function() {
         it('não remove estados', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
                 B: {},
                 BB: {},
             };
-            const estadosFinais = [];
+            const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: ['BBB']
+                    b: new Set(['BBB']),
                 },
                 B: {},
                 BB: {},
@@ -61,73 +61,73 @@ describe('DeterminizaAutomato', function() {
         it('adiciona novo estado aos estados finais se o primeiro dos estados mesclados for final', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
                 B: {},
                 BB: {},
             };
-            let estadosFinais = ['B'];
+            let estadosFinais = new Set(['B']);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, ['B', 'BBB']);
+            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BBB']));
             done();
         });
 
         it('adiciona novo estado aos estados finais se o segundo dos estados mesclados for final', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
                 B: {},
                 BB: {},
             };
-            let estadosFinais = ['BB'];
+            let estadosFinais = new Set(['BB']);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, ['BB', 'BBB']);
+            assert.deepStrictEqual(estadosFinais, new Set(['BB', 'BBB']));
             done();
         });
 
         it('adiciona novo estado aos estados finais se ambos estados mesclados forem finais', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
                 B: {},
                 BB: {},
             };
-            let estadosFinais = ['B', 'BB'];
+            let estadosFinais = new Set(['B', 'BB']);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, ['B', 'BB', 'BBB']);
+            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BB', 'BBB']));
             done();
         });
 
         it('mescla corretamente 3 estados sem transições', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB', 'BBB']
+                    b: new Set(['B', 'BB', 'BBB']),
                 },
                 B: {},
                 BB: {},
                 BBB: {},
             };
-            let estadosFinais = ['B', 'BB', 'BBB'];
+            let estadosFinais = new Set(['B', 'BB', 'BBB']);
             const automatoEsperado = {
                 A: {
-                    b: ['BBBBBB']
+                    b: new Set(['BBBBBB']),
                 },
                 B: {},
                 BB: {},
@@ -141,30 +141,30 @@ describe('DeterminizaAutomato', function() {
             )
 
             assert.deepStrictEqual(entrada, automatoEsperado);
-            assert.deepStrictEqual(estadosFinais, ['B', 'BB', 'BBB', 'BBBBBB']);
+            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BB', 'BBB', 'BBBBBB']));
             done();
         });
 
         it('adiciona as transições dos velhos estados ao novo estado', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB']),
                 },
-                B: { c: ['C'] },
-                BB: { cc: ['CC'] },
+                B: { c: new Set(['C']) },
+                BB: { cc: new Set(['CC']) },
                 C: {},
                 CC: {},
             };
-            const estadosFinais = [];
+            const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: ['BBB']
+                    b: new Set(['BBB'])
                 },
-                B: { c: ['C'] },
-                BB: { cc: ['CC'] },
+                B: { c: new Set(['C']) },
+                BB: { cc: new Set(['CC']) },
                 BBB: {
-                    c: ['C'],
-                    cc: ['CC'],
+                    c: new Set(['C']),
+                    cc: new Set(['CC']),
                 },
                 C: {},
                 CC: {},
@@ -182,21 +182,21 @@ describe('DeterminizaAutomato', function() {
         it('adiciona transições únicas ao novo estado', function(done) {
             let entrada = {
                 A: {
-                    b: ['B', 'BB']
+                    b: new Set(['B', 'BB'])
                 },
-                B: { c: ['C'] },
-                BB: { c: ['C'] },
+                B: { c: new Set(['C']) },
+                BB: { c: new Set(['C']) },
                 C: {},
             };
-            const estadosFinais = [];
+            const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: ['BBB']
+                    b: new Set(['BBB'])
                 },
-                B: { c: ['C'] },
-                BB: { cc: ['CC'] },
+                B: { c: new Set(['C']) },
+                BB: { cc: new Set(['CC']) },
                 BBB: {
-                    c: ['C'],
+                    c: new Set(['C']),
                 },
                 C: {},
             };
