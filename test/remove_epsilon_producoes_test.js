@@ -194,6 +194,60 @@ describe('RemoveEpsilonProducoes', function () {
                 assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
+
+            it('adiciona estado de origem aos estados finais se o estado de destino estiver', function(done) {
+                let entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                    },
+                    A: {},
+                };
+                let estadosFinais = ['A'];
+                RemoveEpsilonProducoes.execute(
+                    entrada,
+                    estadosFinais
+                    );
+                assert.deepStrictEqual(estadosFinais, ['A', 'S']);
+            });
+
+            it('adiciona estado de origem aos estados finais se o estado de destino estiver (nível 2)', function(done) {
+                let entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                    },
+                    A: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['B']),
+                    },
+                    B: {},
+                };
+                let estadosFinais = ['B'];
+                RemoveEpsilonProducoes.execute(
+                    entrada,
+                    estadosFinais
+                    );
+                assert.deepStrictEqual(estadosFinais, ['B', 'A', 'S']);
+            });
+
+            it('adiciona estado de origem aos estados finais se o estado de destino estiver (nível 3)', function(done) {
+                let entrada = {
+                    S: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['A']),
+                    },
+                    A: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['B']),
+                    },
+                    B: {
+                        [Constantes.SIMBOLO_EPSILON]: new Set(['C']),
+                    },
+                    C: {},
+                };
+                let estadosFinais = ['C'];
+                RemoveEpsilonProducoes.execute(
+                    entrada,
+                    estadosFinais
+                    );
+                assert.deepStrictEqual(estadosFinais, ['C', 'B', 'A', 'S']);
+            });
         });
     });
 
