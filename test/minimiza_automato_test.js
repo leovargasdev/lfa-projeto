@@ -1,6 +1,7 @@
 const assert = require('assert');
 const MinimizaAutomato = require('../minimiza_automato');
 const Constantes = require ('../constantes');
+const GeralTest = require('./geral_test');
 
 describe('MinimizaAutomato', function() {
     describe('#removeEstadosInalcancaveis', function() {
@@ -21,7 +22,7 @@ describe('MinimizaAutomato', function() {
                 S: {},
             };
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
         });
 
@@ -39,7 +40,7 @@ describe('MinimizaAutomato', function() {
                 estadosFinais
             );
 
-            assert.deepStrictEqual(estadosFinais, new Set);
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set));
             done();
         });
 
@@ -58,7 +59,7 @@ describe('MinimizaAutomato', function() {
                 estadosFinais
             );
 
-            assert.deepStrictEqual(estadosFinais, new Set(['Z']));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['Z'])));
             done();
         });
     });

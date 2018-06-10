@@ -1,6 +1,9 @@
 const assert = require('assert');
 const DeterminizaAutomato = require('../determiniza_automato');
 const Constantes = require ('../constantes');
+const GeralTest = require('./geral_test');
+
+const juntaEstados = arrayEstados => arrayEstados.join(Constantes.SIMBOLO_SEPARADOR);
 
 describe('DeterminizaAutomato', function() {
     describe('#execute', function () {
@@ -19,7 +22,7 @@ describe('DeterminizaAutomato', function() {
                 },
                 B: {},
                 BB: {},
-                BBB: {},
+                [juntaEstados(['B', 'BB'])]: {},
             };
 
             DeterminizaAutomato.execute(
@@ -27,7 +30,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
         });
 
@@ -46,7 +49,7 @@ describe('DeterminizaAutomato', function() {
                 },
                 B: {},
                 BB: {},
-                BBB: {},
+                [juntaEstados(['B', 'BB'])]: {},
             };
 
             DeterminizaAutomato.execute(
@@ -54,7 +57,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
         });
 
@@ -67,13 +70,14 @@ describe('DeterminizaAutomato', function() {
                 BB: {},
             };
             let estadosFinais = new Set(['B']);
+            const estadosFinaisEsperado = new Set(['B', juntaEstados(['B', 'BB'])]);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BBB']));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
 
@@ -92,7 +96,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, new Set(['BB', 'BBB']));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['BB', 'B#BB'])));
             done();
         });
 
@@ -105,13 +109,14 @@ describe('DeterminizaAutomato', function() {
                 BB: {},
             };
             let estadosFinais = new Set(['B', 'BB']);
+            const estadosFinaisEsperado = new Set(['B', 'BB', 'B#BB', juntaEstados(['B', 'BB'])]);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BB', 'BBB']));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
 
@@ -127,21 +132,22 @@ describe('DeterminizaAutomato', function() {
             let estadosFinais = new Set(['B', 'BB', 'BBB']);
             const automatoEsperado = {
                 A: {
-                    b: new Set(['BBBBBB']),
+                    b: new Set(['B#BB#BBB']),
                 },
                 B: {},
                 BB: {},
                 BBB: {},
-                BBBBBB: {},
+                [juntaEstados(['B', 'BB', 'BBB'])]: {},
             };
+            const estadosFinaisEsperado = new Set(['B', 'BB', 'BBB', juntaEstados(['B', 'BB', 'BBB'])]);
 
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
             )
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
-            assert.deepStrictEqual(estadosFinais, new Set(['B', 'BB', 'BBB', 'BBBBBB']));
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
 
@@ -158,11 +164,11 @@ describe('DeterminizaAutomato', function() {
             const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: new Set(['BBB'])
+                    b: new Set(['B#BB'])
                 },
                 B: { c: new Set(['C']) },
                 BB: { cc: new Set(['CC']) },
-                BBB: {
+                [juntaEstados(['B', 'BB'])]: {
                     c: new Set(['C']),
                     cc: new Set(['CC']),
                 },
@@ -175,7 +181,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
         });
 
@@ -191,11 +197,11 @@ describe('DeterminizaAutomato', function() {
             const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: new Set(['BBB'])
+                    b: new Set(['B#BB'])
                 },
                 B: { c: new Set(['C']) },
-                BB: { cc: new Set(['CC']) },
-                BBB: {
+                BB: { c: new Set(['C']) },
+                [juntaEstados(['B', 'BB'])]: {
                     c: new Set(['C']),
                 },
                 C: {},
@@ -206,7 +212,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
         });
     });

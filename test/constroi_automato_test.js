@@ -2,6 +2,7 @@ const assert = require('assert');
 const ConstroiAutomato = require('../constroi_automato');
 const FileSystem = require('fs');
 const Constantes = require ('../constantes');
+const GeralTest = require('./geral_test');
 
 describe('ConstroiAutomato', function () {
     describe('#execute', function() {
@@ -67,7 +68,7 @@ describe('ConstroiAutomato', function () {
                 estadosFinais,
                 "./test/test_arquivo_exemplo.in"
             );
-            assert.deepStrictEqual(automato, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
             done();
         });
 
@@ -87,7 +88,7 @@ describe('ConstroiAutomato', function () {
                 estadosFinais,
                 "./test/test_arquivo_exemplo.in"
             );
-            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
     });
@@ -106,8 +107,8 @@ describe('ConstroiAutomato', function () {
             const automatoEsperado = { A0: { a: new Set(['A0']) } };
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(new Set, estadosFinais);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(new Set, estadosFinais));
             done();
         });
 
@@ -121,8 +122,8 @@ describe('ConstroiAutomato', function () {
             console.log(regra);
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepStrictEqual(automatoEsperado, automato);
-            assert.deepStrictEqual(new Set(), estadosFinais);
+            assert(GeralTest.testaIgualdadeObjeto(automatoEsperado, automato));
+            assert(GeralTest.testaIgualdadeObjeto(new Set(), estadosFinais));
             done();
         });
 
@@ -130,8 +131,8 @@ describe('ConstroiAutomato', function () {
             const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepStrictEqual({ A0: {} }, automato);
-            assert.deepStrictEqual(new Set(['A0']), estadosFinais);
+            assert(GeralTest.testaIgualdadeObjeto({ A0: {} }, automato));
+            assert(GeralTest.testaIgualdadeObjeto(new Set(['A0']), estadosFinais));
             done();
         });
 
@@ -145,8 +146,8 @@ describe('ConstroiAutomato', function () {
             };
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(new Set(['TaA0']), estadosFinais);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(new Set(['TaA0']), estadosFinais));
             done();
         });
 
@@ -162,8 +163,8 @@ describe('ConstroiAutomato', function () {
             const estadosFinaisEsperado = new Set(['TbA0', 'A0']);
             ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
 
-            assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
 
@@ -187,7 +188,7 @@ describe('ConstroiAutomato', function () {
                 ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 1);
             });
 
-            assert.deepStrictEqual(automato, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
             done();
         });
     });
@@ -212,8 +213,8 @@ describe('ConstroiAutomato', function () {
             const estadosFinaisEsperado = new Set(['Palavra0_Estado4']);
 
             ConstroiAutomato.interpretaToken('lobo', automato, estadosFinais, 0);
-            assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
 
@@ -229,8 +230,8 @@ describe('ConstroiAutomato', function () {
 
             ConstroiAutomato.interpretaToken('lo', automato, estadosFinais, 0);
             ConstroiAutomato.interpretaToken('la', automato, estadosFinais, 1);
-            assert.deepStrictEqual(automato, automatoEsperado);
-            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
     });
@@ -303,7 +304,7 @@ describe('ConstroiAutomato', function () {
             };
 
             ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
-            assert.deepStrictEqual(automato, automatoEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
             done();
         });
 
@@ -319,7 +320,7 @@ describe('ConstroiAutomato', function () {
             ]);
 
             ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
-            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
+            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
             done();
         });
     });

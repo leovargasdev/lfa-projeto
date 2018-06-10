@@ -1,6 +1,7 @@
 const assert = require('assert');
 const RemoveEpsilonProducoes = require('../remove_epsilon_producoes');
 const Constantes = require ('../constantes');
+const GeralTest = require('./geral_test');
 
 describe('RemoveEpsilonProducoes', function () {
     describe('#execute', function() {
@@ -38,7 +39,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(entrada, automatoEsperado);
+                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
                 done();
             });
 
@@ -60,7 +61,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(entrada, automatoEsperado);
+                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
                 done();
             });
 
@@ -110,7 +111,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(entrada, automatoEsperado);
+                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
                 done();
             });
 
@@ -166,7 +167,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(entrada, automatoEsperado);
+                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
                 done();
             });
 
@@ -196,7 +197,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert.deepStrictEqual(entrada, automatoEsperado);
+                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
                 done();
             });
 
@@ -213,7 +214,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, new Set(['A', 'S']));
+                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['A', 'S'])));
                     done();
                 });
 
@@ -232,7 +233,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, new Set(['B', 'A', 'S']));
+                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['B', 'A', 'S'])));
                     done();
                 });
 
@@ -254,7 +255,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, new Set(['C', 'B', 'A', 'S']));
+                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['C', 'B', 'A', 'S'])));
                     done();
                 });
             });
