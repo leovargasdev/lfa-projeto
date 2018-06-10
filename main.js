@@ -76,3 +76,5 @@ if (IMPRIME_AUTOMATO_FINAL) {
         'Resultado final'
     );
 }
+
+// AdicionaEstadoErro.execute(automato, estadosFinais);

@@ -1,4 +1,4 @@
-const removeEstadosInalcancaveis = (automato, estadosFinais) => {
+const execute = (automato, estadosFinais) => {
     removeEstadosInalcancaveis(automato, estadosFinais);
     removeEstadosMortos(automato, estadosFinais);
 };
@@ -51,5 +51,7 @@ const removeEstadosMortos = (automato, estadosFinais) => {
 };
 
 module.exports = {
-    removeEstadosInalcancaveis
+    removeEstadosInalcancaveis,
+    removeEstadosMortos,
+    execute
 };
