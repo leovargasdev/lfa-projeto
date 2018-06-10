@@ -7,7 +7,12 @@ describe('RemoveEpsilonProducoes', function () {
         // Se A Epsilon→ B e B a→ C, então A a→ C
         describe('adiciona as transições do estado destino às transições do estado origem', function () {
             let automato;
-            let estadosFinais;
+            let estadosFinais = new Set;
+
+            beforeEach('reseta variáveis', function () {
+                automato = {};
+                estadosFinais = new Set;
+            });
 
             it ('resolve transições simples', function(done) {
                 let entrada = {
@@ -30,7 +35,7 @@ describe('RemoveEpsilonProducoes', function () {
                 };
 
                 RemoveEpsilonProducoes.execute(
-                    automato,
+                    entrada,
                     estadosFinais
                 );
                 assert.deepStrictEqual(entrada, automatoEsperado);
@@ -203,12 +208,13 @@ describe('RemoveEpsilonProducoes', function () {
                         },
                         A: {},
                     };
-                    let estadosFinais = ['A'];
+                    let estadosFinais = new Set(['A']);
                     RemoveEpsilonProducoes.execute(
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, ['A', 'S']);
+                    assert.deepStrictEqual(estadosFinais, new Set(['A', 'S']));
+                    done();
                 });
 
                 it('nível 2', function(done) {
@@ -221,12 +227,13 @@ describe('RemoveEpsilonProducoes', function () {
                         },
                         B: {},
                     };
-                    let estadosFinais = ['B'];
+                    let estadosFinais = new Set(['B']);
                     RemoveEpsilonProducoes.execute(
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, ['B', 'A', 'S']);
+                    assert.deepStrictEqual(estadosFinais, new Set(['B', 'A', 'S']));
+                    done();
                 });
 
                 it('nível 3', function(done) {
@@ -242,12 +249,13 @@ describe('RemoveEpsilonProducoes', function () {
                         },
                         C: {},
                     };
-                    let estadosFinais = ['C'];
+                    let estadosFinais = new Set(['C']);
                     RemoveEpsilonProducoes.execute(
                         entrada,
                         estadosFinais
                         );
-                    assert.deepStrictEqual(estadosFinais, ['C', 'B', 'A', 'S']);
+                    assert.deepStrictEqual(estadosFinais, new Set(['C', 'B', 'A', 'S']));
+                    done();
                 });
             });
         });

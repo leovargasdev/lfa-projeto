@@ -1,34 +1,43 @@
 const Constantes = require('./constantes');
 
+/** Para efeitos de entendimento:
+* estado origem: Estado que possui a Epsilon produção
+* estado destino: Estado que é alcançado pegando a epsilon produção a partir do estado origem
+*/
 const execute = (automato, estadosFinais) => {
     let changed = true;
 
     while (changed) {
         changed = false;
-        for (const estado in automato) {
-            const transicoesEpsilon = automato[estado][Constantes.SIMBOLO_EPSILON];
+        for (const estadoOrigem in automato) {
+            const transicoesEpsilon = automato[estadoOrigem][Constantes.SIMBOLO_EPSILON];
 
             // Se não tem transição por epsilon, pula
             if (!transicoesEpsilon || transicoesEpsilon.size == 0) {
                 continue;
             }
 
-            // Pega todos os estados que são o destino da epsilon transição
-            transicoesEpsilon.forEach((estadoTransicao) => {
+            // Pega todos os estados destinos da epsilon transição
+            transicoesEpsilon.forEach((estadoDestino) => {
 
                 // Pega as transições do estado destino para adicionar ao estado origem
-                for (const transicao in automato[estadoTransicao]) {
-                    automato[estadoTransicao][transicao].forEach((estadoVizinhoEstadoTransicao) => {
+                for (const transicao in automato[estadoDestino]) {
+                    automato[estadoDestino][transicao].forEach((estadoVizinhoEstadoTransicao) => {
 
-                        // O estado pode não ter transições por esse símbolo terminal
-                        automato[estado][transicao] = automato[estado][transicao] || new Set;
+                        // Inicializa a transição caso esta não exista
+                        automato[estadoOrigem][transicao] = automato[estadoOrigem][transicao] || new Set;
 
-                        if (!automato[estado][transicao].has(estadoVizinhoEstadoTransicao)) {
-                            changed = true; // Marca alteração para dar iterar novamente
-                            automato[estado][transicao].add(estadoVizinhoEstadoTransicao);
+                        if (!automato[estadoOrigem][transicao].has(estadoVizinhoEstadoTransicao)) {
+                            changed = true; // Marca alteração para iterar novamente
+                            automato[estadoOrigem][transicao].add(estadoVizinhoEstadoTransicao);
                         }
                     });
                 };
+
+                // Adiciona estado origem aos estados finais caso o estado destino seja final
+                if (estadosFinais.has(estadoDestino)) {
+                    estadosFinais.add(estadoOrigem);
+                }
             });
         };
     };
