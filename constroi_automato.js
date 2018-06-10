@@ -1,6 +1,5 @@
 const FileSystem = require('fs');
-// const DEBUG_MODE = false;
-const SIMBOLO_EPSILON = 'ε';
+const Constantes = require('./constantes');
 
 const execute = (automato, estadosFinais, caminhoArquivo) => {
     let arquivo;
@@ -71,7 +70,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
         let estadoTransicaoControle = estadoTransicao; // A
 
         // Se é epsilon transição e não tem símbolo não-terminal, marca como estado final
-        if (simboloTransicao === SIMBOLO_EPSILON && !estadoTransicaoControle) {
+        if (simboloTransicao === Constantes.SIMBOLO_EPSILON && !estadoTransicaoControle) {
             estadosFinais.add(estadoRegra);
             return;
         }
