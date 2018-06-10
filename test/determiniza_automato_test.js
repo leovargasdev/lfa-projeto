@@ -18,7 +18,7 @@ describe('DeterminizaAutomato', function() {
             const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: new Set(['BBB']),
+                    b: new Set(['B#BB']),
                 },
                 B: {},
                 BB: {},
@@ -28,7 +28,7 @@ describe('DeterminizaAutomato', function() {
             DeterminizaAutomato.execute(
                 entrada,
                 estadosFinais
-            )
+            );
 
             assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
             done();
@@ -45,7 +45,7 @@ describe('DeterminizaAutomato', function() {
             const estadosFinais = new Set;
             const automatoEsperado = {
                 A: {
-                    b: new Set(['BBB']),
+                    b: new Set(['B#BB']),
                 },
                 B: {},
                 BB: {},
