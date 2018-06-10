@@ -39,7 +39,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
@@ -61,7 +61,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
@@ -111,7 +111,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
@@ -167,7 +167,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
@@ -197,7 +197,7 @@ describe('RemoveEpsilonProducoes', function () {
                     entrada,
                     estadosFinais
                 );
-                assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+                assert.deepStrictEqual(entrada, automatoEsperado);
                 done();
             });
 
@@ -214,7 +214,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['A', 'S'])));
+                    assert.deepStrictEqual(estadosFinais, new Set(['A', 'S']));
                     done();
                 });
 
@@ -233,7 +233,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['B', 'A', 'S'])));
+                    assert.deepStrictEqual(estadosFinais, new Set(['B', 'A', 'S']));
                     done();
                 });
 
@@ -255,7 +255,7 @@ describe('RemoveEpsilonProducoes', function () {
                         entrada,
                         estadosFinais
                         );
-                    assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['C', 'B', 'A', 'S'])));
+                    assert.deepStrictEqual(estadosFinais, new Set(['C', 'B', 'A', 'S']));
                     done();
                 });
             });

@@ -30,7 +30,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             );
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -57,7 +57,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -77,7 +77,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
 
@@ -96,7 +96,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['BB', 'B#BB'])));
+            assert.deepStrictEqual(estadosFinais, new Set(['BB', 'B#BB']));
             done();
         });
 
@@ -116,7 +116,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
 
@@ -146,8 +146,8 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, estadosFinaisEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
 
@@ -181,7 +181,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -212,7 +212,7 @@ describe('DeterminizaAutomato', function() {
                 estadosFinais
             )
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
     });

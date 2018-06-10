@@ -32,7 +32,7 @@ describe('MinimizaAutomato', function() {
                 próprio: {},
             };
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
     });
@@ -55,7 +55,7 @@ describe('MinimizaAutomato', function() {
                 S: {},
             };
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -73,7 +73,7 @@ describe('MinimizaAutomato', function() {
                 estadosFinais
             );
 
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set));
+            assert.deepStrictEqual(estadosFinais, new Set);
             done();
         });
 
@@ -92,7 +92,7 @@ describe('MinimizaAutomato', function() {
                 estadosFinais
             );
 
-            assert(GeralTest.testaIgualdadeObjeto(estadosFinais, new Set(['Z'])));
+            assert.deepStrictEqual(estadosFinais, new Set(['Z']));
             done();
         });
     });
@@ -119,7 +119,7 @@ describe('MinimizaAutomato', function() {
 
             MinimizaAutomato.removeEstadosMortos(entrada, estadosFinais);
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -140,7 +140,7 @@ describe('MinimizaAutomato', function() {
 
             // MinimizaAutomato.removeEstadosMortos(automato, estadosFinais);
 
-            // assert(GeralTest.testaIgualdadeObjeto(automato, automatoEsperado));
+            // assert.deepStrictEqual(automato, automatoEsperado);
             // done();
         });
 
@@ -169,7 +169,7 @@ describe('MinimizaAutomato', function() {
 
             MinimizaAutomato.removeEstadosMortos(entrada, estadosFinais);
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
 
@@ -195,7 +195,7 @@ describe('MinimizaAutomato', function() {
 
             MinimizaAutomato.removeEstadosMortos(entrada, estadosFinais);
 
-            assert(GeralTest.testaIgualdadeObjeto(entrada, automatoEsperado));
+            assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
     });

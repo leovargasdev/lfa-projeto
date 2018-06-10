@@ -9,6 +9,7 @@ const imprimeObjetos = (o1, o2, imprime) => {
 
 
 const testaIgualdadeSets = (s1, s2, imprime) => {
+    return false; // Essa função foi criada pra testar objetos porque o deepStrictEqual não testava direito, mas depois descobri que era um bug do node na versão 6. Na versão 10 não tem mais esse problema.
     if (s1.size != s2.size) { return imprimeObjetos(s1, s2, imprime); }
 
     const s1Elementos = Array.from(s1);
@@ -20,6 +21,7 @@ const testaIgualdadeSets = (s1, s2, imprime) => {
 };
 
 const testaIgualdadeObjeto = (o1, o2, imprime = true) => {
+    return false; // Essa função foi criada pra testar objetos porque o deepStrictEqual não testava direito, mas depois descobri que era um bug do node na versão 6. Na versão 10 não tem mais esse problema.
     // quando está testando os estadosFinais
     if (o1.constructor.name == 'Set' && o2.constructor.name == 'Set') {
         return testaIgualdadeSets(o1, o2);
@@ -64,12 +66,12 @@ describe('Testes gerais', function() {
             },
         };
 
-        assert.deepStrictEqual(o1, o2, 'Se os objetos acusarem diferença, não precisa mais desse arquivo, pois ele foi criado porque o deepStrictEqual não pegava a diferença de valores dentro dos sets');
+        assert.notDeepStrictEqual(o1, o2, 'Se os objetos acusarem diferença, precisa usar a comparação desse arquivo, pois o deepStrictEqual não pega a diferença de valores dentro dos sets');
         done();
     });
 
 
-    describe('#testaIgualdadeObjeto', function() {
+    describe.skip('#testaIgualdadeObjeto', function() {
         it('Deve testar corretamente um autômato', function(done) {
             const objetoPadrao = {
                 A: {
@@ -97,7 +99,7 @@ describe('Testes gerais', function() {
         });
     });
 
-    describe('#testaIgualdadeSets', function () {
+    describe.skip('#testaIgualdadeSets', function () {
         it('retorna true para sets iguais', function(done) {
             assert(testaIgualdadeSets(new Set([1, 2, 3]), new Set([1, 2, 3])));
             done();
