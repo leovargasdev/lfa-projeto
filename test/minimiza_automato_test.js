@@ -224,5 +224,49 @@ describe('MinimizaAutomato', function() {
             assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
+
+        it('caso de borda: estado não-morto na pilha de recursão da busca', function(done) {
+            let entrada = {
+                S: {
+                    a: new Set(['naoMortoA']),
+                },
+                naoMortoA: {
+                    b: new Set(['naoMortoB']),
+                    d: new Set(['mortoD']),
+                },
+                naoMortoB: {
+                    c: new Set(['naoMortoC'])
+                },
+                naoMortoC: {
+                    a: new Set(['naoMortoA']),
+                },
+                mortoD: {
+                    e: new Set(['mortoE']),
+                },
+                mortoE: {
+                    d: new Set(['mortoD']),
+                },
+            };
+            let estadosFinais = new Set(['naoMortoB']);
+            const automatoEsperado = {
+                S: {
+                    a: new Set(['naoMortoA']),
+                },
+                naoMortoA: {
+                    b: new Set(['naoMortoB']),
+                },
+                naoMortoB: {
+                    c: new Set(['naoMortoC'])
+                },
+                naoMortoC: {
+                    a: new Set(['naoMortoA']),
+                },
+            };
+
+            MinimizaAutomato.removeEstadosMortos(entrada, estadosFinais);
+
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            done();
+        });
     });
 });

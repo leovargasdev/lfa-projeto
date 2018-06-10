@@ -1,68 +1,85 @@
-const estadosVisitados = new Set;
-
 const execute = (automato, estadosFinais) => {
     removeEstadosInalcancaveis(automato, estadosFinais);
     removeEstadosMortos(automato, estadosFinais);
 };
 
 const removeEstadosInalcancaveis = (automato, estadosFinais) => {
-    buscaProfundidadePadrao('S', automato);
+    const estadosVisitados = new Set;
+    buscaProfundidadePadrao('S', automato, estadosVisitados);
     for (const estado in automato) {
         if (!estadosVisitados.has(estado)) {
-            delete automato[estado];
-            estadosFinais.delete(estado);
+            removeEstado(estado, automato, estadosFinais);
         }
     }
 };
 
-const buscaProfundidadePadrao = (estadoAtual, automato) => {
-    estadosVisitados.add(estadoAtual);
-    for (const transacao in automato[estadoAtual]) {
-        const simboloVizinho = automato[estadoAtual][transacao].values().next().value;
-        if (!estadosVisitados.has(simboloVizinho)) {
-            buscaProfundidadePadrao(simboloVizinho, automato);
-        }
-    }
-}
-
 const removeEstadosMortos = (automato, estadosFinais) => {
-    /** Sugestão de implementação (Avaliar se é boa):
-    * Rodar uma DFS do tipo:
-    const dfs = (estadoAtual, pilhaVisitacao, automato, estadosFinais, estadosMortos) => {
-        let achouCaminhoNaoMorto = false;
+    const estadosMortos = new Set;
+    for(const estado in automato) {
+        let estadoMorto;
 
-        // Se é um estado final, então siginifica que o caminho que chegou até o
-        // estadoAtual não é um caminho morto
-        // if (estadosFinais.has(estadoatual)) return true;
+        estadoMorto = checaEstadoMorto(estado, automato, estadosFinais, []);
 
-        // Se estado atual está na pilha de visitacao, significa que a DFS já
-        // passou por ele e ainda não achou um estado final, portanto esse CAMINHO
-        // é morto
-        if (pilhaVisitacao.indexOf(estadoAtual) >= 0) { return false; }
+        if (estadoMorto) { estadosMortos.add(estado); }
 
-        // Se o estado atual já está adicionado aos estados mortos, não vale a
-        // pena recomputar as condições.
-        if (estadosMortos.indexOf(estadoAtual) >= 0) { return false; }
-
-        // Para cada "vizinho" do estado, chamar a DFS e guardar o resultado na
-        // variável booleana.
-        for (const vizinho of automato[estadoAtual]) {
-            achouCaminhoNaoMorto |= dfs(
-                vizinho,
-                [..pilhaVisitacao, estadoAtual],
-                automato,
-                estadosFinais,
-                estadosMortos
-            );
-        }
-
-        // Se nenhum dos caminhos a partir do estadoAtual é um caminho não morto,
-        // o estadoAtual é adicionado ao vetor de estadosMortos
-        if (!achouCaminhoNaoMorto) { estadosMortos.add(estadoAtual); }
-
-        return achouCaminhoNaoMorto;
     }
-    */
+
+    for (const estado of estadosMortos) {
+        removeEstado(estado, automato, estadosFinais);
+    }
+};
+
+const removeEstado = (estado, automato, estadosFinais) => {
+    // Remove as transições
+    for (const outroEstado in automato) {
+        const transicoes = Object.keys(automato[outroEstado]);
+        transicoes.forEach((transicao) => {
+            const proximoEstado = automato[outroEstado][transicao].values().next().value;
+
+            if (proximoEstado == estado) {
+                delete automato[outroEstado][transicao];
+            }
+        });
+    };
+
+    delete automato[estado];
+
+    estadosFinais.delete(estado);
+};
+
+const buscaProfundidadePadrao = (estadoAtual, automato, estadosVisitados) => {
+    estadosVisitados.add(estadoAtual);
+    for (const transicao in automato[estadoAtual]) {
+        const simboloVizinho = automato[estadoAtual][transicao].values().next().value;
+        if (!estadosVisitados.has(simboloVizinho)) {
+            buscaProfundidadePadrao(simboloVizinho, automato, estadosVisitados);
+        }
+    }
+};
+
+const checaEstadoMorto = (estadoAtual, automato, estadosFinais, pilhaVisitacao) => {
+    // Se já foi visitado, retorna resultado neutro
+    if (pilhaVisitacao.indexOf(estadoAtual) >= 0) {
+        return true;
+    }
+
+    // Se é final, não é morto
+    if (estadosFinais.has(estadoAtual)) {
+        return false;
+    }
+
+    for (const transicao in automato[estadoAtual]) {
+        const simboloVizinho = automato[estadoAtual][transicao].values().next().value;
+        const estadoMorto = checaEstadoMorto(simboloVizinho,
+                                              automato,
+                                              estadosFinais,
+                                              [...pilhaVisitacao, estadoAtual]
+                                             );
+
+        if (!estadoMorto) { return false; }
+    }
+
+    return true;
 };
 
 module.exports = {
