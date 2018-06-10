@@ -21,7 +21,7 @@ describe('MinimizaAutomato', function() {
             };
             let estadosFinais = new Set(['próprio']);
 
-            MinimizaAutomato.removeEstadosInalcancaveis(
+            MinimizaAutomato.execute(
                 entrada,
                 estadosFinais
             );
