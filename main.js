@@ -11,6 +11,7 @@ let IMPRIME_AUTOMATO_FINAL = false; IMPRIME_AUTOMATO_FINAL = true;
 const ConstroiAutomato = require('./constroi_automato');
 const RemoveEpsilonProducoes = require('./remove_epsilon_producoes');
 const DeterminizaAutomato = require('./determiniza_automato');
+const MinimizaAutomato = require('./minimiza_automato');
 
 const CaminhoArquivo = 'arquivo.in';
 const automato = {};
@@ -64,10 +65,10 @@ if (IMPRIME_APOS_DETERMINIZACAO) {
     );
 }
 
-// MinimizaAutomato.execute(
-//     automato,
-//     estadosFinais
-// );
+MinimizaAutomato.execute(
+    automato,
+    estadosFinais
+);
 
 if (IMPRIME_AUTOMATO_FINAL) {
     imprimeAutomato(
