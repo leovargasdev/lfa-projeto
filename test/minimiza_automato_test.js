@@ -95,6 +95,31 @@ describe('MinimizaAutomato', function() {
             assert.deepStrictEqual(estadosFinais, new Set(['Z']));
             done();
         });
+
+        it('remove transições para estados inalcançáveis', function(done) {
+            // Esse test é meio redundante pois se há uma aresta de A para B
+            // e B é um estado inalcançável, A também é inalcançável, pois se
+            // A não fosse, B também não seria. De qualquer forma, fica aqui.
+            let entrada = {
+                S: { a: new Set(['Z']), },
+                B: { c: new Set(['C']), },
+                C: { b: new Set(['B']), },
+                Z: {},
+            };
+            let estadosFinais = new Set;
+            const automatoEsperado = {
+                S: { a: new Set(['Z']), },
+                Z: {},
+            };
+
+            MinimizaAutomato.removeEstadosInalcancaveis(
+                entrada,
+                estadosFinais
+            );
+
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            done();
+        });
     });
 
     describe('#removeEstadosMortos', function() {
@@ -123,8 +148,9 @@ describe('MinimizaAutomato', function() {
             done();
         });
 
-        it('(não) remove estado inicial', function(done) {
-            pending('Não sei se é pra remove ou não o estado inicial');
+        it.skip('(não) remove estado inicial', function(done) {
+            /* Não sei se é pra remover ou não o estado inicial */
+
             // let entrada = {
             //     S: {
             //         a: new Set(['A']),

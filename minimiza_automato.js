@@ -1,14 +1,29 @@
+const estadosVisitados = new Set;
+
 const execute = (automato, estadosFinais) => {
     removeEstadosInalcancaveis(automato, estadosFinais);
     removeEstadosMortos(automato, estadosFinais);
 };
 
 const removeEstadosInalcancaveis = (automato, estadosFinais) => {
-    /** Sugestão de implementação (Avaliar se é boa):
-    * Rodar uma simples busca de grafo no autômato e remover os estados que não
-    * foram alcançados através da busca
-    */
+    buscaProfundidadePadrao('S', automato);
+    for (const estado in automato) {
+        if (!estadosVisitados.has(estado)) {
+            delete automato[estado];
+            estadosFinais.delete(estado);
+        }
+    }
 };
+
+const buscaProfundidadePadrao = (estadoAtual, automato) => {
+    estadosVisitados.add(estadoAtual);
+    for (const transacao in automato[estadoAtual]) {
+        const simboloVizinho = automato[estadoAtual][transacao].values().next().value;
+        if (!estadosVisitados.has(simboloVizinho)) {
+            buscaProfundidadePadrao(simboloVizinho, automato);
+        }
+    }
+}
 
 const removeEstadosMortos = (automato, estadosFinais) => {
     /** Sugestão de implementação (Avaliar se é boa):
