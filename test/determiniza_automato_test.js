@@ -216,4 +216,101 @@ describe('DeterminizaAutomato', function() {
             done();
         });
     });
+
+    it('determiniza estado criado a partir de uma indeterminização', function (done) {
+        let entrada = {
+                A: {
+                    b: new Set(['B', 'BB']),
+                },
+                B: { c: new Set(['C']), },
+                BB: {
+                    c: new Set(['D']),
+                },
+                C: { d: new Set(['D']) },
+                D: {},
+            };
+            const estadosFinais = new Set;
+            const automatoEsperado = {
+                A: {
+                    b: new Set(['B#BB']),
+                },
+                [juntaEstados(['B', 'BB'])]: {
+                    c: new Set(['C#D']),
+                },
+                [juntaEstados(['C', 'D'])]: {
+                    d: new Set(['D']),
+                },
+                B: { c: new Set(['C']) },
+                C: { d: new Set(['D']) },
+                BB: {
+                    c: new Set(['D'])
+                },
+                D: {},
+            };
+
+            DeterminizaAutomato.execute(
+                entrada,
+                estadosFinais
+            )
+
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            done();
+    });
+
+    it('determiniza estado criado a partir de uma indeterminização [nível 2]', function (done) {
+        let entrada = {
+                A: {
+                    b: new Set(['B', 'BB']),
+                },
+                B: { c: new Set(['C']), },
+                BB: {
+                    c: new Set(['D']),
+                },
+                C: {
+                    d: new Set(['D']),
+                    k: new Set(['D']),
+                },
+                D: {
+                    k: new Set(['Z']),
+                },
+                Z: {}
+            };
+            const estadosFinais = new Set;
+            const automatoEsperado = {
+                A: {
+                    b: new Set(['B#BB']),
+                },
+                [juntaEstados(['B', 'BB'])]: {
+                    c: new Set(['C#D']),
+                },
+                [juntaEstados(['C', 'D'])]: {
+                    d: new Set(['D']),
+                    k: new Set(['D#Z']),
+                },
+                BB: {
+                    c: new Set(['D'])
+                },
+                B: {
+                    c: new Set(['C'])
+                },
+                C: {
+                    d: new Set(['D']),
+                    k: new Set(['D']),
+                },
+                Z: {},
+                D: {
+                    k: new Set(['Z']),
+                },
+                [juntaEstados(['D', 'Z'])]: {
+                    k: new Set(['Z']),
+                },
+            };
+
+            DeterminizaAutomato.execute(
+                entrada,
+                estadosFinais
+            )
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            done();
+    });
 });
