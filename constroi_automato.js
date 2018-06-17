@@ -1,7 +1,7 @@
 const FileSystem = require('fs');
 const Constantes = require('./constantes');
 
-const execute = (automato, estadosFinais, caminhoArquivo) => {
+const execute = (automato, estadosFinais, alfabeto, caminhoArquivo) => {
     let arquivo;
     let error;
 
@@ -12,10 +12,10 @@ const execute = (automato, estadosFinais, caminhoArquivo) => {
             process.exitCode = 1;
     }
 
-    interpretaArquivo(arquivo, automato, estadosFinais);
+    interpretaArquivo(arquivo, automato, alfabeto, estadosFinais);
 };
 
-const interpretaArquivo = (arquivo, automato, estadosFinais) => {
+const interpretaArquivo = (arquivo, automato, alfabeto, estadosFinais) => {
     const linhasArquivo = arquivo.split('\n');
     let entrada = [];
     let estados = [];
@@ -31,11 +31,11 @@ const interpretaArquivo = (arquivo, automato, estadosFinais) => {
             return;
         }
 
-        if (linhaAlterada.match(/<.>::=/)) { // Se for linha com regra
-            interpretaRegra(linhaAlterada, automato, estadosFinais, controle);
+        if (linhaAlterada.match(/::=/)) { // Se for linha com regra
+            interpretaRegra(linhaAlterada, automato, alfabeto, estadosFinais, controle);
             ultimoControle = controle;
         } else { // Se for linha com token
-            interpretaToken(linhaAlterada, automato, estadosFinais, controle);
+            interpretaToken(linhaAlterada, automato, alfabeto, estadosFinais, controle);
             ultimoControle = controle;
             controle++;
         }
@@ -52,9 +52,9 @@ const interpretaArquivo = (arquivo, automato, estadosFinais) => {
 * Os exemplos nas instruções vão levar em conta esses parâmetros:
 * "<S>::=a<A>|b<B>|c", {}, [], 1
 */
-const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)  => {
+const interpretaRegra = (regraCompleta, automato, alfabeto, estadosFinais, numeroControle)  => {
     const [estado, regra] = regraCompleta.split('::='); // ['<S>', 'a<A>|b<B>|c']
-    let estadoRegra = estado.match(/<(.)>/)[1]; // S
+    let estadoRegra = estado.replace(/[<>]/g, ''); // S
     const transicoes = regra.split('|'); // ['a<A>', 'b<B>', 'c']
 
     // Se o símbolo que dá nome à regra não for S, um número é adicionado no sufixo do estado
@@ -65,32 +65,36 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
     automato[estadoRegra] = automato[estadoRegra] || {}; // { S: {} }
 
     transicoes.forEach((transicao) => {
-        // ['a<A>', 'a', 'A']
-        const [_, simboloTransicao, estadoTransicao] = transicao.match(/(.)<?(.)?>?/);
-        let estadoTransicaoControle = estadoTransicao; // A
+        const [simboloTransicao, estadoTransicao] = transicao.split("<");
+        let estadoTransicaoControle = estadoTransicao || "END";
+        estadoTransicaoControle = estadoTransicaoControle.split('>')[0];
 
         // Se é epsilon transição e não tem símbolo não-terminal, marca como estado final
-        if (simboloTransicao === Constantes.SIMBOLO_EPSILON && !estadoTransicaoControle) {
+        if (simboloTransicao === Constantes.SIMBOLO_EPSILON){
             estadosFinais.add(estadoRegra);
+            if (estadoTransicaoControle == "END")
+                estadosFinais.add(`${estadoTransicaoControle}${numeroControle}`);
             return;
         }
+        if(simboloTransicao) // Quando a transição da regra for: <A>, nesse acaso não entra, pois há tem simbolo.
+            alfabeto.add(simboloTransicao);
 
         automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || new Set; // { S: { a: [] } }
 
-        // Se é só símbolo terminal, cria estado final
-        if (!estadoTransicaoControle) {
-            const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
-            estadosFinais.add(novoEstadoFinal);
-            automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
-            automato[novoEstadoFinal] = {};
-            return;
-        };
+        // // Se é só símbolo terminal, cria estado final
+        // if (!estadoTransicaoControle) {
+        //     console.log("entrou:", transicao);
+        //     const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
+        //     estadosFinais.add(novoEstadoFinal);
+        //     automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
+        //     automato[novoEstadoFinal] = {};
+        //     return;
+        // };
 
         // Adiciona número no nome de estado se não for o inicial
         if (estadoTransicaoControle != 'S') {
             estadoTransicaoControle = `${estadoTransicaoControle}${numeroControle}`;
         }
-
         // Adiciona transição normal
         automato[estadoRegra][simboloTransicao].add(estadoTransicaoControle);  // { S: { a: ['A'] } }
     });
@@ -104,7 +108,7 @@ const interpretaRegra = (regraCompleta, automato, estadosFinais, numeroControle)
 *
 * A função não retorna nada.
 */
-const interpretaToken = (token, automato, estadosFinais, numeroControle) => {
+const interpretaToken = (token, automato, alfabeto, estadosFinais, numeroControle) => {
     const caracteres = token.split('');
 
     // Inicializa estado S caso este não tenha sido inicializado
@@ -113,7 +117,7 @@ const interpretaToken = (token, automato, estadosFinais, numeroControle) => {
     caracteres.forEach((letra, indice) => {
         const estadoAtual = `Palavra${numeroControle}_Estado${indice}`;
         const estadoSeguinte = `Palavra${numeroControle}_Estado${indice + 1}`;
-
+        alfabeto.add(letra);
         if (indice === 0) {
             automato['S'][letra] = automato['S'][letra] || new Set;
             automato['S'][letra].add(estadoSeguinte);

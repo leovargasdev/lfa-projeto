@@ -16,24 +16,29 @@ const MinimizaAutomato = require('./minimiza_automato');
 const CaminhoArquivo = 'arquivo.in';
 const automato = {};
 const estadosFinais = new Set;
+const alfabeto = new Set;
 
-const imprimeAutomato = (automato, estadosFinais, mensagem) => {
+const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log("\n\n\033[31m" + mensagem + "\033[0m");
     console.log('\033[32m================= Automato =================\033[0m');
     console.log(automato);
     console.log('\033[32m================= Estados Finais: =================\033[0m');
     console.log(estadosFinais);
+    console.log('\033[32m================= Alfabeto: =================\033[0m');
+    console.log(alfabeto);
 };
 
 ConstroiAutomato.execute(
     automato,
     estadosFinais,
+    alfabeto,
     CaminhoArquivo
 );
 
 if (IMPRIME_APOS_CONSTRUCAO) {
     imprimeAutomato(
         automato,
+        alfabeto,
         estadosFinais,
         'Resultados depois da construção do autômato'
     );
@@ -47,6 +52,7 @@ RemoveEpsilonProducoes.execute(
 if (IMPRIME_APOS_REMOVER_EPSILON_PRODUCOES) {
     imprimeAutomato(
         automato,
+        alfabeto,
         estadosFinais,
         'Resultados depois da remoção de epsilon produções do autômato'
     );
@@ -60,6 +66,7 @@ DeterminizaAutomato.execute(
 if (IMPRIME_APOS_DETERMINIZACAO) {
     imprimeAutomato(
         automato,
+        alfabeto,
         estadosFinais,
         'Resultados depois da determinização do autômato'
     );
@@ -73,6 +80,7 @@ MinimizaAutomato.execute(
 if (IMPRIME_AUTOMATO_FINAL) {
     imprimeAutomato(
         automato,
+        alfabeto,
         estadosFinais,
         'Resultado final'
     );

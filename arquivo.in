@@ -1,10 +1,7 @@
-se
-entao
-senao
+abacaxi
+manga
+topper
 
-<S> ::= a<A> | e<A> | i<A> | o<A> | u<A>
-<A> ::= a<A> | e<A> | i<A> | o<A> | u<A> | ε
-
-<S> ::= a<A> | e<A> | i<B> | o<A> | u<B>
-<B> ::= a<A> | e<S> | i<A> | o<A> | u<A> | ε | ε<A>
-<A> ::= a<A> | e<B> | i<A> | o<A> | u<S> | ε
+<S> ::= a<AA> | b<B> | c<S> | d<B> | ko
+<AA> ::= a<B> | d | ε
+<B> ::= a<S> | <B> | jaguar<G>
