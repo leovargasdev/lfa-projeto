@@ -7,11 +7,11 @@ let IMPRIME_AUTOMATO_FINAL = false; IMPRIME_AUTOMATO_FINAL = true;
 
 // =================================
 
-
 const ConstroiAutomato = require('./constroi_automato');
 const RemoveEpsilonProducoes = require('./remove_epsilon_producoes');
 const DeterminizaAutomato = require('./determiniza_automato');
 const MinimizaAutomato = require('./minimiza_automato');
+const AdicionaEstadoErro = require('./adiciona_estado_erro');
 
 const CaminhoArquivo = 'arquivo.in';
 const automato = {};
@@ -21,11 +21,21 @@ const alfabeto = new Set;
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log("\n\n\033[31m" + mensagem + "\033[0m");
     console.log('\033[32m================= Automato =================\033[0m');
-    console.log(automato);
+    for(const estado in automato){
+        console.log("[ESTADO] :", estado);
+        console.log("[SIMBOLOS] :");
+        for(const simbolo in automato[estado]){
+            process.stdout.write("\t\t" + simbolo + ": ['");
+            automato[estado][simbolo].forEach((valor) => { process.stdout.write(valor + "' "); });
+            console.log("]");
+        }
+        console.log(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -");
+    }
     console.log('\033[32m================= Estados Finais: =================\033[0m');
-    console.log(estadosFinais);
-    console.log('\033[32m================= Alfabeto: =================\033[0m');
-    console.log(alfabeto);
+    estadosFinais.forEach((ef) => { process.stdout.write(ef + "   ");});
+    console.log('\n\n\033[32m================= Alfabeto: =================\033[0m');
+    alfabeto.forEach((s) => { process.stdout.write(s + "  ");});
+    console.log("\n");
 };
 
 ConstroiAutomato.execute(
@@ -77,6 +87,8 @@ MinimizaAutomato.execute(
     estadosFinais
 );
 
+AdicionaEstadoErro.execute(automato, alfabeto);
+
 if (IMPRIME_AUTOMATO_FINAL) {
     imprimeAutomato(
         automato,
@@ -85,5 +97,3 @@ if (IMPRIME_AUTOMATO_FINAL) {
         'Resultado final'
     );
 }
-
-// AdicionaEstadoErro.execute(automato, estadosFinais);

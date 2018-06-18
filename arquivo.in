@@ -4,4 +4,4 @@ topper
 
 <S> ::= a<AA> | b<B> | c<S> | d<B> | ko
 <AA> ::= a<B> | d | ε
-<B> ::= a<S> | <B> | jaguar<G>
+<B> ::= a<S> | <AA> | jaguar<G> | <LEGAL>
