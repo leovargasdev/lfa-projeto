@@ -95,6 +95,18 @@ describe('ConstroiAutomato', function () {
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
+
+        it('cria alfabeto do autômato', function(done) {
+            const alfabetoEsperado = new Set(['a', 'e', 'i', 'o', 'u', 's', 'n', 't', 'p']);
+             ConstroiAutomato.execute(
+                automato,
+                estadosFinais,
+                alfabeto,
+                "./test/test_arquivo_exemplo.in"
+            );
+            assert.deepStrictEqual(alfabeto, alfabetoEsperado);
+            done();
+        });
     });
 
     describe('#interpretaRegra', function () {
