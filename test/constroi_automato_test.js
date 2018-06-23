@@ -204,37 +204,40 @@ describe('ConstroiAutomato', function () {
                     a: new Set(['A0']),
                     [Constantes.SIMBOLO_EPSILON]: new Set(['B0'])
                 },
-                A0: {},
-                B0: {},
             };
-            const regra = ['<S>::=a<A>|<B>'];
+            const regra = '<S>::=a<A>|<B>';
 
             ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
             assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
 
-        it('adiciona símbolos não terminais ao alfabeto', function(done) {
-            const alfabetoEsperado = new Set(['a', 'b', 'c', 'd', 'e']);
+        it('adiciona símbolos terminais ao alfabeto', function(done) {
+            const alfabetoEsperado = new Set(['a', 'b', 'e']);
             // const alfabetoEsperado = new Set(['a', 'bcd', 'e']);
-            const regra = '<A>::=a<A>|bcd<A>|e';
+            const regra = '<A>::=a<A>|b<A>|e';
             ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
             assert.deepStrictEqual(alfabeto, alfabetoEsperado);
             done();
         });
 
-        it('reconhece normalmente estados com mais de um caracter no nome', function () {
+        it('alça erro se houver mais de um símbolo terminal na transição', function(done) {
+            assert.throws(function () {
+                ConstroiAutomato.interpretaRegra('<A>::=aa<A>', automato, alfabeto, estadosFinais, 0);
+        }, /Produção com mais de um símbolo terminal na regra <A>::=aa<A>/);
+            done();
+        });
+
+        it('reconhece normalmente estados com mais de um caracter no nome', function (done) {
             const automatoEsperado = {
                 AA0: {
                     a: new Set(['BBB0']),
                     [Constantes.SIMBOLO_EPSILON]: new Set(['CCCC0']),
                 },
-                BBB0: {},
-                CCCC0: {},
             };
             const regra = '<AA>::=a<BBB>|<CCCC>';
 
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
             assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
@@ -261,7 +264,7 @@ describe('ConstroiAutomato', function () {
             };
             const estadosFinaisEsperado = new Set(['Palavra0_Estado4']);
 
-            ConstroiAutomato.interpretaToken('lobo', automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaToken('lobo', automato, alfabeto, estadosFinais, 0);
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -277,8 +280,8 @@ describe('ConstroiAutomato', function () {
             };
             const estadosFinaisEsperado = new Set(['Palavra0_Estado2', 'Palavra1_Estado2']);
 
-            ConstroiAutomato.interpretaToken('lo', automato, estadosFinais, 0);
-            ConstroiAutomato.interpretaToken('la', automato, estadosFinais, 1);
+            ConstroiAutomato.interpretaToken('lo', automato, alfabeto, estadosFinais, 0);
+            ConstroiAutomato.interpretaToken('la', automato, alfabeto, estadosFinais, 1);
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
@@ -295,6 +298,7 @@ describe('ConstroiAutomato', function () {
         let arquivo;
         let automato;
         let estadosFinais;
+        let alfabeto;
 
         beforeEach('Carrega arquivo', function() {
             try {
@@ -308,6 +312,7 @@ describe('ConstroiAutomato', function () {
         beforeEach('Cria variáveis', function () {
             automato = {};
             estadosFinais = new Set;
+            alfabeto = new Set;
         });
 
         it('cria autômato finito não-determinístico corretamente', function (done) {
@@ -358,7 +363,7 @@ describe('ConstroiAutomato', function () {
               Palavra5_Estado2: {}
             };
 
-            ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomato.interpretaArquivo(arquivo, automato, alfabeto, estadosFinais);
             assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
@@ -374,7 +379,7 @@ describe('ConstroiAutomato', function () {
                 'Palavra5_Estado2'
             ]);
 
-            ConstroiAutomato.interpretaArquivo(arquivo, automato, estadosFinais);
+            ConstroiAutomato.interpretaArquivo(arquivo, automato, alfabeto, estadosFinais);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
         });
