@@ -65,31 +65,48 @@ const interpretaRegra = (regraCompleta, automato, alfabeto, estadosFinais, numer
     automato[estadoRegra] = automato[estadoRegra] || {}; // { S: {} }
 
     transicoes.forEach((transicao) => {
-        const [simboloTransicao, estadoTransicao] = transicao.split("<");
-        let estadoTransicaoControle = estadoTransicao || "END";
-        estadoTransicaoControle = estadoTransicaoControle.split('>')[0];
+         // ['a<A>', 'a', 'A']
+        let [simboloTransicao, estadoTransicao] = transicao.split("<");
+        let estadoTransicaoControle = estadoTransicao ? estadoTransicao.split('>')[0] : null;
+
+        // O símbolo terminal da produção deve ser só 1. Não pode ser uma sequência
+        // de símbolos como 'ab'
+        if (simboloTransicao.length > 1) {
+            throw `Produção com mais de um símbolo terminal na regra ${regraCompleta}`;
+        }
+
+
+        // Se for uma produção unitária, não vai ter símbolo terminal mas vai ter um estado
+        // Adiciona no símbolo terminal o símbolo Epsilon, para ser tratado mais pra frente
+        // a lógica de adicionar as transições do estado da produção unitária ao estado
+        // que dá nome à regra sendo interpretada
+        if (!simboloTransicao && estadoTransicaoControle) {
+            simboloTransicao = Constantes.SIMBOLO_EPSILON;
+        }
+
+        // Se houver um símbolo terminal na produção e este não for epsilon, adiciona-o
+        // ao alfabeto da gramática
+        if (simboloTransicao && simboloTransicao !== Constantes.SIMBOLO_EPSILON) {
+            alfabeto.add(simboloTransicao);
+        }
 
         // Se é epsilon transição e não tem símbolo não-terminal, marca como estado final
-        if (simboloTransicao === Constantes.SIMBOLO_EPSILON){
+         if (simboloTransicao === Constantes.SIMBOLO_EPSILON && !estadoTransicaoControle) {
             estadosFinais.add(estadoRegra);
-            if (estadoTransicaoControle == "END")
-                estadosFinais.add(`${estadoTransicaoControle}${numeroControle}`);
             return;
         }
-        if(simboloTransicao) // Quando a transição da regra for: <A>, nesse acaso não entra, pois há tem simbolo.
-            alfabeto.add(simboloTransicao);
 
         automato[estadoRegra][simboloTransicao] = automato[estadoRegra][simboloTransicao] || new Set; // { S: { a: [] } }
 
-        // // Se é só símbolo terminal, cria estado final
-        // if (!estadoTransicaoControle) {
-        //     console.log("entrou:", transicao);
-        //     const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
-        //     estadosFinais.add(novoEstadoFinal);
-        //     automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
-        //     automato[novoEstadoFinal] = {};
-        //     return;
-        // };
+        // Se é só símbolo terminal, cria estado final
+        if (!estadoTransicaoControle) {
+            console.log("entrou:", transicao);
+            const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
+            estadosFinais.add(novoEstadoFinal);
+            automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);
+            automato[novoEstadoFinal] = {};
+            return;
+        };
 
         // Adiciona número no nome de estado se não for o inicial
         if (estadoTransicaoControle != 'S') {
@@ -117,7 +134,9 @@ const interpretaToken = (token, automato, alfabeto, estadosFinais, numeroControl
     caracteres.forEach((letra, indice) => {
         const estadoAtual = `Palavra${numeroControle}_Estado${indice}`;
         const estadoSeguinte = `Palavra${numeroControle}_Estado${indice + 1}`;
+
         alfabeto.add(letra);
+
         if (indice === 0) {
             automato['S'][letra] = automato['S'][letra] || new Set;
             automato['S'][letra].add(estadoSeguinte);
