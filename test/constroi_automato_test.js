@@ -9,10 +9,12 @@ describe('ConstroiAutomato', function () {
         let arquivo;
         let automato;
         let estadosFinais;
+        let alfabeto;
 
         beforeEach('Cria variáveis', function () {
             automato = {};
             estadosFinais = new Set;
+            alfabeto = new Set;
         });
 
         it('cria autômato finito não-determinístico corretamente e estados finais', function (done) {
@@ -66,6 +68,7 @@ describe('ConstroiAutomato', function () {
             ConstroiAutomato.execute(
                 automato,
                 estadosFinais,
+                alfabeto,
                 "./test/test_arquivo_exemplo.in"
             );
             assert.deepStrictEqual(automato, automatoEsperado);
@@ -86,6 +89,7 @@ describe('ConstroiAutomato', function () {
             ConstroiAutomato.execute(
                 automato,
                 estadosFinais,
+                alfabeto,
                 "./test/test_arquivo_exemplo.in"
             );
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
@@ -96,16 +100,18 @@ describe('ConstroiAutomato', function () {
     describe('#interpretaRegra', function () {
         let automato;
         let estadosFinais;
+        let alfabeto;
 
         beforeEach('Cria variáveis', function () {
             automato = {};
             estadosFinais = new Set;
+            alfabeto = new Set;
         });
 
         it('adiciona transição normal ao objeto de retorno', function (done) {
             const regra = '<A>::=a<A>';
             const automatoEsperado = { A0: { a: new Set(['A0']) } };
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(new Set, estadosFinais);
@@ -120,7 +126,7 @@ describe('ConstroiAutomato', function () {
                 }
             };
             console.log(regra);
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
 
             assert.deepStrictEqual(automatoEsperado, automato);
             assert.deepStrictEqual(new Set(), estadosFinais);
@@ -129,7 +135,7 @@ describe('ConstroiAutomato', function () {
 
         it('marca como estado final quando há epsilon transição', function (done) {
             const regra = `<A>::=${Constantes.SIMBOLO_EPSILON}`;
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
 
             assert.deepStrictEqual({ A0: {} }, automato);
             assert.deepStrictEqual(new Set(['A0']), estadosFinais);
@@ -144,7 +150,7 @@ describe('ConstroiAutomato', function () {
                 },
                 TaA0: {}
             };
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(new Set(['TaA0']), estadosFinais);
@@ -161,7 +167,7 @@ describe('ConstroiAutomato', function () {
                 TbA0: {}
             };
             const estadosFinaisEsperado = new Set(['TbA0', 'A0']);
-            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
 
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
@@ -182,12 +188,53 @@ describe('ConstroiAutomato', function () {
             const regras1 = ['<S>::=a<A>|c<A>', '<A>::=a<S>'];
 
             regras0.forEach((regra) => {
-                ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
+                ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
             });
             regras1.forEach((regra) => {
-                ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 1);
+                ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 1);
             });
 
+            assert.deepStrictEqual(automato, automatoEsperado);
+            done();
+        });
+
+        it('Cria epsilon transição para produções unitárias', function (done) {
+            const automatoEsperado = {
+                S: {
+                    a: new Set(['A0']),
+                    [Constantes.SIMBOLO_EPSILON]: new Set(['B0'])
+                },
+                A0: {},
+                B0: {},
+            };
+            const regra = ['<S>::=a<A>|<B>'];
+
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
+            assert.deepStrictEqual(automato, automatoEsperado);
+            done();
+        });
+
+        it('adiciona símbolos não terminais ao alfabeto', function(done) {
+            const alfabetoEsperado = new Set(['a', 'b', 'c', 'd', 'e']);
+            // const alfabetoEsperado = new Set(['a', 'bcd', 'e']);
+            const regra = '<A>::=a<A>|bcd<A>|e';
+            ConstroiAutomato.interpretaRegra(regra, automato, alfabeto, estadosFinais, 0);
+            assert.deepStrictEqual(alfabeto, alfabetoEsperado);
+            done();
+        });
+
+        it('reconhece normalmente estados com mais de um caracter no nome', function () {
+            const automatoEsperado = {
+                AA0: {
+                    a: new Set(['BBB0']),
+                    [Constantes.SIMBOLO_EPSILON]: new Set(['CCCC0']),
+                },
+                BBB0: {},
+                CCCC0: {},
+            };
+            const regra = '<AA>::=a<BBB>|<CCCC>';
+
+            ConstroiAutomato.interpretaRegra(regra, automato, estadosFinais, 0);
             assert.deepStrictEqual(automato, automatoEsperado);
             done();
         });
@@ -196,10 +243,12 @@ describe('ConstroiAutomato', function () {
     describe('#interpretaToken', function () {
         let automato;
         let estadosFinais;
+        let alfabeto;
 
         beforeEach('Cria variáveis', function () {
             automato = {};
             estadosFinais = new Set;
+            alfabeto = new Set;
         });
 
         it('cria estados normais e finais', function (done) {
@@ -233,6 +282,12 @@ describe('ConstroiAutomato', function () {
             assert.deepStrictEqual(automato, automatoEsperado);
             assert.deepStrictEqual(estadosFinais, estadosFinaisEsperado);
             done();
+        });
+
+        it('adiciona os caracteres de um token ao alfabeto', function () {
+            const alfabetoEsperado = new Set(['b', 'a', 'n']);
+            ConstroiAutomato.interpretaToken('banana', automato, alfabeto, estadosFinais, 0);
+            assert.deepStrictEqual(alfabeto, alfabetoEsperado);
         });
     });
 
