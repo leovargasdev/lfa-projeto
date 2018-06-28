@@ -100,7 +100,6 @@ const interpretaRegra = (regraCompleta, automato, alfabeto, estadosFinais, numer
 
         // Se é só símbolo terminal, cria estado final
         if (!estadoTransicaoControle) {
-            console.log("entrou:", transicao);
             const novoEstadoFinal = `T${simboloTransicao}${estadoRegra}`;
             estadosFinais.add(novoEstadoFinal);
             automato[estadoRegra][simboloTransicao].add(novoEstadoFinal);

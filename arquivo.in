@@ -1,7 +1,5 @@
-abacaxi
-manga
-topper
+se
+senao
 
-<S> ::= a<AA> | b<B> | c<S> | d<B> | ko
-<AA> ::= a<B> | d | ε
-<B> ::= a<S> | <AA> | jaguar<G> | <LEGAL>
+<S> ::= a<A> | b<A> | c<A> | d<A> | e<A> | <A>
+<A> ::= a<A> | b<A> | c<A> | d<A> | e<A> | a | b | c | d | e

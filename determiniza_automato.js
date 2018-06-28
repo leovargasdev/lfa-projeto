@@ -18,7 +18,17 @@ const execute = (automato, estadosFinais) => {
 
                 alterou = true;
                 novoEstado = estadosDestinos.join(Constantes.SIMBOLO_SEPARADOR);
-                automato[novoEstado] = automato[novoEstado] || {};
+
+                // Transição agora vai somente para o novo estado
+                automato[estado][simboloTransicao].clear()
+                automato[estado][simboloTransicao].add(novoEstado)
+
+                // O novo estado já foi criado. Não precisa fazer nada.
+                if (automato[novoEstado]) {
+                    continue;
+                }
+
+                automato[novoEstado] = {};
 
                 // Passa as transições dos estados "mesclados" para o novo estado
                 estadosDestinos.forEach((estadoDestino) => {
@@ -34,10 +44,6 @@ const execute = (automato, estadosFinais) => {
                         estadosFinais.add(novoEstado);
                     }
                 });
-
-                // Transição agora vai somente para o novo estado
-                automato[estado][simboloTransicao].clear()
-                automato[estado][simboloTransicao].add(novoEstado)
             }
         }
     }

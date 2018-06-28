@@ -215,6 +215,64 @@ describe('DeterminizaAutomato', function() {
             assert.deepStrictEqual(entrada, automatoEsperado);
             done();
         });
+
+        it('determiniza um autômato que dá erro (caso "específico")', function(done) {
+            /**
+            * O problema era o seguinte:
+            * Para fins de explicação, vou usar "variáveis"
+            * novo_estado é o estado criado a partir da junção de dois ou mais estados
+            que fazem o indeterminismo
+            * estados_mesclados são os estados que foram usados para criar o novo_es-
+            tado
+            *
+            * O código criava esse novo_estado e ia adicionando as transações dos es-
+            * tados mesclados, independente se esse novo_estado já tinha sido criado
+            * antes ou não. Com isso, ele entrava num loop infinito, porque sempre
+            * ia executar as mesmas operações de criação e preenchimento das transi-
+            * ções do novo estado, sendo que só precisa fazer isso uma vez
+            */
+            const entrada = {
+                S: {
+                    a: new Set(['A2', 'TaA2']),
+                    b: new Set(['A2', 'TbA2']),
+                },
+                A2: {
+                    a: new Set(['A2', 'TaA2']),
+                    b: new Set(['A2', 'TbA2']),
+                },
+                TaA2: {},
+                TbA2: {},
+            };
+            const automatoEsperado = {
+                S: {
+                    a: new Set(['A2#TaA2']),
+                    b: new Set(['A2#TbA2']),
+                },
+                A2: {
+                    a: new Set(['A2#TaA2']),
+                    b: new Set(['A2#TbA2']),
+                },
+                TaA2: {},
+                TbA2: {},
+                [juntaEstados(['A2', 'TaA2'])]: {
+                    a: new Set(['A2#TaA2']),
+                    b: new Set(['A2#TbA2']),
+                },
+                [juntaEstados(['A2', 'TbA2'])]: {
+                    a: new Set(['A2#TaA2']),
+                    b: new Set(['A2#TbA2']),
+                },
+            };
+
+            DeterminizaAutomato.execute(
+                entrada,
+                new Set
+            )
+
+            assert.deepStrictEqual(entrada, automatoEsperado);
+            done();
+        });
+
     });
 
     it('determiniza estado criado a partir de uma indeterminização', function (done) {
