@@ -3,6 +3,7 @@ let DEBUG_MODE = false; //DEBUG_MODE = true;
 let IMPRIME_APOS_CONSTRUCAO = false;// IMPRIME_APOS_CONSTRUCAO = true;
 let IMPRIME_APOS_REMOVER_EPSILON_PRODUCOES = false;// IMPRIME_APOS_REMOVER_EPSILON_PRODUCOES = true;
 let IMPRIME_APOS_DETERMINIZACAO = false;// IMPRIME_APOS_DETERMINIZACAO = true;
+let IMPRIME_APOS_MINIMIZACAO = false;// IMPRIME_APOS_MINIMIZACAO = true;
 let IMPRIME_AUTOMATO_FINAL = false; IMPRIME_AUTOMATO_FINAL = true;
 
 // =================================
@@ -86,6 +87,16 @@ MinimizaAutomato.execute(
     automato,
     estadosFinais
 );
+
+if (IMPRIME_APOS_MINIMIZACAO) {
+    imprimeAutomato(
+        automato,
+        alfabeto,
+        estadosFinais,
+        'Resultados depois da minimização do autômato'
+    );
+}
+
 
 AdicionaEstadoErro.execute(automato, alfabeto);
 
