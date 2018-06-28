@@ -1,16 +1,8 @@
 const Constantes = require('./constantes');
 
 const execute = (automato, alfabeto) => {
-    criaEstadoErro(automato, alfabeto); // Pega todos os possiveis simbolos e cria o estado de erro.
-    incluiEstadoErro(automato, alfabeto); // Simbolos que ainda não estavam sendo listados na regra agora são inseridos com destino ao estado de erro.
-};
-
-const criaEstadoErro = (automato, alfabeto) => {
     automato[Constantes.ESTADO_ERRO] = {}; // Inserindo o Estado de erro no automato
-    alfabeto.forEach((simbolo) => {
-        automato[Constantes.ESTADO_ERRO][simbolo] = new Set; // A cada simbolo criando um set
-        automato[Constantes.ESTADO_ERRO][simbolo].add(Constantes.ESTADO_ERRO);
-    });
+    incluiEstadoErro(automato, alfabeto); // Simbolos que ainda não estavam sendo listados na regra agora são inseridos com destino ao estado de erro.
 };
 
 const incluiEstadoErro = (automato, alfabeto) => {
@@ -25,6 +17,5 @@ const incluiEstadoErro = (automato, alfabeto) => {
 
 module.exports = {
     execute,
-    criaEstadoErro,
     incluiEstadoErro
 };
