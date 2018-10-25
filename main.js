@@ -6,7 +6,7 @@ const AdicionaEstadoErro = require('./adiciona_estado_erro');
 const AnalizadorLexico = require('./analizador_lexico');
 
 const CaminhoArquivo = 'arquivo.in', CaminhoArquivoAnalizador = 'arquivo2.in';
-const automato = {};
+const automato = {}, analizeLexica = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
@@ -20,7 +20,9 @@ const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log("\n");
 };
 
-AnalizadorLexico.execute(CaminhoArquivoAnalizador);
+AnalizadorLexico.execute(CaminhoArquivoAnalizador, analizeLexica);
+
+console.log(analizeLexica);
 
 // IGNORAR
 if (false) {
