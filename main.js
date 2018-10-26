@@ -5,7 +5,7 @@ const MinimizaAutomato = require('./minimiza_automato');
 const AdicionaEstadoErro = require('./adiciona_estado_erro');
 const AnalizadorLexico = require('./analizador_lexico');
 
-const CaminhoArquivo = 'arquivo.in', CaminhoArquivoAnalizador = 'arquivo2.in';
+const tokens = 'inputs/tokens.in', gramatica = 'inputs/gramatica.in';
 const automato = {}, analizeLexica = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
@@ -21,7 +21,7 @@ const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
 };
 
 if (true) {
-    ConstroiAutomato.execute(automato, estadosFinais, alfabeto, CaminhoArquivo);
+    ConstroiAutomato.execute(automato, estadosFinais, alfabeto, tokens);
 
     RemoveEpsilonProducoes.execute(automato, estadosFinais);
 
@@ -32,4 +32,6 @@ if (true) {
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute(CaminhoArquivoAnalizador, automato, alfabeto, estadosFinais, analizeLexica);
+AnalizadorLexico.execute(gramatica, automato, alfabeto, estadosFinais, analizeLexica);
+
+console.log(analizeLexica);

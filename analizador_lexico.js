@@ -7,17 +7,25 @@ const execute = (caminhoArquivo, automato, alfabeto, estadosFinais, analizeLexic
             analizeLexica['linha' + l] = [];
             const linha = arquivo[l].split(' ');
             for(p in linha){
-                let estado = 'S';
+                let estado = 'S', erro = false;
                 for(let c in linha[p]){
                     const caracter = linha[p][c];
                     if(!alfabeto.has(caracter) || estado == "estadoERRO"){ // Caso o caracter não esteja no alfabeto ou seja o estado de ERROR
-                        console.log("[error]\t" + linha[p]);
-                        return;
+                        erro = true;
+                        break;
                     }
                     estado = automato[estado][caracter];
                     estado = estado.values().next().value;
                 }
-                console.log("[ok]\t" + linha[p]);
+                if(!estadosFinais.has(estado) || erro){
+                    console.log("[error]\t" + linha[p] + " linha:" + (l));
+                } else {
+                    console.log("[ok]\t" + linha[p]);
+                    analizeLexica['linha' + l].push({
+                        rotulo: linha[p],
+                        estado_final: estado
+                    });
+                }
             }
         }
     }
