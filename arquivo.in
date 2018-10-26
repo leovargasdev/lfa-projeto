@@ -1,5 +1,2 @@
-se
-senao
-
-<S> ::= a<A> | b<A> | c<A> | d<A> | e<A> | <A>
-<A> ::= a<A> | b<A> | c<A> | d<A> | e<A> | a | b | c | d | e
+int
+float

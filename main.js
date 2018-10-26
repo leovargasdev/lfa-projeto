@@ -20,12 +20,7 @@ const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log("\n");
 };
 
-AnalizadorLexico.execute(CaminhoArquivoAnalizador, analizeLexica);
-
-console.log(analizeLexica);
-
-// IGNORAR
-if (false) {
+if (true) {
     ConstroiAutomato.execute(automato, estadosFinais, alfabeto, CaminhoArquivo);
 
     RemoveEpsilonProducoes.execute(automato, estadosFinais);
@@ -36,3 +31,5 @@ if (false) {
 
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
+
+AnalizadorLexico.execute(CaminhoArquivoAnalizador, automato, alfabeto, estadosFinais, analizeLexica);
