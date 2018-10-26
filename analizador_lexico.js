@@ -2,35 +2,25 @@ const FileSystem = require('fs');
 
 const execute = (caminhoArquivo, automato, alfabeto, estadosFinais, analizeLexica) => {
     const arquivo = trataAquivo(caminhoArquivo);
-    for(let linha in arquivo){
-        if(arquivo[linha]){ // Ignora as linhas vazias com \n
-            analizeLexica['linha' + linha] = [];
-            let estado = 'S', error = false;
-            for(let c in arquivo[linha]){
-                const caracter = arquivo[linha][c];
-                if(confereAlfabeto(alfabeto, caracter)){
+    for(let l in arquivo){
+        if(arquivo[l]){ // Ignora as linhas vazias com \n
+            analizeLexica['linha' + l] = [];
+            const linha = arquivo[l].split(' ');
+            for(p in linha){
+                let estado = 'S';
+                for(let c in linha[p]){
+                    const caracter = linha[p][c];
+                    if(!alfabeto.has(caracter) || estado == "estadoERRO"){ // Caso o caracter não esteja no alfabeto ou seja o estado de ERROR
+                        console.log("[error]\t" + linha[p]);
+                        return;
+                    }
                     estado = automato[estado][caracter];
                     estado = estado.values().next().value;
-                    if(estado == "estadoERRO"){
-                        error = true;
-                    }
-                } else {
-                    error = true;
                 }
-                if(error){
-                    console.log("error lexico, linha:" + linha);
-                    return;
-                }
+                console.log("[ok]\t" + linha[p]);
             }
         }
     }
-};
-
-const confereAlfabeto = (alfabeto, caracter) => {
-    for(let a of alfabeto)
-        if(a == caracter)
-            return true;
-    return false;
 };
 
 const trataAquivo = (caminhoArquivo) =>{
