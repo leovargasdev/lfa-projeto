@@ -6,13 +6,13 @@ for
 int
 float
 
-<S> ::= v<A> | w<A> | x<A> | y<A> | z<A>
-<A> ::= v<A> | w<A> | x<A> | y<A> | z<A> | ε
+<S> ::= v<var> | w<var> | x<var> | y<var> | z<var>
+<var> ::= v<var> | w<var> | x<var> | y<var> | z<var> | ε
 
-<S> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | 0<A>
-<A> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | 0<A> | ε
+<S> ::= 1<int> | 2<int> | 3<int> | 4<int> | 5<int> | 6<int> | 7<int> | 8<int> | 9<int> | 0<int>
+<int> ::= 1<int> | 2<int> | 3<int> | 4<int> | 5<int> | 6<int> | 7<int> | 8<int> | 9<int> | 0<int> | ε
 
 <S> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | 0<A>
 <A> ::= 1<A> | 2<A> | 3<A> | 4<A> | 5<A> | 6<A> | 7<A> | 8<A> | 9<A> | 0<A> | .<B>
-<B> ::= 1<C> | 2<C> | 3<C> | 4<C> | 5<C> | 6<C> | 7<C> | 8<C> | 9<C> | 0<C>
-<C> ::= 1<C> | 2<C> | 3<C> | 4<C> | 5<C> | 6<C> | 7<C> | 8<C> | 9<C> | 0<C> | ε
+<B> ::= 1<float> | 2<float> | 3<float> | 4<float> | 5<float> | 6<float> | 7<float> | 8<float> | 9<float> | 0<float>
+<float> ::= 1<float> | 2<float> | 3<float> | 4<float> | 5<float> | 6<float> | 7<float> | 8<float> | 9<float> | 0<float> | ε

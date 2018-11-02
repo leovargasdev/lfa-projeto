@@ -6,7 +6,7 @@ const AdicionaEstadoErro = require('./adiciona_estado_erro');
 const AnalizadorLexico = require('./analizador_lexico');
 
 const tokens = 'inputs/tokens.in', gramatica = 'inputs/gramatica.in';
-const automato = {}, analizeLexica = {};
+const automato = {}, analiseLexica = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
@@ -32,6 +32,10 @@ if (true) {
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute(gramatica, automato, alfabeto, estadosFinais, analizeLexica);
+AnalizadorLexico.execute(gramatica, automato, alfabeto, estadosFinais, analiseLexica);
 
-console.log(analizeLexica);
+if(analiseLexica['error']){
+  for(k in analiseLexica['error']){
+    console.log("[error] linha: ", analiseLexica['error'][k].linha, " rotulo: ", analiseLexica['error'][k].rotulo);
+  }
+}
