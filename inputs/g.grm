@@ -1,0 +1,35 @@
+"Name" =  'perdi'
+"Start Symbol" = <perdi>
+
+
+<escopo> ::= <escopo> <op> |
+
+<num> ::= 'int' | 'float' | 'PI'
+
+<op> ::= <attr> | <cond> | <laco>
+
+<E> ::= <E> '+' <F> | <E> '-' <F> | <E> '*' <F> | <E> '/' <F> | <F>
+
+<F> ::= '(' <E> ')' | <V>
+
+<V> ::= 'var' | <num>
+
+<attr> ::= 'var' '=' <E> ';'
+
+<condS> ::= '<' | '>' | 'IS'
+
+<logcond> ::= <V> <condS> <V> | 'TRUE' | 'FALSE'
+
+<cond> ::= 'SE' <logcond> '{' <escopo> '}' <cond2>
+
+<cond2> ::= 'SENAO' '{' <escopo> '}' |
+
+<EL> ::= '{' <escopo> <break>'}'
+
+<laco> ::= 'ENQUANTO' <logcond> <EL> | 'FOR' 'var' 'IN' 'var' <EL>
+
+<break> ::= 'BREAK' ';'
+
+<S> ::= <escopo>
+
+<perdi> ::= <S>'$'
