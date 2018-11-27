@@ -1,10 +1,25 @@
+$
+-
+(
+)
+*
+/
+{
+}
++
+<
 =
-if
-else
-while
-for
-int
-float
+>
+IF
+ELSE
+WHILE
+BREAK
+TRUE
+FALSE
+FOR
+INT
+FLOAT
+IN
 
 <S> ::= v<var> | w<var> | x<var> | y<var> | z<var>
 <var> ::= v<var> | w<var> | x<var> | y<var> | z<var> | ε
