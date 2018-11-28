@@ -1,7 +1,7 @@
-const FileSystem = require('fs');
+const ler = require('./lerArquivos');
 
-const execute = (caminhoArquivo, automato, alfabeto, estadosFinais, analiseLexica) => {
-    const arquivo = trataAquivo(caminhoArquivo);
+const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
+    const {gramatica: arquivo} = ler.execute(['gramatica']);
     for(let l in arquivo){
         if(arquivo[l]){ // Ignora as linhas vazias com \n
             analiseLexica['linha' + l] = [];
@@ -17,12 +17,11 @@ const execute = (caminhoArquivo, automato, alfabeto, estadosFinais, analiseLexic
                     estado = automato[estado][caracter];
                     estado = estado.values().next().value;
                 }
+                // Entra nesse condicional caso gere algum erro Léxico
                 if(!estadosFinais.has(estado) || erro){
                     analiseLexica['error'] = analiseLexica['error'] || [];
                     analiseLexica['error'].push({linha: l, rotulo:linha[p]});
-                    // console.log("[error]\t" + linha[p] + " linha:" + (l));
                 } else {
-                    // console.log("[ok]\t" + linha[p]);
                     analiseLexica['linha' + l].push({
                         rotulo: linha[p],
                         estado_final: estado,
@@ -34,30 +33,26 @@ const execute = (caminhoArquivo, automato, alfabeto, estadosFinais, analiseLexic
     }
 };
 
-const trataAquivo = (caminhoArquivo) =>{
-    let arquivo, error;
-    try {
-        arquivo = FileSystem.readFileSync(caminhoArquivo, 'utf8');
-    } catch (erro) {
-            console.error("Could not open file: %s", erro);
-            process.exitCode = 1;
-    }
-    return arquivo.split("\n");
-}
+// const trataAquivo = (caminhoArquivo) =>{
+//     let arquivo, error;
+//     try {
+//         arquivo = FileSystem.readFileSync(caminhoArquivo, 'utf8');
+//     } catch (erro) {
+//             console.error("Could not open file: %s", erro);
+//             process.exitCode = 1;
+//     }
+//     return arquivo.split("\n");
+// }
 
 const trataToken = (estado,rotulo) =>{
-   if(estado.includes("int")){
-     return "int";
-   }else if(estado.includes("float")){
-     return "float";
-   }else if(estado.includes("var")){
-     return "var";
-   }else{
-     return rotulo;
-   }
+   if(estado.includes("int")) return "int";
 
+   else if(estado.includes("float")) return "float";
+
+   else if(estado.includes("var")) return "var";
+
+   return rotulo;
 }
-
 
 module.exports = {
     execute

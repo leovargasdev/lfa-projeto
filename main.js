@@ -4,9 +4,10 @@ const DeterminizaAutomato = require('./determiniza_automato');
 const MinimizaAutomato = require('./minimiza_automato');
 const AdicionaEstadoErro = require('./adiciona_estado_erro');
 const AnalizadorLexico = require('./analizador_lexico');
+const InicializaParser = require('./parser');
 
-const tokens = 'inputs/tokens.in', gramatica = 'inputs/gramatica.in';
-const automato = {}, analiseLexica = {};
+const tokens = 'inputs/tokens.in';
+const automato = {}, analiseLexica = {}, parser = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
@@ -25,14 +26,16 @@ if (true) {
 
     RemoveEpsilonProducoes.execute(automato, estadosFinais);
 
-    DeterminizaAutomato.execute( automato, estadosFinais);
+    DeterminizaAutomato.execute(automato, estadosFinais);
 
     MinimizaAutomato.execute(automato, estadosFinais);
 
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute(gramatica, automato, alfabeto, estadosFinais, analiseLexica);
+AnalizadorLexico.execute( automato, alfabeto, estadosFinais, analiseLexica);
+
+// InicializaParser.execute();
 
 if(analiseLexica['error']){
   for(k in analiseLexica['error']){
