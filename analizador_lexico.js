@@ -2,57 +2,61 @@ const ler = require('./lerArquivos');
 
 const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
     const {gramatica: arquivo} = ler.execute(['gramatica']);
-    for(let l in arquivo){
+    // console.log(estadosFinais);
+    for(const l in arquivo){
         if(arquivo[l]){ // Ignora as linhas vazias com \n
             analiseLexica['linha' + l] = [];
-            const linha = arquivo[l].split(' ');
-            for(p in linha){
-                let estado = 'S', erro = false;
-                for(let c in linha[p]){
-                    const caracter = linha[p][c];
-                    if(!alfabeto.has(caracter) || estado == "estadoERRO"){ // Caso o caracter não esteja no alfabeto ou seja o estado de ERROR
-                        erro = true;
-                        break;
-                    }
-                    estado = automato[estado][caracter];
-                    estado = estado.values().next().value;
-                }
-                // Entra nesse condicional caso gere algum erro Léxico
-                if(!estadosFinais.has(estado) || erro){
+            const linha = arquivo[l].replace(/ /g, '');
+            let estado = 'S', rotulo = '';
+            for(const c in linha){
+                const caracter = linha[c];
+                estado = automato[estado][caracter].values().next().value;
+                rotulo += caracter;
+                if(!alfabeto.has(caracter) || estado == "estadoERRO"){ // Caso o caracter não esteja no alfabeto ou seja o estado de ERROR
                     analiseLexica['error'] = analiseLexica['error'] || [];
-                    analiseLexica['error'].push({linha: l, rotulo:linha[p]});
-                } else {
-                    analiseLexica['linha' + l].push({
-                        rotulo: linha[p],
-                        estado_final: estado,
-                        token: trataToken(estado,linha[p])
+                    analiseLexica['error'].push({
+                        linha: l,
+                        rotulo: rotulo
                     });
+                    estado = 'S';
+                    rotulo = '';
+                } else if(estadosFinais.has(estado)){ // Caso seja um estado final, assim reconheceu o rotulo
+                    if(verifica_prox_estado(automato[estado][linha[Number(c)+1]])){
+                        analiseLexica['linha' + l].push({
+                            rotulo: rotulo,
+                            estado_final: estado,
+                            token: trataToken(estado, rotulo)
+                        });
+                        estado = 'S';
+                        rotulo = '';
+                    }
                 }
             }
         }
     }
+    console.log("analiseLexica", analiseLexica);
 };
-
-// const trataAquivo = (caminhoArquivo) =>{
-//     let arquivo, error;
-//     try {
-//         arquivo = FileSystem.readFileSync(caminhoArquivo, 'utf8');
-//     } catch (erro) {
-//             console.error("Could not open file: %s", erro);
-//             process.exitCode = 1;
-//     }
-//     return arquivo.split("\n");
-// }
-
 const trataToken = (estado,rotulo) =>{
-   if(estado.includes("int")) return "int";
+    if(estado.includes("int")) return "int";
 
-   else if(estado.includes("float")) return "float";
+    else if(estado.includes("float")) return "float";
 
-   else if(estado.includes("var")) return "var";
+    else if(estado.includes("var")) return "var";
 
-   return rotulo;
+    return rotulo;
 }
+
+const verifica_prox_estado = (estado) =>{
+    if(!estado){
+        return true;
+    }
+    console.log("estado:", estado);
+    estado = estado.values().next().value
+    if(estado.includes("float") || estado.includes("var") || estado.includes("int")){
+        return false;
+    }
+    return true;
+};
 
 module.exports = {
     execute
