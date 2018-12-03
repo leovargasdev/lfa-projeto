@@ -1,13 +1,14 @@
 const ler = require('./lerArquivos');
 
 const execute = () => {
-    let {terminais, nTerminais, regras} = ler.execute(['terminais', 'nTerminais', 'regras']);
+    let {terminais, nTerminais, regras, estados} = ler.execute(['terminais', 'nTerminais', 'regras', 'estados']);
     regras = trataRegras(regras);
     terminais = trataTerminais(terminais);
     nTerminais = trataTerminais(nTerminais);
-    console.log("regras:", regras);
-    console.log("nTerminais:", nTerminais);
-    console.log("terminais:", terminais);
+    // console.log("regras:", regras);
+    // console.log("nTerminais:", nTerminais);
+    // console.log("terminais:", terminais);
+    console.log(estados);
 };
 
 const trataRegras = (regras) =>{

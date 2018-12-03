@@ -1,0 +1,893 @@
+﻿============================================================
+GOLD Parser Builder
+Version 5.2.0.
+============================================================
+
+
+========================================
+Terminals
+========================================
+
+ 0      (EOF)
+ 1      (Error)
+ 2      Whitespace
+ 3      '-'
+ 4      '$'
+ 5      '('
+ 6      ')'
+ 7      '*'
+ 8      '/'
+ 9      ';'
+ 10     '{'
+ 11     '}'
+ 12     '+'
+ 13     '<'
+ 14     '='
+ 15     '>'
+ 16     ELSE
+ 17     FALSE
+ 18     float
+ 19     FOR
+ 20     IF
+ 21     IN
+ 22     int
+ 23     TRUE
+ 24     var
+ 25     WHILE
+
+
+========================================
+Nonterminals
+========================================
+
+26      <attr>
+27      <cond>
+28      <cond2>
+29      <condS>
+30      <E>
+31      <EL>
+32      <escopo>
+33      <F>
+34      <laco>
+35      <logcond>
+36      <num>
+37      <op>
+38      <perdi>
+39      <S>
+40      <V>
+
+
+========================================
+Rules
+========================================
+
+0       <escopo> ::= <escopo> <op>
+1       <escopo> ::= 
+2       <num> ::= int
+3       <num> ::= float
+4       <op> ::= <attr>
+5       <op> ::= <cond>
+6       <op> ::= <laco>
+7       <E> ::= <E> '+' <F>
+8       <E> ::= <E> '-' <F>
+9       <E> ::= <E> '*' <F>
+10      <E> ::= <E> '/' <F>
+11      <E> ::= <F>
+12      <F> ::= '(' <E> ')'
+13      <F> ::= <V>
+14      <V> ::= var
+15      <V> ::= <num>
+16      <attr> ::= var '=' <E> ';'
+17      <condS> ::= '<'
+18      <condS> ::= '>'
+19      <logcond> ::= <V> <condS> <V>
+20      <logcond> ::= TRUE
+21      <logcond> ::= FALSE
+22      <cond> ::= IF <logcond> '{' <escopo> '}' <cond2>
+23      <cond2> ::= ELSE '{' <escopo> '}'
+24      <cond2> ::= 
+25      <EL> ::= '{' <escopo> '}'
+26      <laco> ::= WHILE <logcond> <EL>
+27      <laco> ::= FOR var IN var <EL>
+28      <S> ::= <escopo>
+29      <perdi> ::= <S> '$'
+
+
+========================================
+DFA States
+========================================
+
+State 0
+        Goto 1       &09 .. &0D, &20, &85, &A0, &1680, &180E, &2000 .. &200A, &2026, &2028, &2029, &202F, &205F, &3000
+        Goto 2       -
+        Goto 3       $
+        Goto 4       (
+        Goto 5       )
+        Goto 6       *
+        Goto 7       /
+        Goto 8       ;
+        Goto 9       {
+        Goto 10      }
+        Goto 11      +
+        Goto 12      <
+        Goto 13      =
+        Goto 14      >
+        Goto 15      Ee
+        Goto 19      Tt
+        Goto 23      Vv
+        Goto 26      Ww
+        Goto 31      Ff
+        Goto 42      Ii
+
+
+State 1
+        Goto 1       &09 .. &0D, &20, &85, &A0, &1680, &180E, &2000 .. &200A, &2026, &2028, &2029, &202F, &205F, &3000
+
+
+State 2
+
+
+State 3
+
+
+State 4
+
+
+State 5
+
+
+State 6
+
+
+State 7
+
+
+State 8
+
+
+State 9
+
+
+State 10
+
+
+State 11
+
+
+State 12
+
+
+State 13
+
+
+State 14
+
+
+State 15
+        Goto 16      Ll
+
+
+State 16
+        Goto 17      Ss
+
+
+State 17
+        Goto 18      Ee
+
+
+State 18
+
+
+State 19
+        Goto 20      Rr
+
+
+State 20
+        Goto 21      Uu
+
+
+State 21
+        Goto 22      Ee
+
+
+State 22
+
+
+State 23
+        Goto 24      Aa
+
+
+State 24
+        Goto 25      Rr
+
+
+State 25
+
+
+State 26
+        Goto 27      Hh
+
+
+State 27
+        Goto 28      Ii
+
+
+State 28
+        Goto 29      Ll
+
+
+State 29
+        Goto 30      Ee
+
+
+State 30
+
+
+State 31
+        Goto 32      Aa
+        Goto 36      Ll
+        Goto 40      Oo
+
+
+State 32
+        Goto 33      Ll
+
+
+State 33
+        Goto 34      Ss
+
+
+State 34
+        Goto 35      Ee
+
+
+State 35
+
+
+State 36
+        Goto 37      Oo
+
+
+State 37
+        Goto 38      Aa
+
+
+State 38
+        Goto 39      Tt
+
+
+State 39
+
+
+State 40
+        Goto 41      Rr
+
+
+State 41
+
+
+State 42
+        Goto 43      Ff
+        Goto 44      Nn
+
+
+State 43
+
+
+State 44
+        Goto 45      Tt
+
+
+State 45
+
+
+
+
+========================================
+LALR States
+========================================
+
+State 0
+        <escopo> g 1
+        <perdi> g 2
+        <S> g 3
+        '$' r 1
+        FOR r 1
+        IF r 1
+        var r 1
+        WHILE r 1
+
+
+State 1
+        Prior States: 0
+
+        FOR s 4
+        IF s 5
+        var s 6
+        WHILE s 7
+        <attr> g 8
+        <cond> g 9
+        <laco> g 10
+        <op> g 11
+        '$' r 28
+
+
+State 2
+        Prior States: 0
+
+        (EOF) a
+
+
+State 3
+        Prior States: 0
+
+        '$' s 12
+
+
+State 4
+        Prior States: 1, 36, 44, 56
+
+        var s 13
+
+
+State 5
+        Prior States: 1, 36, 44, 56
+
+        FALSE s 14
+        float s 15
+        int s 16
+        TRUE s 17
+        var s 18
+        <logcond> g 19
+        <num> g 20
+        <V> g 21
+
+
+State 6
+        Prior States: 1, 36, 44, 56
+
+        '=' s 22
+
+
+State 7
+        Prior States: 1, 36, 44, 56
+
+        FALSE s 14
+        float s 15
+        int s 16
+        TRUE s 17
+        var s 18
+        <logcond> g 23
+        <num> g 20
+        <V> g 21
+
+
+State 8
+        Prior States: 1, 36, 44, 56
+
+        '$' r 4
+        '}' r 4
+        FOR r 4
+        IF r 4
+        var r 4
+        WHILE r 4
+
+
+State 9
+        Prior States: 1, 36, 44, 56
+
+        '$' r 5
+        '}' r 5
+        FOR r 5
+        IF r 5
+        var r 5
+        WHILE r 5
+
+
+State 10
+        Prior States: 1, 36, 44, 56
+
+        '$' r 6
+        '}' r 6
+        FOR r 6
+        IF r 6
+        var r 6
+        WHILE r 6
+
+
+State 11
+        Prior States: 1, 36, 44, 56
+
+        '$' r 0
+        '}' r 0
+        FOR r 0
+        IF r 0
+        var r 0
+        WHILE r 0
+
+
+State 12
+        Prior States: 3
+
+        (EOF) r 29
+
+
+State 13
+        Prior States: 4
+
+        IN s 24
+
+
+State 14
+        Prior States: 5, 7
+
+        '{' r 21
+
+
+State 15
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+
+        '-' r 3
+        ')' r 3
+        '*' r 3
+        '/' r 3
+        ';' r 3
+        '{' r 3
+        '+' r 3
+        '<' r 3
+        '>' r 3
+
+
+State 16
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+
+        '-' r 2
+        ')' r 2
+        '*' r 2
+        '/' r 2
+        ';' r 2
+        '{' r 2
+        '+' r 2
+        '<' r 2
+        '>' r 2
+
+
+State 17
+        Prior States: 5, 7
+
+        '{' r 20
+
+
+State 18
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+
+        '-' r 14
+        ')' r 14
+        '*' r 14
+        '/' r 14
+        ';' r 14
+        '{' r 14
+        '+' r 14
+        '<' r 14
+        '>' r 14
+
+
+State 19
+        Prior States: 5
+
+        '{' s 25
+
+
+State 20
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+
+        '-' r 15
+        ')' r 15
+        '*' r 15
+        '/' r 15
+        ';' r 15
+        '{' r 15
+        '+' r 15
+        '<' r 15
+        '>' r 15
+
+
+State 21
+        Prior States: 5, 7
+
+        '<' s 26
+        '>' s 27
+        <condS> g 28
+
+
+State 22
+        Prior States: 6
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <E> g 30
+        <F> g 31
+        <num> g 20
+        <V> g 32
+
+
+State 23
+        Prior States: 7
+
+        '{' s 33
+        <EL> g 34
+
+
+State 24
+        Prior States: 13
+
+        var s 35
+
+
+State 25
+        Prior States: 19
+
+        <escopo> g 36
+        '}' r 1
+        FOR r 1
+        IF r 1
+        var r 1
+        WHILE r 1
+
+
+State 26
+        Prior States: 21
+
+        float r 17
+        int r 17
+        var r 17
+
+
+State 27
+        Prior States: 21
+
+        float r 18
+        int r 18
+        var r 18
+
+
+State 28
+        Prior States: 21
+
+        float s 15
+        int s 16
+        var s 18
+        <num> g 20
+        <V> g 37
+
+
+State 29
+        Prior States: 22, 29, 39, 40, 41, 43
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <E> g 38
+        <F> g 31
+        <num> g 20
+        <V> g 32
+
+
+State 30
+        Prior States: 22
+
+        '-' s 39
+        '*' s 40
+        '/' s 41
+        ';' s 42
+        '+' s 43
+
+
+State 31
+        Prior States: 22, 29
+
+        '-' r 11
+        ')' r 11
+        '*' r 11
+        '/' r 11
+        ';' r 11
+        '+' r 11
+
+
+State 32
+        Prior States: 22, 29, 39, 40, 41, 43
+
+        '-' r 13
+        ')' r 13
+        '*' r 13
+        '/' r 13
+        ';' r 13
+        '+' r 13
+
+
+State 33
+        Prior States: 23, 35
+
+        <escopo> g 44
+        '}' r 1
+        FOR r 1
+        IF r 1
+        var r 1
+        WHILE r 1
+
+
+State 34
+        Prior States: 23
+
+        '$' r 26
+        '}' r 26
+        FOR r 26
+        IF r 26
+        var r 26
+        WHILE r 26
+
+
+State 35
+        Prior States: 24
+
+        '{' s 33
+        <EL> g 45
+
+
+State 36
+        Prior States: 25
+
+        '}' s 46
+        FOR s 4
+        IF s 5
+        var s 6
+        WHILE s 7
+        <attr> g 8
+        <cond> g 9
+        <laco> g 10
+        <op> g 11
+
+
+State 37
+        Prior States: 28
+
+        '{' r 19
+
+
+State 38
+        Prior States: 29
+
+        '-' s 39
+        ')' s 47
+        '*' s 40
+        '/' s 41
+        '+' s 43
+
+
+State 39
+        Prior States: 30, 38
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <F> g 48
+        <num> g 20
+        <V> g 32
+
+
+State 40
+        Prior States: 30, 38
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <F> g 49
+        <num> g 20
+        <V> g 32
+
+
+State 41
+        Prior States: 30, 38
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <F> g 50
+        <num> g 20
+        <V> g 32
+
+
+State 42
+        Prior States: 30
+
+        '$' r 16
+        '}' r 16
+        FOR r 16
+        IF r 16
+        var r 16
+        WHILE r 16
+
+
+State 43
+        Prior States: 30, 38
+
+        '(' s 29
+        float s 15
+        int s 16
+        var s 18
+        <F> g 51
+        <num> g 20
+        <V> g 32
+
+
+State 44
+        Prior States: 33
+
+        '}' s 52
+        FOR s 4
+        IF s 5
+        var s 6
+        WHILE s 7
+        <attr> g 8
+        <cond> g 9
+        <laco> g 10
+        <op> g 11
+
+
+State 45
+        Prior States: 35
+
+        '$' r 27
+        '}' r 27
+        FOR r 27
+        IF r 27
+        var r 27
+        WHILE r 27
+
+
+State 46
+        Prior States: 36
+
+        ELSE s 53
+        <cond2> g 54
+        '$' r 24
+        '}' r 24
+        FOR r 24
+        IF r 24
+        var r 24
+        WHILE r 24
+
+
+State 47
+        Prior States: 38
+
+        '-' r 12
+        ')' r 12
+        '*' r 12
+        '/' r 12
+        ';' r 12
+        '+' r 12
+
+
+State 48
+        Prior States: 39
+
+        '-' r 8
+        ')' r 8
+        '*' r 8
+        '/' r 8
+        ';' r 8
+        '+' r 8
+
+
+State 49
+        Prior States: 40
+
+        '-' r 9
+        ')' r 9
+        '*' r 9
+        '/' r 9
+        ';' r 9
+        '+' r 9
+
+
+State 50
+        Prior States: 41
+
+        '-' r 10
+        ')' r 10
+        '*' r 10
+        '/' r 10
+        ';' r 10
+        '+' r 10
+
+
+State 51
+        Prior States: 43
+
+        '-' r 7
+        ')' r 7
+        '*' r 7
+        '/' r 7
+        ';' r 7
+        '+' r 7
+
+
+State 52
+        Prior States: 44
+
+        '$' r 25
+        '}' r 25
+        FOR r 25
+        IF r 25
+        var r 25
+        WHILE r 25
+
+
+State 53
+        Prior States: 46
+
+        '{' s 55
+
+
+State 54
+        Prior States: 46
+
+        '$' r 22
+        '}' r 22
+        FOR r 22
+        IF r 22
+        var r 22
+        WHILE r 22
+
+
+State 55
+        Prior States: 53
+
+        <escopo> g 56
+        '}' r 1
+        FOR r 1
+        IF r 1
+        var r 1
+        WHILE r 1
+
+
+State 56
+        Prior States: 55
+
+        '}' s 57
+        FOR s 4
+        IF s 5
+        var s 6
+        WHILE s 7
+        <attr> g 8
+        <cond> g 9
+        <laco> g 10
+        <op> g 11
+
+
+State 57
+        Prior States: 56
+
+        '$' r 23
+        '}' r 23
+        FOR r 23
+        IF r 23
+        var r 23
+        WHILE r 23
+
+
+
+
+========================================
+System Log
+========================================
+
+
+
