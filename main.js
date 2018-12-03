@@ -35,4 +35,4 @@ if (true) {
 
 AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica, true);
 
-AnalizadorSintatico.execute(automato, analiseLexica)
+// AnalizadorSintatico.execute(automato, analiseLexica)

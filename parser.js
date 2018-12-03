@@ -6,20 +6,16 @@ const execute = () => {
     terminais = trataTerminais(terminais);
     nTerminais = trataTerminais(nTerminais);
     estados = trataEstados(estados);
-    console.log("regras:", regras);
-    console.log("nTerminais:", nTerminais);
-    console.log("terminais:", terminais);
-    console.log("estados:", estados);
+    return { regras, terminais, nTerminais, estados};
 };
 
 const trataRegras = (regras) =>{
-    const regrasTratada = {};
+    const regrasTratada = {}
+    let contador = 0;
     for(const r in regras){
         if(regras[r].match(/::=/)){
-            let [regra, producao] = regras[r].split('::=');
-            regra = regra.replace(/[<> ]/g, '');
-            regrasTratada[regra] = regrasTratada[regra] || [];
-            regrasTratada[regra].push(producao)
+            regrasTratada['r' + contador] = regras[r].split('::=');
+            contador++;
         }
     }
     return regrasTratada;

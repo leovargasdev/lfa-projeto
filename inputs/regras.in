@@ -20,7 +20,7 @@
 <logcond> ::= <V> <condS> <V>
 <logcond> ::= TRUE
 <logcond> ::= FALSE
-<cond> ::= IF <logcond> { <escopo> ' <cond2>
+<cond> ::= IF <logcond> { <escopo> } <cond2>
 <cond2> ::= ELSE { <escopo> }
 <cond2> ::=
 <EL> ::= { <escopo> }

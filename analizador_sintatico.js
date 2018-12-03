@@ -1,6 +1,7 @@
 const Parser = require('./parser');
 const execute = (automato, analiseLexica) => {
-    Parser.execute();
+    const parser = Parser.execute();
+    console.log(parser);
 };
 
 module.exports = {
