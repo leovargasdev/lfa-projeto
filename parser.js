@@ -1,11 +1,23 @@
 const ler = require('./lerArquivos');
 
 const execute = () => {
-    const{terminais, nTerminais, regras} = ler.execute(['terminais', 'nTerminais', 'regras']);
-    if(terminais) console.log("terminais [ ok ! ]");
-    if(nTerminais) console.log("nTerminais [ ok ! ]");
-    if(regras) console.log("regras [ ok ! ]");
+    let {terminais, nTerminais, regras} = ler.execute(['terminais', 'nTerminais', 'regras']);
+    regras = trataRegras(regras);
+    console.log("regras:", regras);
 };
+
+const trataRegras = (regras) =>{
+    const regrasTratada = {};
+    for(const r in regras){
+        if(regras[r].match(/::=/)){
+            let [regra, producao] = regras[r].split('::=');
+            regra = regra.replace(/[<> ]/g, '');
+            regrasTratada[regra] = regrasTratada[regra] || [];
+            regrasTratada[regra].push(producao)
+        }
+    }
+    return regrasTratada;
+}
 
 module.exports = {
     execute,

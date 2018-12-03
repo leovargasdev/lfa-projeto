@@ -33,6 +33,6 @@ if (true) {
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
+AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica, false);
 
 AnalizadorSintatico.execute(automato, analiseLexica)

@@ -17,6 +17,9 @@ BREAK
 FOR
 INT
 FLOAT
+TRUE
+FALSE
+IN
 
 <S> ::= v<var> | w<var> | x<var> | y<var> | z<var>
 <var> ::= v<var> | w<var> | x<var> | y<var> | z<var> | ε
