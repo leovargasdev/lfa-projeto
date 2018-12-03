@@ -5,10 +5,11 @@ const execute = () => {
     regras = trataRegras(regras);
     terminais = trataTerminais(terminais);
     nTerminais = trataTerminais(nTerminais);
-    // console.log("regras:", regras);
-    // console.log("nTerminais:", nTerminais);
-    // console.log("terminais:", terminais);
-    console.log(estados);
+    estados = trataEstados(estados);
+    console.log("regras:", regras);
+    console.log("nTerminais:", nTerminais);
+    console.log("terminais:", terminais);
+    console.log("estados:", estados);
 };
 
 const trataRegras = (regras) =>{
@@ -29,6 +30,24 @@ const trataTerminais = (file) =>{
     // Percorre linha por linha do arquivo
     for(const f in file){
         result.add(file[f].replace(/[<> ]/g, ''));
+    }
+    return result;
+};
+
+const trataEstados = (estados) =>{
+    let estado = '', result = {};
+    for(const s in estados){
+        if(estados[s].includes("State")){
+            if(!estados[s].includes("Prior States")){
+                estado = estados[s].replace(' ','\_');
+                result[estado] = result[estado] || [];
+            }
+        } else {
+            const aux = estados[s].replace(/[\']/g, '');
+            if(aux != ''){
+                result[estado].push(aux);
+            }
+        }
     }
     return result;
 };
