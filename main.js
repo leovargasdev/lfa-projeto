@@ -4,7 +4,7 @@ const DeterminizaAutomato = require('./determiniza_automato');
 const MinimizaAutomato = require('./minimiza_automato');
 const AdicionaEstadoErro = require('./adiciona_estado_erro');
 const AnalizadorLexico = require('./analizador_lexico');
-const InicializaParser = require('./parser');
+const AnalizadorSintatico = require('./analizador_sintatico');
 
 const tokens = 'inputs/tokens.in';
 const automato = {}, analiseLexica = {}, parser = {};
@@ -33,12 +33,6 @@ if (true) {
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute( automato, alfabeto, estadosFinais, analiseLexica);
+AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
 
-// InicializaParser.execute();
-
-if(analiseLexica['error']){
-  for(k in analiseLexica['error']){
-    console.log("[error] linha: ", analiseLexica['error'][k].linha, " rotulo: ", analiseLexica['error'][k].rotulo);
-  }
-}
+AnalizadorSintatico.execute(automato, analiseLexica)

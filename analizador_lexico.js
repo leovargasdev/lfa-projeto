@@ -2,7 +2,6 @@ const ler = require('./lerArquivos');
 
 const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
     const {gramatica: arquivo} = ler.execute(['gramatica']);
-    // console.log(estadosFinais);
     for(const l in arquivo){
         if(arquivo[l]){ // Ignora as linhas vazias com \n
             analiseLexica['linha' + l] = [];
@@ -34,8 +33,15 @@ const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
             }
         }
     }
-    console.log("analiseLexica", JSON.stringify(analiseLexica, null, 4));
+    if(analiseLexica['error']){
+        for(k in analiseLexica['error']){
+            console.log("[error] linha: ", analiseLexica['error'][k].linha, " rotulo: ", analiseLexica['error'][k].rotulo);
+        }
+    } else {
+        console.log("fita", JSON.stringify(analiseLexica, null, 4));
+    }
 };
+
 const trataToken = (estado,rotulo) =>{
     if(estado.includes("int")) return "int";
 
