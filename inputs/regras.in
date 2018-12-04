@@ -14,17 +14,19 @@
 <F> ::= <V>
 <V> ::= var
 <V> ::= <num>
-<attr> ::= var = <E> ;
+<attr> ::= var = <E>
 <condS> ::= <
 <condS> ::= >
+<condS> ::= IS
 <logcond> ::= <V> <condS> <V>
 <logcond> ::= TRUE
 <logcond> ::= FALSE
 <cond> ::= IF <logcond> { <escopo> } <cond2>
 <cond2> ::= ELSE { <escopo> }
 <cond2> ::=
-<EL> ::= { <escopo> }
+<EL> ::= { <escopo> <break> }
 <laco> ::= WHILE <logcond> <EL>
 <laco> ::= FOR var IN var <EL>
+<break> ::= BREAK
+<break> ::=
 <S> ::= <escopo>
-<perdi> ::= <S> $

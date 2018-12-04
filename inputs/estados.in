@@ -1,595 +1,509 @@
 State 0
 <escopo> g 1
-<perdi> g 2
-<S> g 3
-'$' r 1
+<S> g 2
+$ r 1
 FOR r 1
 IF r 1
 var r 1
 WHILE r 1
 
-
 State 1
-Prior States: 0
-
-FOR s 4
-IF s 5
-var s 6
-WHILE s 7
-<attr> g 8
-<cond> g 9
-<laco> g 10
-<op> g 11
-'$' r 28
-
+FOR s 3
+IF s 4
+var s 5
+WHILE s 6
+<attr> g 7
+<cond> g 8
+<laco> g 9
+<op> g 10
+$ r 31
 
 State 2
-Prior States: 0
-
-(EOF) a
-
+$ ac
 
 State 3
-Prior States: 0
-
-'$' s 12
-
+var s 11
 
 State 4
-Prior States: 1, 36, 44, 56
-
-var s 13
-
+FALSE s 12
+float s 13
+int s 14
+TRUE s 15
+var s 16
+<logcond> g 17
+<num> g 18
+<V> g 19
 
 State 5
-Prior States: 1, 36, 44, 56
-
-FALSE s 14
-float s 15
-int s 16
-TRUE s 17
-var s 18
-<logcond> g 19
-<num> g 20
-<V> g 21
-
+= s 20
 
 State 6
-Prior States: 1, 36, 44, 56
-
-'=' s 22
-
+FALSE s 12
+float s 13
+int s 14
+TRUE s 15
+var s 16
+<logcond> g 21
+<num> g 18
+<V> g 19
 
 State 7
-Prior States: 1, 36, 44, 56
-
-FALSE s 14
-float s 15
-int s 16
-TRUE s 17
-var s 18
-<logcond> g 23
-<num> g 20
-<V> g 21
-
-
-State 8
-Prior States: 1, 36, 44, 56
-
-'$' r 4
-'}' r 4
+$ r 4
+} r 4
+BREAK r 4
 FOR r 4
 IF r 4
 var r 4
 WHILE r 4
 
-
-State 9
-Prior States: 1, 36, 44, 56
-
-'$' r 5
-'}' r 5
+State 8
+$ r 5
+} r 5
+BREAK r 5
 FOR r 5
 IF r 5
 var r 5
 WHILE r 5
 
-
-State 10
-Prior States: 1, 36, 44, 56
-
-'$' r 6
-'}' r 6
+State 9
+$ r 6
+} r 6
+BREAK r 6
 FOR r 6
 IF r 6
 var r 6
 WHILE r 6
 
-
-State 11
-Prior States: 1, 36, 44, 56
-
-'$' r 0
-'}' r 0
+State 10
+$ r 0
+} r 0
+BREAK r 0
 FOR r 0
 IF r 0
 var r 0
 WHILE r 0
 
+State 11
+IN s 22
 
 State 12
-Prior States: 3
-
-(EOF) r 29
-
+{ r 22
 
 State 13
-Prior States: 4
-
-IN s 24
-
+$ r 3
+- r 3
+) r 3
+* r 3
+/ r 3
+{ r 3
+} r 3
++ r 3
+< r 3
+> r 3
+BREAK r 3
+FOR r 3
+IF r 3
+IS r 3
+var r 3
+WHILE r 3
 
 State 14
-Prior States: 5, 7
-
-'{' r 21
-
+$ r 2
+- r 2
+) r 2
+* r 2
+/ r 2
+{ r 2
+} r 2
++ r 2
+< r 2
+> r 2
+BREAK r 2
+FOR r 2
+IF r 2
+IS r 2
+var r 2
+WHILE r 2
 
 State 15
-Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
-
-'-' r 3
-')' r 3
-'*' r 3
-'/' r 3
-';' r 3
-'{' r 3
-'+' r 3
-'<' r 3
-'>' r 3
-
+{ r 21
 
 State 16
-Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
-
-'-' r 2
-'$' r 2
-')' r 2
-'*' r 2
-'/' r 2
-';' r 2
-'{' r 2
-'+' r 2
-'<' r 2
-'>' r 2
-
+$ r 14
+- r 14
+) r 14
+* r 14
+/ r 14
+{ r 14
+} r 14
++ r 14
+< r 14
+> r 14
+BREAK r 14
+FOR r 14
+IF r 14
+IS r 14
+var r 14
+WHILE r 14
 
 State 17
-Prior States: 5, 7
-
-'{' r 20
-
+{ s 23
 
 State 18
-Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
-
-'-' r 14
-')' r 14
-'*' r 14
-'/' r 14
-';' r 14
-'{' r 14
-'+' r 14
-'<' r 14
-'>' r 14
-
+$ r 15
+- r 15
+) r 15
+* r 15
+/ r 15
+{ r 15
+} r 15
++ r 15
+< r 15
+> r 15
+BREAK r 15
+FOR r 15
+IF r 15
+IS r 15
+var r 15
+WHILE r 15
 
 State 19
-Prior States: 5
-
-'{' s 25
-
+< s 24
+> s 25
+IS s 26
+<condS> g 27
 
 State 20
-Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
-
-'-' r 15
-')' r 15
-'*' r 15
-'/' r 15
-';' r 15
-'{' r 15
-'+' r 15
-'<' r 15
-'>' r 15
-
+( s 28
+float s 13
+int s 14
+var s 16
+<E> g 29
+<F> g 30
+<num> g 18
+<V> g 31
 
 State 21
-Prior States: 5, 7
-
-'<' s 26
-'>' s 27
-<condS> g 28
-
+{ s 32
+<EL> g 33
 
 State 22
-Prior States: 6
-
-'(' s 29
-float s 15
-int s 16
-var s 18
-<E> g 30
-<F> g 31
-<num> g 20
-<V> g 32
-
+var s 34
 
 State 23
-Prior States: 7
-
-'{' s 33
-<EL> g 34
-
-
-State 24
-Prior States: 13
-
-var s 35
-
-
-State 25
-Prior States: 19
-
-<escopo> g 36
-'}' r 1
+<escopo> g 35
+} r 1
 FOR r 1
 IF r 1
 var r 1
 WHILE r 1
 
-
-State 26
-Prior States: 21
-
+State 24
 float r 17
 int r 17
 var r 17
 
-
-State 27
-Prior States: 21
-
+State 25
 float r 18
 int r 18
 var r 18
 
+State 26
+float r 19
+int r 19
+var r 19
+
+State 27
+float s 13
+int s 14
+var s 16
+<num> g 18
+<V> g 36
 
 State 28
-Prior States: 21
-
-float s 15
-int s 16
-var s 18
-<num> g 20
-<V> g 37
-
+( s 28
+float s 13
+int s 14
+var s 16
+<E> g 37
+<F> g 30
+<num> g 18
+<V> g 31
 
 State 29
-Prior States: 22, 29, 39, 40, 41, 43
-
-'(' s 29
-float s 15
-int s 16
-var s 18
-<E> g 38
-<F> g 31
-<num> g 20
-<V> g 32
-
-
-State 30
-Prior States: 22
-
-'-' s 39
-'*' s 40
-'/' s 41
-';' s 42
-'+' s 43
-
-
-State 31
-Prior States: 22, 29
-
-'-' r 11
-')' r 11
-'*' r 11
-'/' r 11
-';' r 11
-'+' r 11
-
-
-State 32
-Prior States: 22, 29, 39, 40, 41, 43
-
-'-' r 13
-')' r 13
-'*' r 13
-'/' r 13
-';' r 13
-'+' r 13
-
-
-State 33
-Prior States: 23, 35
-
-<escopo> g 44
-'}' r 1
-FOR r 1
-IF r 1
-var r 1
-WHILE r 1
-
-
-State 34
-Prior States: 23
-
-'$' r 26
-'}' r 26
-FOR r 26
-IF r 26
-var r 26
-WHILE r 26
-
-
-State 35
-Prior States: 24
-
-'{' s 33
-<EL> g 45
-
-
-State 36
-Prior States: 25
-
-'}' s 46
-FOR s 4
-IF s 5
-var s 6
-WHILE s 7
-<attr> g 8
-<cond> g 9
-<laco> g 10
-<op> g 11
-
-
-State 37
-Prior States: 28
-
-'{' r 19
-
-
-State 38
-Prior States: 29
-
-'-' s 39
-')' s 47
-'*' s 40
-'/' s 41
-'+' s 43
-
-
-State 39
-Prior States: 30, 38
-
-'(' s 29
-float s 15
-int s 16
-var s 18
-<F> g 48
-<num> g 20
-<V> g 32
-
-
-State 40
-Prior States: 30, 38
-
-'(' s 29
-float s 15
-int s 16
-var s 18
-<F> g 49
-<num> g 20
-<V> g 32
-
-
-State 41
-Prior States: 30, 38
-
-'(' s 29
-float s 15
-int s 16
-var s 18
-<F> g 50
-<num> g 20
-<V> g 32
-
-
-State 42
-Prior States: 30
-
-'$' r 16
-'}' r 16
+- s 38
+* s 39
+/ s 40
++ s 41
+$ r 16
+} r 16
+BREAK r 16
 FOR r 16
 IF r 16
 var r 16
 WHILE r 16
 
+State 30
+$ r 11
+- r 11
+) r 11
+* r 11
+/ r 11
+} r 11
++ r 11
+BREAK r 11
+FOR r 11
+IF r 11
+var r 11
+WHILE r 11
 
-State 43
-Prior States: 30, 38
+State 31
+$ r 13
+- r 13
+) r 13
+* r 13
+/ r 13
+} r 13
++ r 13
+BREAK r 13
+FOR r 13
+IF r 13
+var r 13
+WHILE r 13
 
-'(' s 29
-float s 15
-int s 16
-var s 18
-<F> g 51
-<num> g 20
-<V> g 32
-
-
-State 44
-Prior States: 33
-
-'}' s 52
-FOR s 4
-IF s 5
-var s 6
-WHILE s 7
-<attr> g 8
-<cond> g 9
-<laco> g 10
-<op> g 11
-
-
-State 45
-Prior States: 35
-
-'$' r 27
-'}' r 27
-FOR r 27
-IF r 27
-var r 27
-WHILE r 27
-
-
-State 46
-Prior States: 36
-
-ELSE s 53
-<cond2> g 54
-'$' r 24
-'}' r 24
-FOR r 24
-IF r 24
-var r 24
-WHILE r 24
-
-
-State 47
-Prior States: 38
-
-'-' r 12
-')' r 12
-'*' r 12
-'/' r 12
-';' r 12
-'+' r 12
-
-
-State 48
-Prior States: 39
-
-'-' r 8
-')' r 8
-'*' r 8
-'/' r 8
-';' r 8
-'+' r 8
-
-
-State 49
-Prior States: 40
-
-'-' r 9
-')' r 9
-'*' r 9
-'/' r 9
-';' r 9
-'+' r 9
-
-
-State 50
-Prior States: 41
-
-'-' r 10
-')' r 10
-'*' r 10
-'/' r 10
-';' r 10
-'+' r 10
-
-
-State 51
-Prior States: 43
-
-'-' r 7
-')' r 7
-'*' r 7
-'/' r 7
-';' r 7
-'+' r 7
-
-
-State 52
-Prior States: 44
-
-'$' r 25
-'}' r 25
-FOR r 25
-IF r 25
-var r 25
-WHILE r 25
-
-
-State 53
-Prior States: 46
-
-'{' s 55
-
-
-State 54
-Prior States: 46
-
-'$' r 22
-'}' r 22
-FOR r 22
-IF r 22
-var r 22
-WHILE r 22
-
-
-State 55
-Prior States: 53
-
-<escopo> g 56
-'}' r 1
+State 32
+<escopo> g 42
+} r 1
+BREAK r 1
 FOR r 1
 IF r 1
 var r 1
 WHILE r 1
 
+State 33
+$ r 27
+} r 27
+BREAK r 27
+FOR r 27
+IF r 27
+var r 27
+WHILE r 27
 
-State 56
-Prior States: 55
+State 34
+{ s 32
+<EL> g 43
 
-'}' s 57
-FOR s 4
-IF s 5
-var s 6
-WHILE s 7
-<attr> g 8
-<cond> g 9
-<laco> g 10
-<op> g 11
+State 35
+} s 44
+FOR s 3
+IF s 4
+var s 5
+WHILE s 6
+<attr> g 7
+<cond> g 8
+<laco> g 9
+<op> g 10
 
+State 36
+{ r 20
 
-State 57
-Prior States: 56
+State 37
+- s 38
+) s 45
+* s 39
+/ s 40
++ s 41
 
-'$' r 23
-'}' r 23
+State 38
+( s 28
+float s 13
+int s 14
+var s 16
+<F> g 46
+<num> g 18
+<V> g 31
+
+State 39
+( s 28
+float s 13
+int s 14
+var s 16
+<F> g 47
+<num> g 18
+<V> g 31
+
+State 40
+( s 28
+float s 13
+int s 14
+var s 16
+<F> g 48
+<num> g 18
+<V> g 31
+
+State 41
+( s 28
+float s 13
+int s 14
+var s 16
+<F> g 49
+<num> g 18
+<V> g 31
+
+State 42
+BREAK s 50
+FOR s 3
+IF s 4
+var s 5
+WHILE s 6
+<attr> g 7
+<break> g 51
+<cond> g 8
+<laco> g 9
+<op> g 10
+} r 30
+
+State 43
+$ r 28
+} r 28
+BREAK r 28
+FOR r 28
+IF r 28
+var r 28
+WHILE r 28
+
+State 44
+ELSE s 52
+<cond2> g 53
+$ r 25
+} r 25
+BREAK r 25
+FOR r 25
+IF r 25
+var r 25
+WHILE r 25
+
+State 45
+$ r 12
+- r 12
+) r 12
+* r 12
+/ r 12
+} r 12
++ r 12
+BREAK r 12
+FOR r 12
+IF r 12
+var r 12
+WHILE r 12
+
+State 46
+$ r 8
+- r 8
+) r 8
+* r 8
+/ r 8
+} r 8
++ r 8
+BREAK r 8
+FOR r 8
+IF r 8
+var r 8
+WHILE r 8
+
+State 47
+$ r 9
+- r 9
+) r 9
+* r 9
+/ r 9
+} r 9
++ r 9
+BREAK r 9
+FOR r 9
+IF r 9
+var r 9
+WHILE r 9
+
+State 48
+$ r 10
+- r 10
+) r 10
+* r 10
+/ r 10
+} r 10
++ r 10
+BREAK r 10
+FOR r 10
+IF r 10
+var r 10
+WHILE r 10
+
+State 49
+$ r 7
+- r 7
+) r 7
+* r 7
+/ r 7
+} r 7
++ r 7
+BREAK r 7
+FOR r 7
+IF r 7
+var r 7
+WHILE r 7
+
+State 50
+} r 29
+
+State 51
+} s 54
+
+State 52
+{ s 55
+
+State 53
+$ r 23
+} r 23
+BREAK r 23
 FOR r 23
 IF r 23
 var r 23
 WHILE r 23
+
+State 54
+$ r 26
+} r 26
+BREAK r 26
+FOR r 26
+IF r 26
+var r 26
+WHILE r 26
+
+State 55
+<escopo> g 56
+} r 1
+FOR r 1
+IF r 1
+var r 1
+WHILE r 1
+
+State 56
+} s 57
+FOR s 3
+IF s 4
+var s 5
+WHILE s 6
+<attr> g 7
+<cond> g 8
+<laco> g 9
+<op> g 10
+
+State 57
+$ r 24
+} r 24
+BREAK r 24
+FOR r 24
+IF r 24
+var r 24
+WHILE r 24

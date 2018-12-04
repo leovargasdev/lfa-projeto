@@ -1,7 +1,27 @@
-﻿============================================================
+============================================================
 GOLD Parser Builder
 Version 5.2.0.
 ============================================================
+
+
+========================================
+Grammar
+========================================
+
+! The grammar table file was successfully loaded.
+!
+! The file only contains the Symbol Table, Production Table, LALR State Table
+! DFA State Table and other related objects; not the original grammar.
+!
+! The Defined Character Sets are blank since these are used for the
+! construction of the Deterministic Finite Automata (used by the
+! tokenizer) and not saved to the file (although it does contain
+! character sets created at runtime).
+!
+! In addition, the configurations normally displayed in the LALR State
+! Table are not present. These are created at compile-time to create
+! the parser's LALR table and are also not saved to the file.
+
 
 
 ========================================
@@ -17,80 +37,79 @@ Terminals
  6      ')'
  7      '*'
  8      '/'
- 9      ';'
- 10     '{'
- 11     '}'
- 12     '+'
- 13     '<'
- 14     '='
- 15     '>'
- 16     ELSE
- 17     FALSE
- 18     float
- 19     FOR
- 20     IF
- 21     IN
- 22     int
- 23     TRUE
- 24     var
- 25     WHILE
+ 9      '{'
+ 10     '}'
+ 11     '+'
+ 12     '<'
+ 13     '='
+ 14     '>'
+ 15     ELSE
+ 16     FALSE
+ 17     float
+ 18     FOR
+ 19     IF
+ 20     IN
+ 21     int
+ 22     TRUE
+ 23     var
+ 24     WHILE
 
 
 ========================================
 Nonterminals
 ========================================
 
-26      <attr>
-27      <cond>
-28      <cond2>
-29      <condS>
-30      <E>
-31      <EL>
-32      <escopo>
-33      <F>
+25      <attr>
+26      <cond>
+27      <cond2>
+28      <condS>
+29      <E>
+30      <EL>
+31      <escopo>
+32      <F>
+33      <inicio>
 34      <laco>
 35      <logcond>
 36      <num>
 37      <op>
-38      <perdi>
-39      <S>
-40      <V>
+38      <S>
+39      <V>
 
 
 ========================================
 Rules
 ========================================
 
-0       <escopo> ::= <escopo> <op>
-1       <escopo> ::= 
-2       <num> ::= int
-3       <num> ::= float
-4       <op> ::= <attr>
-5       <op> ::= <cond>
-6       <op> ::= <laco>
-7       <E> ::= <E> '+' <F>
-8       <E> ::= <E> '-' <F>
-9       <E> ::= <E> '*' <F>
-10      <E> ::= <E> '/' <F>
-11      <E> ::= <F>
-12      <F> ::= '(' <E> ')'
-13      <F> ::= <V>
-14      <V> ::= var
-15      <V> ::= <num>
-16      <attr> ::= var '=' <E> ';'
-17      <condS> ::= '<'
-18      <condS> ::= '>'
-19      <logcond> ::= <V> <condS> <V>
-20      <logcond> ::= TRUE
-21      <logcond> ::= FALSE
-22      <cond> ::= IF <logcond> '{' <escopo> '}' <cond2>
-23      <cond2> ::= ELSE '{' <escopo> '}'
-24      <cond2> ::= 
-25      <EL> ::= '{' <escopo> '}'
-26      <laco> ::= WHILE <logcond> <EL>
-27      <laco> ::= FOR var IN var <EL>
-28      <S> ::= <escopo>
-29      <perdi> ::= <S> '$'
+0       <inicio> ::= <S> '$'
+1       <S> ::= <escopo>
+2       <escopo> ::= <escopo> <op>
+3       <escopo> ::=
+4       <num> ::= int
+5       <num> ::= float
+6       <op> ::= <attr>
+7       <op> ::= <cond>
+8       <op> ::= <laco>
+9       <E> ::= <E> '+' <F>
+10      <E> ::= <E> '-' <F>
+11      <E> ::= <E> '*' <F>
+12      <E> ::= <E> '/' <F>
+13      <E> ::= <F>
+14      <F> ::= '(' <E> ')'
+15      <F> ::= <V>
+16      <V> ::= var
+17      <V> ::= <num>
+18      <attr> ::= var '=' <E>
+19      <condS> ::= '<'
+20      <condS> ::= '>'
+21      <logcond> ::= <V> <condS> <V>
+22      <logcond> ::= TRUE
+23      <logcond> ::= FALSE
+24      <cond> ::= IF <logcond> '{' <escopo> '}' <cond2>
+25      <cond2> ::= ELSE '{' <escopo> '}'
+26      <cond2> ::=
+27      <EL> ::= '{' <escopo> '}'
+28      <laco> ::= WHILE <logcond> <EL>
+29      <laco> ::= FOR var IN var <EL>
 
 
 ========================================
@@ -105,19 +124,18 @@ State 0
         Goto 5       )
         Goto 6       *
         Goto 7       /
-        Goto 8       ;
-        Goto 9       {
-        Goto 10      }
-        Goto 11      +
-        Goto 12      <
-        Goto 13      =
-        Goto 14      >
-        Goto 15      Ee
-        Goto 19      Tt
-        Goto 23      Vv
-        Goto 26      Ww
-        Goto 31      Ff
-        Goto 42      Ii
+        Goto 8       {
+        Goto 9       }
+        Goto 10      +
+        Goto 11      <
+        Goto 12      =
+        Goto 13      >
+        Goto 14      Ee
+        Goto 18      Tt
+        Goto 22      Vv
+        Goto 25      Ww
+        Goto 30      Ff
+        Goto 41      Ii
 
 
 State 1
@@ -161,124 +179,121 @@ State 13
 
 
 State 14
+        Goto 15      Ll
 
 
 State 15
-        Goto 16      Ll
+        Goto 16      Ss
 
 
 State 16
-        Goto 17      Ss
+        Goto 17      Ee
 
 
 State 17
-        Goto 18      Ee
 
 
 State 18
+        Goto 19      Rr
 
 
 State 19
-        Goto 20      Rr
+        Goto 20      Uu
 
 
 State 20
-        Goto 21      Uu
+        Goto 21      Ee
 
 
 State 21
-        Goto 22      Ee
 
 
 State 22
+        Goto 23      Aa
 
 
 State 23
-        Goto 24      Aa
+        Goto 24      Rr
 
 
 State 24
-        Goto 25      Rr
 
 
 State 25
+        Goto 26      Hh
 
 
 State 26
-        Goto 27      Hh
+        Goto 27      Ii
 
 
 State 27
-        Goto 28      Ii
+        Goto 28      Ll
 
 
 State 28
-        Goto 29      Ll
+        Goto 29      Ee
 
 
 State 29
-        Goto 30      Ee
 
 
 State 30
+        Goto 31      Aa
+        Goto 35      Ll
+        Goto 39      Oo
 
 
 State 31
-        Goto 32      Aa
-        Goto 36      Ll
-        Goto 40      Oo
+        Goto 32      Ll
 
 
 State 32
-        Goto 33      Ll
+        Goto 33      Ss
 
 
 State 33
-        Goto 34      Ss
+        Goto 34      Ee
 
 
 State 34
-        Goto 35      Ee
 
 
 State 35
+        Goto 36      Oo
 
 
 State 36
-        Goto 37      Oo
+        Goto 37      Aa
 
 
 State 37
-        Goto 38      Aa
+        Goto 38      Tt
 
 
 State 38
-        Goto 39      Tt
 
 
 State 39
+        Goto 40      Rr
 
 
 State 40
-        Goto 41      Rr
 
 
 State 41
+        Goto 42      Ff
+        Goto 43      Nn
 
 
 State 42
-        Goto 43      Ff
-        Goto 44      Nn
 
 
 State 43
+        Goto 44      Tt
 
 
 State 44
-        Goto 45      Tt
-
-
-State 45
 
 
 
@@ -289,13 +304,13 @@ LALR States
 
 State 0
         <escopo> g 1
-        <perdi> g 2
+        <inicio> g 2
         <S> g 3
-        '$' r 1
-        FOR r 1
-        IF r 1
-        var r 1
-        WHILE r 1
+        '$' r 3
+        FOR r 3
+        IF r 3
+        var r 3
+        WHILE r 3
 
 
 State 1
@@ -309,7 +324,7 @@ State 1
         <cond> g 9
         <laco> g 10
         <op> g 11
-        '$' r 28
+        '$' r 1
 
 
 State 2
@@ -325,13 +340,13 @@ State 3
 
 
 State 4
-        Prior States: 1, 36, 44, 56
+        Prior States: 1, 36, 43, 55
 
         var s 13
 
 
 State 5
-        Prior States: 1, 36, 44, 56
+        Prior States: 1, 36, 43, 55
 
         FALSE s 14
         float s 15
@@ -344,13 +359,13 @@ State 5
 
 
 State 6
-        Prior States: 1, 36, 44, 56
+        Prior States: 1, 36, 43, 55
 
         '=' s 22
 
 
 State 7
-        Prior States: 1, 36, 44, 56
+        Prior States: 1, 36, 43, 55
 
         FALSE s 14
         float s 15
@@ -363,29 +378,7 @@ State 7
 
 
 State 8
-        Prior States: 1, 36, 44, 56
-
-        '$' r 4
-        '}' r 4
-        FOR r 4
-        IF r 4
-        var r 4
-        WHILE r 4
-
-
-State 9
-        Prior States: 1, 36, 44, 56
-
-        '$' r 5
-        '}' r 5
-        FOR r 5
-        IF r 5
-        var r 5
-        WHILE r 5
-
-
-State 10
-        Prior States: 1, 36, 44, 56
+        Prior States: 1, 36, 43, 55
 
         '$' r 6
         '}' r 6
@@ -395,21 +388,43 @@ State 10
         WHILE r 6
 
 
-State 11
-        Prior States: 1, 36, 44, 56
+State 9
+        Prior States: 1, 36, 43, 55
 
-        '$' r 0
-        '}' r 0
-        FOR r 0
-        IF r 0
-        var r 0
-        WHILE r 0
+        '$' r 7
+        '}' r 7
+        FOR r 7
+        IF r 7
+        var r 7
+        WHILE r 7
+
+
+State 10
+        Prior States: 1, 36, 43, 55
+
+        '$' r 8
+        '}' r 8
+        FOR r 8
+        IF r 8
+        var r 8
+        WHILE r 8
+
+
+State 11
+        Prior States: 1, 36, 43, 55
+
+        '$' r 2
+        '}' r 2
+        FOR r 2
+        IF r 2
+        var r 2
+        WHILE r 2
 
 
 State 12
         Prior States: 3
 
-        (EOF) r 29
+        (EOF) r 0
 
 
 State 13
@@ -421,55 +436,70 @@ State 13
 State 14
         Prior States: 5, 7
 
-        '{' r 21
+        '{' r 23
 
 
 State 15
-        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 42
 
-        '-' r 3
-        ')' r 3
-        '*' r 3
-        '/' r 3
-        ';' r 3
-        '{' r 3
-        '+' r 3
-        '<' r 3
-        '>' r 3
+        '-' r 5
+        '$' r 5
+        ')' r 5
+        '*' r 5
+        '/' r 5
+        '{' r 5
+        '}' r 5
+        '+' r 5
+        '<' r 5
+        '>' r 5
+        FOR r 5
+        IF r 5
+        var r 5
+        WHILE r 5
 
 
 State 16
-        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 42
 
-        '-' r 2
-        ')' r 2
-        '*' r 2
-        '/' r 2
-        ';' r 2
-        '{' r 2
-        '+' r 2
-        '<' r 2
-        '>' r 2
+        '-' r 4
+        '$' r 4
+        ')' r 4
+        '*' r 4
+        '/' r 4
+        '{' r 4
+        '}' r 4
+        '+' r 4
+        '<' r 4
+        '>' r 4
+        FOR r 4
+        IF r 4
+        var r 4
+        WHILE r 4
 
 
 State 17
         Prior States: 5, 7
 
-        '{' r 20
+        '{' r 22
 
 
 State 18
-        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 42
 
-        '-' r 14
-        ')' r 14
-        '*' r 14
-        '/' r 14
-        ';' r 14
-        '{' r 14
-        '+' r 14
-        '<' r 14
-        '>' r 14
+        '-' r 16
+        '$' r 16
+        ')' r 16
+        '*' r 16
+        '/' r 16
+        '{' r 16
+        '}' r 16
+        '+' r 16
+        '<' r 16
+        '>' r 16
+        FOR r 16
+        IF r 16
+        var r 16
+        WHILE r 16
 
 
 State 19
@@ -479,17 +509,22 @@ State 19
 
 
 State 20
-        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 43
+        Prior States: 5, 7, 22, 28, 29, 39, 40, 41, 42
 
-        '-' r 15
-        ')' r 15
-        '*' r 15
-        '/' r 15
-        ';' r 15
-        '{' r 15
-        '+' r 15
-        '<' r 15
-        '>' r 15
+        '-' r 17
+        '$' r 17
+        ')' r 17
+        '*' r 17
+        '/' r 17
+        '{' r 17
+        '}' r 17
+        '+' r 17
+        '<' r 17
+        '>' r 17
+        FOR r 17
+        IF r 17
+        var r 17
+        WHILE r 17
 
 
 State 21
@@ -530,27 +565,27 @@ State 25
         Prior States: 19
 
         <escopo> g 36
-        '}' r 1
-        FOR r 1
-        IF r 1
-        var r 1
-        WHILE r 1
+        '}' r 3
+        FOR r 3
+        IF r 3
+        var r 3
+        WHILE r 3
 
 
 State 26
         Prior States: 21
 
-        float r 17
-        int r 17
-        var r 17
+        float r 19
+        int r 19
+        var r 19
 
 
 State 27
         Prior States: 21
 
-        float r 18
-        int r 18
-        var r 18
+        float r 20
+        int r 20
+        var r 20
 
 
 State 28
@@ -564,7 +599,7 @@ State 28
 
 
 State 29
-        Prior States: 22, 29, 39, 40, 41, 43
+        Prior States: 22, 29, 39, 40, 41, 42
 
         '(' s 29
         float s 15
@@ -582,65 +617,80 @@ State 30
         '-' s 39
         '*' s 40
         '/' s 41
-        ';' s 42
-        '+' s 43
+        '+' s 42
+        '$' r 18
+        '}' r 18
+        FOR r 18
+        IF r 18
+        var r 18
+        WHILE r 18
 
 
 State 31
         Prior States: 22, 29
 
-        '-' r 11
-        ')' r 11
-        '*' r 11
-        '/' r 11
-        ';' r 11
-        '+' r 11
-
-
-State 32
-        Prior States: 22, 29, 39, 40, 41, 43
-
         '-' r 13
+        '$' r 13
         ')' r 13
         '*' r 13
         '/' r 13
-        ';' r 13
+        '}' r 13
         '+' r 13
+        FOR r 13
+        IF r 13
+        var r 13
+        WHILE r 13
+
+
+State 32
+        Prior States: 22, 29, 39, 40, 41, 42
+
+        '-' r 15
+        '$' r 15
+        ')' r 15
+        '*' r 15
+        '/' r 15
+        '}' r 15
+        '+' r 15
+        FOR r 15
+        IF r 15
+        var r 15
+        WHILE r 15
 
 
 State 33
         Prior States: 23, 35
 
-        <escopo> g 44
-        '}' r 1
-        FOR r 1
-        IF r 1
-        var r 1
-        WHILE r 1
+        <escopo> g 43
+        '}' r 3
+        FOR r 3
+        IF r 3
+        var r 3
+        WHILE r 3
 
 
 State 34
         Prior States: 23
 
-        '$' r 26
-        '}' r 26
-        FOR r 26
-        IF r 26
-        var r 26
-        WHILE r 26
+        '$' r 28
+        '}' r 28
+        FOR r 28
+        IF r 28
+        var r 28
+        WHILE r 28
 
 
 State 35
         Prior States: 24
 
         '{' s 33
-        <EL> g 45
+        <EL> g 44
 
 
 State 36
         Prior States: 25
 
-        '}' s 46
+        '}' s 45
         FOR s 4
         IF s 5
         var s 6
@@ -654,17 +704,17 @@ State 36
 State 37
         Prior States: 28
 
-        '{' r 19
+        '{' r 21
 
 
 State 38
         Prior States: 29
 
         '-' s 39
-        ')' s 47
+        ')' s 46
         '*' s 40
         '/' s 41
-        '+' s 43
+        '+' s 42
 
 
 State 39
@@ -674,7 +724,7 @@ State 39
         float s 15
         int s 16
         var s 18
-        <F> g 48
+        <F> g 47
         <num> g 20
         <V> g 32
 
@@ -686,7 +736,7 @@ State 40
         float s 15
         int s 16
         var s 18
-        <F> g 49
+        <F> g 48
         <num> g 20
         <V> g 32
 
@@ -698,38 +748,27 @@ State 41
         float s 15
         int s 16
         var s 18
-        <F> g 50
+        <F> g 49
         <num> g 20
         <V> g 32
 
 
 State 42
-        Prior States: 30
-
-        '$' r 16
-        '}' r 16
-        FOR r 16
-        IF r 16
-        var r 16
-        WHILE r 16
-
-
-State 43
         Prior States: 30, 38
 
         '(' s 29
         float s 15
         int s 16
         var s 18
-        <F> g 51
+        <F> g 50
         <num> g 20
         <V> g 32
 
 
-State 44
+State 43
         Prior States: 33
 
-        '}' s 52
+        '}' s 51
         FOR s 4
         IF s 5
         var s 6
@@ -740,8 +779,112 @@ State 44
         <op> g 11
 
 
-State 45
+State 44
         Prior States: 35
+
+        '$' r 29
+        '}' r 29
+        FOR r 29
+        IF r 29
+        var r 29
+        WHILE r 29
+
+
+State 45
+        Prior States: 36
+
+        ELSE s 52
+        <cond2> g 53
+        '$' r 26
+        '}' r 26
+        FOR r 26
+        IF r 26
+        var r 26
+        WHILE r 26
+
+
+State 46
+        Prior States: 38
+
+        '-' r 14
+        '$' r 14
+        ')' r 14
+        '*' r 14
+        '/' r 14
+        '}' r 14
+        '+' r 14
+        FOR r 14
+        IF r 14
+        var r 14
+        WHILE r 14
+
+
+State 47
+        Prior States: 39
+
+        '-' r 10
+        '$' r 10
+        ')' r 10
+        '*' r 10
+        '/' r 10
+        '}' r 10
+        '+' r 10
+        FOR r 10
+        IF r 10
+        var r 10
+        WHILE r 10
+
+
+State 48
+        Prior States: 40
+
+        '-' r 11
+        '$' r 11
+        ')' r 11
+        '*' r 11
+        '/' r 11
+        '}' r 11
+        '+' r 11
+        FOR r 11
+        IF r 11
+        var r 11
+        WHILE r 11
+
+
+State 49
+        Prior States: 41
+
+        '-' r 12
+        '$' r 12
+        ')' r 12
+        '*' r 12
+        '/' r 12
+        '}' r 12
+        '+' r 12
+        FOR r 12
+        IF r 12
+        var r 12
+        WHILE r 12
+
+
+State 50
+        Prior States: 42
+
+        '-' r 9
+        '$' r 9
+        ')' r 9
+        '*' r 9
+        '/' r 9
+        '}' r 9
+        '+' r 9
+        FOR r 9
+        IF r 9
+        var r 9
+        WHILE r 9
+
+
+State 51
+        Prior States: 43
 
         '$' r 27
         '}' r 27
@@ -751,11 +894,15 @@ State 45
         WHILE r 27
 
 
-State 46
-        Prior States: 36
+State 52
+        Prior States: 45
 
-        ELSE s 53
-        <cond2> g 54
+        '{' s 54
+
+
+State 53
+        Prior States: 45
+
         '$' r 24
         '}' r 24
         FOR r 24
@@ -764,104 +911,21 @@ State 46
         WHILE r 24
 
 
-State 47
-        Prior States: 38
-
-        '-' r 12
-        ')' r 12
-        '*' r 12
-        '/' r 12
-        ';' r 12
-        '+' r 12
-
-
-State 48
-        Prior States: 39
-
-        '-' r 8
-        ')' r 8
-        '*' r 8
-        '/' r 8
-        ';' r 8
-        '+' r 8
-
-
-State 49
-        Prior States: 40
-
-        '-' r 9
-        ')' r 9
-        '*' r 9
-        '/' r 9
-        ';' r 9
-        '+' r 9
-
-
-State 50
-        Prior States: 41
-
-        '-' r 10
-        ')' r 10
-        '*' r 10
-        '/' r 10
-        ';' r 10
-        '+' r 10
-
-
-State 51
-        Prior States: 43
-
-        '-' r 7
-        ')' r 7
-        '*' r 7
-        '/' r 7
-        ';' r 7
-        '+' r 7
-
-
-State 52
-        Prior States: 44
-
-        '$' r 25
-        '}' r 25
-        FOR r 25
-        IF r 25
-        var r 25
-        WHILE r 25
-
-
-State 53
-        Prior States: 46
-
-        '{' s 55
-
-
 State 54
-        Prior States: 46
+        Prior States: 52
 
-        '$' r 22
-        '}' r 22
-        FOR r 22
-        IF r 22
-        var r 22
-        WHILE r 22
+        <escopo> g 55
+        '}' r 3
+        FOR r 3
+        IF r 3
+        var r 3
+        WHILE r 3
 
 
 State 55
-        Prior States: 53
+        Prior States: 54
 
-        <escopo> g 56
-        '}' r 1
-        FOR r 1
-        IF r 1
-        var r 1
-        WHILE r 1
-
-
-State 56
-        Prior States: 55
-
-        '}' s 57
+        '}' s 56
         FOR s 4
         IF s 5
         var s 6
@@ -872,15 +936,15 @@ State 56
         <op> g 11
 
 
-State 57
-        Prior States: 56
+State 56
+        Prior States: 55
 
-        '$' r 23
-        '}' r 23
-        FOR r 23
-        IF r 23
-        var r 23
-        WHILE r 23
+        '$' r 25
+        '}' r 25
+        FOR r 25
+        IF r 25
+        var r 25
+        WHILE r 25
 
 
 
@@ -888,6 +952,3 @@ State 57
 ========================================
 System Log
 ========================================
-
-
-

@@ -1,5 +1,8 @@
-"Name" =  'perdi'
-"Start Symbol" = <perdi>
+"Start Symbol" = <inicio>
+
+<inicio> ::= <S> '$'
+
+<S> ::= <escopo>
 
 <escopo> ::= <escopo> <op> |
 
@@ -13,7 +16,7 @@
 
 <V> ::= 'var' | <num>
 
-<attr> ::= 'var' '=' <E> ';'
+<attr> ::= 'var' '=' <E>
 
 <condS> ::= '<' | '>'
 
@@ -26,7 +29,3 @@
 <EL> ::= '{' <escopo> '}'
 
 <laco> ::= 'WHILE' <logcond> <EL> | 'FOR' 'var' 'IN' 'var' <EL>
-
-<S> ::= <escopo>
-
-<perdi> ::= <S> '$'

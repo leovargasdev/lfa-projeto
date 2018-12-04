@@ -30,7 +30,7 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
                     analiseSintatica['pilha'].push(analiseSintatica['fila'][0]);
                     analiseSintatica['pilha'].push(e.estado);
                     analiseSintatica['fila'].shift();
-                }else if(e.acao == 'a' && analiseSintatica['pilha'].length < 3){
+                }else if(e.acao == 'ac'){
                     analiseSintatica['ac'] = true;
                 }
                 printEstrutura(analiseSintatica);
