@@ -10,14 +10,17 @@ const execute = () => {
 };
 
 const trataRegras = (regras) =>{
-    const regrasTratada = {}
-    let contador = 0;
+    const regrasTratada = [];
     for(const r in regras){
         if(regras[r].match(/::=/)){
-            regrasTratada['r' + contador] = regras[r].replace(/[ ]/g, '').split('::=');
-            contador++;
+            const regra = regras[r].split('::=');
+            regrasTratada.push({
+                'reducao': regra[0].replace(/[ ]/g, ''),
+                'valor': regra[1].replace(' ', '').split(' ')
+            });
         }
     }
+    // console.log(regrasTratada);
     return regrasTratada;
 };
 
@@ -41,11 +44,11 @@ const trataEstados = (estados) =>{
         } else {
             const producao_estado = estados[s].replace(/[\']/g, '').split(' ');
             if(producao_estado[0] != ''){ // Ignora linhas vazias
-                result[estado].push({
-                    'token': producao_estado[0],
+                const token = producao_estado[0];
+                result[estado][token] = {
                     'acao': producao_estado[1],
-                    'estado': Number(producao_estado[2]),
-                });
+                    'estado': Number(producao_estado[2])
+                };
             }
         }
     }
