@@ -39,9 +39,13 @@ const trataEstados = (estados) =>{
                 result[estado] = result[estado] || [];
             }
         } else {
-            const aux = estados[s].replace(/[\']/g, '');
-            if(aux != ''){
-                result[estado].push(aux);
+            const producao_estado = estados[s].replace(/[\']/g, '').split(' ');
+            if(producao_estado[0] != ''){ // Ignora linhas vazias
+                result[estado].push({
+                    'token': producao_estado[0],
+                    'acao': producao_estado[1],
+                    'estado': Number(producao_estado[2]),
+                });
             }
         }
     }

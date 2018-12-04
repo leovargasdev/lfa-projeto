@@ -7,7 +7,7 @@ const AnalizadorLexico = require('./analizador_lexico');
 const AnalizadorSintatico = require('./analizador_sintatico');
 
 const tokens = 'inputs/tokens.in';
-const automato = {}, analiseLexica = {}, parser = {};
+const automato = {}, analiseLexica = {}, analiseSintatica = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
@@ -35,4 +35,4 @@ if (true) {
 
 AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica, false);
 
-AnalizadorSintatico.execute(automato, analiseLexica)
+AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
