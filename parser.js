@@ -14,7 +14,7 @@ const trataRegras = (regras) =>{
     let contador = 0;
     for(const r in regras){
         if(regras[r].match(/::=/)){
-            regrasTratada['r' + contador] = regras[r].split('::=');
+            regrasTratada['r' + contador] = regras[r].replace(/[ ]/g, '').split('::=');
             contador++;
         }
     }
