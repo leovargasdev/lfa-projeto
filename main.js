@@ -33,6 +33,10 @@ if (true) {
     AdicionaEstadoErro.execute(automato, alfabeto);
 }
 
-AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica, false);
+AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
 
-// AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
+// Acaso ocorrer um erro na análise léxica não executa a análise sintática
+if(!analiseLexica['error']){
+    if(false) console.log("fita", JSON.stringify(analiseLexica, null, 4));
+    AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
+}

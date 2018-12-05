@@ -6,8 +6,10 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
     // printEstrutura(analiseSintatica);
     while(!analiseSintatica['ac']){
         obterAcao(analiseSintatica, parser);
-        printEstrutura(analiseSintatica);
-        if(analiseSintatica['acao'].acao == 'r'){
+        if(analiseSintatica['acao'] == undefined){
+            console.log("[error] sintatico");
+            break;
+        } else if(analiseSintatica['acao'].acao == 'r'){
             const regra = parser['regras'][analiseSintatica['acao'].estado]; //['reducao']: Novo valor, ['valor']: Elemento da pilha que deve ser substituido
             if(regra.valor[0]){
                 let aux = regra.valor.length - 1;
@@ -17,13 +19,9 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
                     }
                     analiseSintatica['pilha'].pop();
                 }
-                analiseSintatica['pilha'].push(regra.reducao);
-                desvio(analiseSintatica, parser);
-            } else {
-                analiseSintatica['pilha'].push(regra.reducao);
-                desvio(analiseSintatica, parser);
-                // analiseSintatica['pilha'].push(analiseSintatica['acao'].estado);
             }
+            analiseSintatica['pilha'].push(regra.reducao);
+            desvio(analiseSintatica, parser);
         } else if(analiseSintatica['acao'].acao == 's'){
             analiseSintatica['pilha'].push(analiseSintatica['fila'][0]);
             analiseSintatica['pilha'].push(analiseSintatica['acao'].estado);
@@ -31,8 +29,8 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
         } else if(analiseSintatica['acao'].acao == 'ac'){
             analiseSintatica['ac'] = true;
         }
+        printEstrutura(analiseSintatica);
     }
-    // printEstrutura(analiseSintatica);
 };
 const desvio = (analiseSintatica, parser) =>{
     let estado = 'State_' + analiseSintatica['pilha'].slice(-2)[0], inicioPilha = analiseSintatica['pilha'].slice(-1)[0];
@@ -46,7 +44,7 @@ const obterAcao = (analiseSintatica, parser) =>{
 const printEstrutura = (as) =>{
     console.log("PILHA:", as['pilha']);
     console.log("FILA:", as['fila']);
-    console.log("ACAO:", (as['acao'].acao + as['acao'].estado));
+    console.log("ACAO:", (as['acao'].acao + (as['acao'].estado || ' ')));
     console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
 };
 

@@ -1,6 +1,6 @@
 const ler = require('./lerArquivos');
 
-const execute = (automato, alfabeto, estadosFinais, analiseLexica, print) => {
+const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
     const {gramatica: arquivo} = ler.execute(['gramatica']);
     for(const l in arquivo){
         if(arquivo[l]){ // Ignora as linhas vazias com \n
@@ -35,13 +35,9 @@ const execute = (automato, alfabeto, estadosFinais, analiseLexica, print) => {
             }
         }
     }
-    if(analiseLexica['error']){
-        for(k in analiseLexica['error']){
-            console.log("[error] linha: ", analiseLexica['error'][k].linha, " rotulo: ", analiseLexica['error'][k].rotulo);
-        }
-    } else {
-        if(print)
-            console.log("fita", JSON.stringify(analiseLexica, null, 4));
+    for(k in analiseLexica['error']){
+        console.log("\n[error] Análise Léxica, token [", analiseLexica['error'][k].rotulo, "] não identificado");
+        console.log("linha", analiseLexica['error'][k].linha + ":", arquivo[analiseLexica['error'][k].linha], "\n");
     }
 };
 
