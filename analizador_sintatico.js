@@ -1,13 +1,14 @@
 const Parser = require('./parser');
 const execute = (automato, analiseLexica, analiseSintatica) => {
-    const parser = Parser.execute();
-    analiseSintatica = { 'fila': constroiFila(analiseLexica), 'pilha': [0], 'acao': '', 'ac': false };
+    const parser = Parser.execute(), linhas = {};
+    analiseSintatica = { 'fila': constroiFila(analiseLexica, linhas), 'pilha': [0], 'acao': '', 'ac': false, 'tokensLidos': 0 };
     while(!analiseSintatica['ac']){
         // Obtém uma ação, como: REDUÇÃO, SHIT, ACEITAÇÃO, ERRO SINTÁTICO
         obterAcao(analiseSintatica, parser);
         // ERRO SINTÁTICO: Não foi possível identificar alguma ação a partir da tabela do Parser
         if(analiseSintatica['acao'] == undefined){
-            console.log("[error] sintatico");
+            const nLinha = linhas[analiseSintatica['tokensLidos']].replace("linha", '');
+            console.log("\n[error] Análise Sintática, linha:", nLinha);
             break;
         // REDUÇÃO: Remover elementos da pilha até completar a redução
         } else if(analiseSintatica['acao'].acao == 'r'){
@@ -32,6 +33,7 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
             analiseSintatica['pilha'].push(analiseSintatica['fila'][0]);
             analiseSintatica['pilha'].push(analiseSintatica['acao'].estado);
             analiseSintatica['fila'].shift();
+            analiseSintatica['tokensLidos']++;
         // ACEITAÇÃO: A cadeia de tokens é aceita
         } else if(analiseSintatica['acao'].acao == 'ac'){
             analiseSintatica['ac'] = true;
@@ -62,10 +64,12 @@ const printEstrutura = (as) =>{
     console.log("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
 };
 
-const constroiFila = (tokens) =>{
-    let fila = [];
+const constroiFila = (tokens, linhas) =>{
+    let fila = [], contadorTokens = 0;
     for(const a in tokens){
         for(const k in tokens[a]){
+            linhas[contadorTokens] = a;
+            contadorTokens++;
             fila.push(tokens[a][k].token);
         }
     }
