@@ -3,8 +3,8 @@ const RemoveEpsilonProducoes = require('./remove_epsilon_producoes');
 const DeterminizaAutomato = require('./determiniza_automato');
 const MinimizaAutomato = require('./minimiza_automato');
 const AdicionaEstadoErro = require('./adiciona_estado_erro');
-const AnalizadorLexico = require('./analizador_lexico');
-const AnalizadorSintatico = require('./analizador_sintatico');
+const AnalisadorLexico = require('./analisador_lexico');
+const AnalisadorSintatico = require('./analisador_sintatico');
 
 const tokens = 'inputs/tokens.in';
 const automato = {}, analiseLexica = {}, analiseSintatica = {};
@@ -20,14 +20,14 @@ MinimizaAutomato.execute(automato, estadosFinais);
 
 AdicionaEstadoErro.execute(automato, alfabeto);
 
-AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
+AnalisadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
 
 // Caso ocorrer algum erro na análise léxica não executa a análise sintática
 if(!analiseLexica['error']){
     if(false){
         console.log("fita", JSON.stringify(analiseLexica, null, 4));
     }
-    AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
+    AnalisadorSintatico.execute(automato, analiseLexica, analiseSintatica)
 }
 
 
