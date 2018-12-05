@@ -38,5 +38,5 @@ AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
 // Acaso ocorrer um erro na análise léxica não executa a análise sintática
 if(!analiseLexica['error']){
     if(false) console.log("fita", JSON.stringify(analiseLexica, null, 4));
-    AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
+    // AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
 }

@@ -3,28 +3,33 @@ const ler = require('./lerArquivos');
 const execute = (automato, alfabeto, estadosFinais, analiseLexica) => {
     const {gramatica: arquivo} = ler.execute(['gramatica']);
     for(const l in arquivo){
-        if(arquivo[l]){ // Ignora as linhas vazias com \n
+        // Ignora as linhas vazias
+        if(arquivo[l]){
+            // Usa o número da linha como índice
             analiseLexica['linha' + l] = [];
             const linha = arquivo[l].split(' ');
+            // Percorre cada token/rotulo da linha
             for(const r in linha){
+                // Garante que não vai considerar um espaço vazio como token, por exemplo um TAB
                 if(linha[r] != ''){
                     let estado = 'S', error = false;
                     for(const c in linha[r]){
                         const caracter = linha[r][c];
+                        // O caracter não está no alfabeto ou alcançou o estado de ERRO
                         if(!alfabeto.has(caracter) || estado == "estadoERRO"){
                             error = true;
                             break;
                         }
                         estado = automato[estado][caracter].values().next().value;
                     }
-                    // Caso o caracter não esteja no alfabeto ou seja o estado de ERROR
+                    // Não alcançou o estado final ou ocorreu algum erro no reconhecimento do token
                     if(error || !estadosFinais.has(estado)){
                         analiseLexica['error'] = analiseLexica['error'] || [];
                         analiseLexica['error'].push({
                             linha: l,
                             rotulo: linha[r]
                         });
-                    } else { // Caso seja um estado final, assim reconheceu o rotulo
+                    } else { // Reconheceu o token
                         analiseLexica['linha' + l].push({
                             rotulo: linha[r],
                             estado_final: estado,
