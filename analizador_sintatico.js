@@ -1,17 +1,15 @@
 const Parser = require('./parser');
 const execute = (automato, analiseLexica, analiseSintatica) => {
     const parser = Parser.execute();
-    analiseSintatica = { 'fila': obterFila(analiseLexica), 'pilha': ['$', 0], 'acao': '', 'ac': false };
-    printEstrutura(analiseSintatica);
-    // obterAcao(analiseSintatica, parser);
+    let a = 10;
+    analiseSintatica = { 'fila': obterFila(analiseLexica), 'pilha': [0], 'acao': '', 'ac': false };
+    // printEstrutura(analiseSintatica);
     while(!analiseSintatica['ac']){
-
         obterAcao(analiseSintatica, parser);
-
+        printEstrutura(analiseSintatica);
         if(analiseSintatica['acao'].acao == 'r'){
-            //REDUCAO: pegar valor da tabela de regras de acordo com número
             const regra = parser['regras'][analiseSintatica['acao'].estado]; //['reducao']: Novo valor, ['valor']: Elemento da pilha que deve ser substituido
-            if(regra.valor[0] != ''){
+            if(regra.valor[0]){
                 let aux = regra.valor.length - 1;
                 while(aux > -1){
                     if(regra.valor[aux] == analiseSintatica['pilha'].slice(-1)){
@@ -19,40 +17,30 @@ const execute = (automato, analiseLexica, analiseSintatica) => {
                     }
                     analiseSintatica['pilha'].pop();
                 }
+                analiseSintatica['pilha'].push(regra.reducao);
+                desvio(analiseSintatica, parser);
+            } else {
+                analiseSintatica['pilha'].push(regra.reducao);
+                desvio(analiseSintatica, parser);
+                // analiseSintatica['pilha'].push(analiseSintatica['acao'].estado);
             }
-
-            analiseSintatica['pilha'].push(regra.reducao); // Empilha a ação desta redução
-            if(regra.valor[0] == '') analiseSintatica['pilha'].push(analiseSintatica['acao'].estado); // Empilha o próximo estado a ser executado
-        }else if(analiseSintatica['acao'].acao == 's'){
-            //SHIT: Remover o primeiro elemento da fila e colocar ele na pilha
+        } else if(analiseSintatica['acao'].acao == 's'){
             analiseSintatica['pilha'].push(analiseSintatica['fila'][0]);
             analiseSintatica['pilha'].push(analiseSintatica['acao'].estado);
             analiseSintatica['fila'].shift();
-        }else if(analiseSintatica['acao'].acao == 'ac'){
+        } else if(analiseSintatica['acao'].acao == 'ac'){
             analiseSintatica['ac'] = true;
         }
-        printEstrutura(analiseSintatica);
     }
+    // printEstrutura(analiseSintatica);
 };
-
+const desvio = (analiseSintatica, parser) =>{
+    let estado = 'State_' + analiseSintatica['pilha'].slice(-2)[0], inicioPilha = analiseSintatica['pilha'].slice(-1)[0];
+    analiseSintatica['pilha'].push(parser['estados'][estado][inicioPilha].estado);
+};
 const obterAcao = (analiseSintatica, parser) =>{
-    let estado = 'State_', topoPilha = analiseSintatica['fila'][0];
-    if(typeof(analiseSintatica['pilha'].slice(-1)[0]) == 'number'){
-        estado += analiseSintatica['pilha'].slice(-1);
-    } else {
-        estado += analiseSintatica['pilha'].slice(-2)[0];
-        if(topoPilha == '$'){
-            topoPilha = analiseSintatica['pilha'].slice(-1)[0];
-        }
-    }
-    analiseSintatica['acao'] = parser['estados'][estado][topoPilha];
-    if(analiseSintatica['acao'].acao == 'g'){
-        analiseSintatica['pilha'].push(analiseSintatica['acao'].estado)
-        obterAcao(analiseSintatica, parser);
-        // console.log(analiseSintatica['acao'].estado);
-    }
-    // console.log("Acao:", analiseSintatica['acao'], "estado:", estado, "topoPilha:", topoPilha);
-
+    let estado = 'State_' + analiseSintatica['pilha'].slice(-1)[0], inicioFila = analiseSintatica['fila'][0];
+    analiseSintatica['acao'] = parser['estados'][estado][inicioFila];
 };
 
 const printEstrutura = (as) =>{
