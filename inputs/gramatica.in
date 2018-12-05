@@ -1,1 +1,13 @@
-w =    11
+www = 100
+
+zyz = 0
+
+IF www > zyz {
+    zyz = 10 * www
+} ELSE {
+    x = 1.0
+    FOR zyz IN www {
+        x = ( 10 / 100 ) * ( 40 - 30 ) * ( 66 + 0 )
+        zyz = zyz + ( www * 0.1 )
+    }
+}

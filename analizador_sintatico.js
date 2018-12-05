@@ -56,10 +56,10 @@ const obterAcao = (analiseSintatica, parser) =>{
 };
 
 const printEstrutura = (as) =>{
-    console.log("PILHA:", as['pilha']);
-    console.log("FILA:", as['fila']);
-    console.log("ACAO:", (as['acao'].acao + (as['acao'].estado || ' ')));
-    console.log("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
+    console.log("[fila]  -->", as['fila'].toString().replace(/[,]/g, ' '));
+    console.log("[pilha] -->", as['pilha'].toString().replace(/[,]/g, ' '));
+    console.log("[ação]  -->", (as['acao'].acao + (as['acao'].estado || ' ')));
+    console.log("\n- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
 };
 
 const constroiFila = (tokens) =>{
