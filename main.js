@@ -10,6 +10,27 @@ const tokens = 'inputs/tokens.in';
 const automato = {}, analiseLexica = {}, analiseSintatica = {};
 const estadosFinais = new Set, alfabeto = new Set;
 
+ConstroiAutomato.execute(automato, estadosFinais, alfabeto, tokens);
+
+RemoveEpsilonProducoes.execute(automato, estadosFinais);
+
+DeterminizaAutomato.execute(automato, estadosFinais);
+
+MinimizaAutomato.execute(automato, estadosFinais);
+
+AdicionaEstadoErro.execute(automato, alfabeto);
+
+AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
+
+// Caso ocorrer algum erro na análise léxica não executa a análise sintática
+if(!analiseLexica['error']){
+    if(false){
+        console.log("fita", JSON.stringify(analiseLexica, null, 4));
+    }
+    AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
+}
+
+
 const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log("\n\n\033[31m" + mensagem + "\033[0m");
     console.log('\033[32m================= Automato =================\033[0m');
@@ -20,23 +41,3 @@ const imprimeAutomato = (automato, alfabeto, estadosFinais, mensagem) => {
     console.log(Array.from(alfabeto).sort().join(", "));//.forEach(s => (console.log(s + "  ")));
     console.log("\n");
 };
-
-if (true) {
-    ConstroiAutomato.execute(automato, estadosFinais, alfabeto, tokens);
-
-    RemoveEpsilonProducoes.execute(automato, estadosFinais);
-
-    DeterminizaAutomato.execute(automato, estadosFinais);
-
-    MinimizaAutomato.execute(automato, estadosFinais);
-
-    AdicionaEstadoErro.execute(automato, alfabeto);
-}
-
-AnalizadorLexico.execute(automato, alfabeto, estadosFinais, analiseLexica);
-
-// Acaso ocorrer um erro na análise léxica não executa a análise sintática
-if(!analiseLexica['error']){
-    if(false) console.log("fita", JSON.stringify(analiseLexica, null, 4));
-    // AnalizadorSintatico.execute(automato, analiseLexica, analiseSintatica)
-}

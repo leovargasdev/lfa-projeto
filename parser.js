@@ -12,21 +12,20 @@ const execute = () => {
 const trataRegras = (regras) =>{
     const regrasTratada = [];
     for(const r in regras){
+        // EXEMPLO REGRA: <attr> ::= var = <E>
         if(regras[r].match(/::=/)){
             const regra = regras[r].split('::=');
             regrasTratada.push({
-                'reducao': regra[0].replace(/[ ]/g, ''),
-                'valor': regra[1].replace(' ', '').split(' ')
+                'reducao': regra[0].replace(/[ ]/g, ''),        // [<attr>] é o novo valor após a redução
+                'valor': regra[1].replace(' ', '').split(' ')   // [var = <E>] valor à ser substituido pela redução
             });
         }
     }
-    // console.log(regrasTratada);
     return regrasTratada;
 };
 
 const trataTerminais = (file) =>{
     const result = new Set;
-    // Percorre linha por linha do arquivo
     for(const f in file){
         result.add(file[f].replace(/[<> ]/g, ''));
     }
@@ -36,6 +35,7 @@ const trataTerminais = (file) =>{
 const trataEstados = (estados) =>{
     let estado = '', result = {};
     for(const s in estados){
+        // Cada estado é um índice do vetor
         if(estados[s].includes("State")){
             if(!estados[s].includes("Prior States")){
                 estado = estados[s].replace(' ','\_');
@@ -43,12 +43,11 @@ const trataEstados = (estados) =>{
             }
         } else {
             const producao_estado = estados[s].replace(/[\']/g, '').split(' ');
-            if(producao_estado[0] != ''){ // Ignora linhas vazias
+            // Ignora linhas vazias
+            if(producao_estado[0] != ''){
                 const token = producao_estado[0];
-                result[estado][token] = {
-                    'acao': producao_estado[1],
-                    'estado': Number(producao_estado[2])
-                };
+                // Cada token é um índice naquele estado específico
+                result[estado][token] = { 'acao': producao_estado[1], 'estado': Number(producao_estado[2]) };
             }
         }
     }
