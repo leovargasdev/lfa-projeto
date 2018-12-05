@@ -1,1 +1,17 @@
-z = 4 / ( 2 + 3 )
+www = 0
+xy = 1.5
+FOR www IN xy {
+    www = www + 1
+    IF www > 10 {
+      www = www * 2
+    }
+}
+IF www > 2 {
+    www = 1 * 4
+}
+ELSE {
+    xy = 4 / ( 2 + 3 )
+}
+WHILE www > xy {
+    xy = ( xy + www )
+}
